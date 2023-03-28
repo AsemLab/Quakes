@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "earthquakes")
 data class EarthquakeData(
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
+    var rowId: Int? = null,
     @SerializedName("geometry")
     val geometry: Geometry? = null,
     @SerializedName("id")

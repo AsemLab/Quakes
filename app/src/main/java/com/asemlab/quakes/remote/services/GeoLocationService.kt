@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface GeoLocationService {
 
-    @GET("/reverse")
+    @GET("reverse")
     suspend fun getLocationInfo(
         key: String,
         lon: Double,

@@ -12,24 +12,24 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
 
     @Provides
+    @Singleton
     fun provideEarthquakeDB(@ApplicationContext context: Context) =
         Room.databaseBuilder(context, EarthquakesDB::class.java, "earthquakes_db")
-            .addTypeConverter(PropertiesConverter::class.java)
-            .addTypeConverter(GeometryConverter::class.java)
-            .addTypeConverter(FlagsConverter::class.java)
-            .addTypeConverter(NameConverter::class.java)
             .build()
 
     @Provides
+    @Singleton
     fun providerEarthquakesDao(earthquakesDB: EarthquakesDB) = earthquakesDB.getEarthquakesDao()
 
     @Provides
+    @Singleton
     fun providerCountriesDao(earthquakesDB: EarthquakesDB) = earthquakesDB.getCountriesDao()
 
 }

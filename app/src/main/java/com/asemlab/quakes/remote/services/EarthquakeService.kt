@@ -8,16 +8,17 @@ import retrofit2.http.Query
 
 interface EarthquakeService {
 
-    @GET("/query")
+    @GET("query")
     suspend fun getEarthquakes(
         @Query("starttime")
         startTime: String,
         @Query("endtime")
         endTime: String,
+        @Query("format")
         format: String = "geojson"
     ): Response<EarthquakeResponse>
 
-    @GET("/query")
+    @GET("query")
     suspend fun getEarthquakesByMag(
         @Query("starttime")
         startTime: String,
@@ -27,6 +28,7 @@ interface EarthquakeService {
         maxMagnitude: Double,
         @Query("minmagnitude")
         minMagnitude: Double,
+        @Query("format")
         format: String = "geojson"
     ): Response<EarthquakeResponse>
 

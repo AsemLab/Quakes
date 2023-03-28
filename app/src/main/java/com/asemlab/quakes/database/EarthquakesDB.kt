@@ -10,7 +10,7 @@ import com.asemlab.quakes.database.typeconverters.GeometryConverter
 import com.asemlab.quakes.database.typeconverters.NameConverter
 import com.asemlab.quakes.database.typeconverters.PropertiesConverter
 
-@Database(entities = [EarthquakeData::class, CountryData::class], version = 1)
+@Database(entities = [EarthquakeData::class, CountryData::class], version = 1, exportSchema = false)
 @TypeConverters(value = [FlagsConverter::class, GeometryConverter::class, NameConverter::class, PropertiesConverter::class])
 abstract class EarthquakesDB : RoomDatabase() {
 

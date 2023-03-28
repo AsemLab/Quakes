@@ -6,7 +6,6 @@ import com.asemlab.quakes.database.models.Properties
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-@ProvidedTypeConverter
 class PropertiesConverter {
 
     @TypeConverter
@@ -19,7 +18,7 @@ class PropertiesConverter {
     @TypeConverter
     fun toProperties(value: String?): Properties? {
         val gson = Gson()
-        val type = object : TypeToken<String>() {}.type
+        val type = object : TypeToken<Properties>() {}.type
         return gson.fromJson(value, type)
     }
 }
