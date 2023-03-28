@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 
 @Keep
 @Entity(tableName = "earthquakes")
-data class EarthquakeDate(
+data class EarthquakeData(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
     @SerializedName("geometry")

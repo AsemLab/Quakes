@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.asemlab.quakes.database.models.CountryData
-import com.asemlab.quakes.database.models.EarthquakeDate
 import kotlinx.coroutines.flow.Flow
 
 @Dao
