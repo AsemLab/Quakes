@@ -1,8 +1,13 @@
 package com.asemlab.quakes.di
 
+import com.asemlab.quakes.database.CountriesDao
 import com.asemlab.quakes.database.EarthquakesDao
+import com.asemlab.quakes.remote.repositories.CountriesRepository
 import com.asemlab.quakes.remote.repositories.EarthquakeRepository
+import com.asemlab.quakes.remote.repositories.GeoLocationRepository
+import com.asemlab.quakes.remote.services.CountriesService
 import com.asemlab.quakes.remote.services.EarthquakeService
+import com.asemlab.quakes.remote.services.GeoLocationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,4 +24,17 @@ class RepositoriesModule {
         earthquakesDao: EarthquakesDao,
         earthquakeService: EarthquakeService
     ) = EarthquakeRepository(earthquakesDao, earthquakeService)
+
+    @Provides
+    @Singleton
+    fun providesCountriesRepository(
+       countriesDao: CountriesDao,
+       countriesService: CountriesService
+    ) = CountriesRepository(countriesDao, countriesService)
+
+    @Provides
+    @Singleton
+    fun providesGeoLocationRepository(
+        geoLocationService: GeoLocationService
+    ) = GeoLocationRepository(geoLocationService)
 }

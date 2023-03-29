@@ -13,7 +13,7 @@ interface CountriesDao {
     suspend fun insertAll(countryData: List<CountryData>)
 
     @Query("SELECT * FROM countries")
-    fun getAllCountries(): Flow<List<CountryData>>
+    suspend fun getAllCountries(): List<CountryData>
 
     @Query("DELETE FROM countries")
     suspend fun clearCountries()

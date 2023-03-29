@@ -1,7 +1,9 @@
 package com.asemlab.quakes.di
 
 import com.asemlab.quakes.BuildConfig
+import com.asemlab.quakes.remote.services.CountriesService
 import com.asemlab.quakes.remote.services.EarthquakeService
+import com.asemlab.quakes.remote.services.GeoLocationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,13 +21,13 @@ import javax.inject.Singleton
 class NetworkModule {
 
     @Qualifier
-    annotation class EarthquakesService
+    annotation class EarthquakesAnnotation
 
     @Qualifier
-    annotation class CountriesService
+    annotation class CountriesAnnotation
 
     @Qualifier
-    annotation class GeoLocationService
+    annotation class GeoLocationAnnotation
 
     private val EARTHQUAKE_BASE_URL = "https://earthquake.usgs.gov/fdsnws/event/1/"
     private val COUNTRIES_BASE_URL = "https://restcountries.com/v3.1/"
@@ -44,7 +46,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    @EarthquakesService
+    @EarthquakesAnnotation
     fun providesEarthquakesRetrofit(okHttpClient: OkHttpClient) =
         Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
@@ -52,12 +54,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesEarthquakesService(@EarthquakesService retrofit: Retrofit) =
+    fun providesEarthquakesService(@EarthquakesAnnotation retrofit: Retrofit) =
         retrofit.create(EarthquakeService::class.java)
 
     @Provides
     @Singleton
-    @CountriesService
+    @CountriesAnnotation
     fun providesCountriesRetrofit(okHttpClient: OkHttpClient) =
         Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
@@ -65,12 +67,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesCountriesService(@CountriesService retrofit: Retrofit) =
+    fun providesCountriesService(@CountriesAnnotation retrofit: Retrofit) =
         retrofit.create(CountriesService::class.java)
 
     @Provides
     @Singleton
-    @GeoLocationService
+    @GeoLocationAnnotation
     fun providesGeoLocationRetrofit(okHttpClient: OkHttpClient) =
         Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
@@ -78,6 +80,6 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesGeoLocationService(@GeoLocationService retrofit: Retrofit) =
+    fun providesGeoLocationService(@GeoLocationAnnotation retrofit: Retrofit) =
         retrofit.create(GeoLocationService::class.java)
 }

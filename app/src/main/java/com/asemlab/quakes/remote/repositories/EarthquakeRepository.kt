@@ -62,4 +62,8 @@ class EarthquakeRepository @Inject constructor(
             }
         }.onStart { onStart() }.onCompletion { onComplete() }
     }
+
+    suspend fun clearAllEarthquakes() {
+        earthquakesDao.clearEarthquakes()
+    }
 }
