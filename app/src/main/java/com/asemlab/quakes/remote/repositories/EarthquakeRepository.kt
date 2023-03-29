@@ -2,39 +2,64 @@ package com.asemlab.quakes.remote.repositories
 
 import com.asemlab.quakes.database.EarthquakesDao
 import com.asemlab.quakes.database.models.EarthquakeData
+import com.asemlab.quakes.remote.performOnError
+import com.asemlab.quakes.remote.performOnSuccess
 import com.asemlab.quakes.remote.services.EarthquakeService
 import com.asemlab.quakes.utils.performRequest
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class EarthquakeRepository @Inject constructor(
     private val earthquakesDao: EarthquakesDao, private val earthquakeService: EarthquakeService
 ) {
 
-    suspend fun getEarthquakes(startTime: String, endTime: String): Flow<List<EarthquakeData>> {
-        val earthquakes = earthquakesDao.getAllEarthquakes()
-        return if (earthquakes.first().isEmpty()) {
-            val response = performRequest {
-                earthquakeService.getEarthquakes(startTime, endTime)
+    suspend fun getEarthquakes(
+        startTime: String, endTime: String,
+        onStart: () -> Unit,
+        onComplete: () -> Unit,
+        onError: (String?) -> Unit
+    ): Flow<List<EarthquakeData>> {
+        return flow {
+            val earthquakes = earthquakesDao.getAllEarthquakes()
+            if (earthquakes.isEmpty()) {
+                val response = performRequest {
+                    earthquakeService.getEarthquakes(startTime, endTime)
+                }
+                response.performOnSuccess {
+                    earthquakesDao.insertAll(it.features ?: emptyList())
+                    emit(it.features!!)
+                }.performOnError {
+                    onError(it)
+                }
+            } else {
+                emit(earthquakes)
             }
-            response?.let {
-                earthquakesDao.insertAll(it.features ?: emptyList())
-            }
-            flowOf(response?.features ?: emptyList())
-        } else {
-            earthquakes
-        }
+        }.onStart { onStart() }.onCompletion { onComplete() }
     }
 
     suspend fun getEarthquakesByMag(
-        startTime: String, endTime: String, maxMagnitude: Double, minMagnitude: Double
+        startTime: String, endTime: String, maxMagnitude: Double, minMagnitude: Double,
+        onStart: () -> Unit,
+        onComplete: () -> Unit,
+        onError: (String?) -> Unit
     ): Flow<List<EarthquakeData>> {
-        val response = performRequest {
-            earthquakeService.getEarthquakesByMag(startTime, endTime, maxMagnitude, minMagnitude)
-        }
-        return flowOf(response?.features ?: emptyList())
+        return flow {
+            val response = performRequest {
+                earthquakeService.getEarthquakesByMag(
+                    startTime,
+                    endTime,
+                    maxMagnitude,
+                    minMagnitude
+                )
+            }
+            response.performOnSuccess {
+                emit(it.features!!)
+            }.performOnError {
+                onError(it)
+            }
+        }.onStart { onStart() }.onCompletion { onComplete() }
     }
-
 }

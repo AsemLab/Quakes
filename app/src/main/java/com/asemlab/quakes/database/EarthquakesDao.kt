@@ -13,7 +13,7 @@ interface EarthquakesDao {
     suspend fun insertAll(earthquakeData: List<EarthquakeData>)
 
     @Query("SELECT * FROM earthquakes")
-    fun getAllEarthquakes(): Flow<List<EarthquakeData>>
+    suspend fun getAllEarthquakes(): List<EarthquakeData>
 
     @Query("DELETE FROM earthquakes")
     suspend fun clearEarthquakes()
