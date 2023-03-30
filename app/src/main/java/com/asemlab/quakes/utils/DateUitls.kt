@@ -11,3 +11,9 @@ fun toSimpleDateFormat(date: Date = Date(), timeZone: TimeZone = TimeZone.getDef
     }
     return format.format(date)
 }
+
+fun tomorrowDate(): Date {
+    return Calendar.getInstance().apply {
+        add(Calendar.DAY_OF_MONTH, 1)
+    }.time
+}

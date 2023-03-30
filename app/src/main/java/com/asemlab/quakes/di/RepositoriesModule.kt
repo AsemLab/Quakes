@@ -41,7 +41,6 @@ class RepositoriesModule {
     @Singleton
     fun providesEarthquakeManager(
         earthquakeRepository: EarthquakeRepository,
-        countriesRepository: CountriesRepository,
-        geoLocationRepository: GeoLocationRepository
-    ) = EarthquakeManager(earthquakeRepository, countriesRepository, geoLocationRepository)
+        countriesRepository: CountriesRepository
+    ) = EarthquakeManager(earthquakeRepository, countriesRepository)
 }
