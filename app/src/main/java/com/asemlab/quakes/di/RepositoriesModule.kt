@@ -3,6 +3,7 @@ package com.asemlab.quakes.di
 import com.asemlab.quakes.database.CountriesDao
 import com.asemlab.quakes.database.EarthquakesDao
 import com.asemlab.quakes.remote.repositories.CountriesRepository
+import com.asemlab.quakes.remote.repositories.EarthquakeManager
 import com.asemlab.quakes.remote.repositories.EarthquakeRepository
 import com.asemlab.quakes.remote.repositories.GeoLocationRepository
 import com.asemlab.quakes.remote.services.CountriesService
@@ -21,15 +22,13 @@ class RepositoriesModule {
     @Provides
     @Singleton
     fun providesEarthquakeRepository(
-        earthquakesDao: EarthquakesDao,
-        earthquakeService: EarthquakeService
+        earthquakesDao: EarthquakesDao, earthquakeService: EarthquakeService
     ) = EarthquakeRepository(earthquakesDao, earthquakeService)
 
     @Provides
     @Singleton
     fun providesCountriesRepository(
-       countriesDao: CountriesDao,
-       countriesService: CountriesService
+        countriesDao: CountriesDao, countriesService: CountriesService
     ) = CountriesRepository(countriesDao, countriesService)
 
     @Provides
@@ -37,4 +36,12 @@ class RepositoriesModule {
     fun providesGeoLocationRepository(
         geoLocationService: GeoLocationService
     ) = GeoLocationRepository(geoLocationService)
+
+    @Provides
+    @Singleton
+    fun providesEarthquakeManager(
+        earthquakeRepository: EarthquakeRepository,
+        countriesRepository: CountriesRepository,
+        geoLocationRepository: GeoLocationRepository
+    ) = EarthquakeManager(earthquakeRepository, countriesRepository, geoLocationRepository)
 }

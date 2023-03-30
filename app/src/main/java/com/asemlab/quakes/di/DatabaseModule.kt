@@ -22,6 +22,7 @@ class DatabaseModule {
     @Singleton
     fun provideEarthquakeDB(@ApplicationContext context: Context) =
         Room.databaseBuilder(context, EarthquakesDB::class.java, "earthquakes_db")
+            .addMigrations(EarthquakesDB.MIGRATION_1_2)
             .build()
 
     @Provides

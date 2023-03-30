@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.asemlab.quakes.database.models.CountryData
-import kotlinx.coroutines.flow.Flow
+import com.asemlab.quakes.database.models.UsaStateData
 
 @Dao
 interface CountriesDao {
@@ -17,4 +17,10 @@ interface CountriesDao {
 
     @Query("DELETE FROM countries")
     suspend fun clearCountries()
+
+    @Insert
+    suspend fun insertAllStates(states: List<UsaStateData>)
+
+    @Query("SELECT * FROM usa_states")
+    suspend fun getAllStates(): List<UsaStateData>
 }
