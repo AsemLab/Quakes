@@ -20,19 +20,24 @@ class EarthquakeRepository @Inject constructor(
         startTime: String, endTime: String,
         onError: (String?) -> Unit
     ): List<EarthquakeData> {
-        var earthquakes = earthquakesDao.getAllEarthquakes()
-        return earthquakes.ifEmpty {
+        var earthquakes = emptyList<EarthquakeData>()
+        try {
             val response = performRequest {
                 earthquakeService.getEarthquakes(startTime, endTime)
             }
             response.performOnSuccess {
+                earthquakesDao.clearEarthquakes()
                 earthquakesDao.insertAll(it.features ?: emptyList())
                 earthquakes = it.features!!
             }.performOnError {
                 onError(it)
             }
-            earthquakes
+        } catch (e: Exception) {
+            earthquakes = earthquakesDao.getAllEarthquakes()
+        }finally {
+            return earthquakes
         }
+
     }
 
     suspend fun getEarthquakesByMag(

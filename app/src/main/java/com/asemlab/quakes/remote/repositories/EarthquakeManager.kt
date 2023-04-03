@@ -7,7 +7,6 @@ import com.asemlab.quakes.database.models.UsaStateData
 import com.asemlab.quakes.ui.models.EarthquakesUI
 import com.asemlab.quakes.ui.models.toEarthquakeUI
 import kotlinx.coroutines.flow.*
-import java.util.*
 import javax.inject.Inject
 
 class EarthquakeManager
@@ -20,31 +19,20 @@ class EarthquakeManager
     private lateinit var states: List<UsaStateData>
 
     suspend fun getEarthquakes(
-        startTime: String, endTime: String,
+        startTime: String,
+        endTime: String,
         context: Context,
         onStart: () -> Unit,
         onComplete: () -> Unit,
         onError: (String?) -> Unit
     ): Flow<List<EarthquakesUI>> {
         return flow {
-            var earthquakes = earthquakeRepository.getEarthquakes(
-                startTime,
-                endTime,
-                onError
+            val earthquakes = earthquakeRepository.getEarthquakes(
+                startTime, endTime, onError
             )
-            val firstEvent = Date(earthquakes.last().properties?.time!!)
-            val today = Date()
-            if ((today.day - firstEvent.day) >= 1) {
-                earthquakeRepository.clearAllEarthquakes()
-                earthquakes = earthquakeRepository.getEarthquakes(
-                    startTime,
-                    endTime,
-                    onError
-                )
-            }
 
-            countries = countriesRepository.getAllCountries(onError)
-            states = countriesRepository.getUsaStates(context)
+            if (!::countries.isInitialized) countries = countriesRepository.getAllCountries(onError)
+            if (!::states.isInitialized) states = countriesRepository.getUsaStates(context)
 
             val uiEvents = earthquakes.map { event ->
                 findCountryByEventTitle(event, states, countries)
@@ -54,9 +42,7 @@ class EarthquakeManager
     }
 
     private fun findCountryByEventTitle(
-        event: EarthquakeData,
-        states: List<UsaStateData>,
-        countries: List<CountryData>
+        event: EarthquakeData, states: List<UsaStateData>, countries: List<CountryData>
     ): EarthquakesUI {
         val nameFromTitle = event.properties?.place?.split(", ")?.last()
         val state = states.firstOrNull {
@@ -75,19 +61,16 @@ class EarthquakeManager
     }
 
     suspend fun getEarthquakesByMag(
-        startTime: String, endTime: String, maxMagnitude: Double, minMagnitude: Double,
+        startTime: String,
+        endTime: String,
+        maxMagnitude: Double,
+        minMagnitude: Double,
         onStart: () -> Unit,
         onComplete: () -> Unit,
         onError: (String?) -> Unit
     ): Flow<List<EarthquakesUI>> {
         return earthquakeRepository.getEarthquakesByMag(
-            startTime,
-            endTime,
-            maxMagnitude,
-            minMagnitude,
-            onStart,
-            onComplete,
-            onError
+            startTime, endTime, maxMagnitude, minMagnitude, onStart, onComplete, onError
         ).map {
             it.map { event ->
                 findCountryByEventTitle(event, states, countries)
