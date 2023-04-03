@@ -5,11 +5,11 @@ import java.util.*
 
 val SERVER_DATE_FORMAT = "yyyy-MM-dd"
 
-fun toSimpleDateFormat(date: Date = Date(), timeZone: TimeZone = TimeZone.getDefault()): String {
+fun Date.toSimpleDateFormat(timeZone: TimeZone = TimeZone.getDefault()): String {
     val format = SimpleDateFormat(SERVER_DATE_FORMAT).also {
         it.timeZone = timeZone
     }
-    return format.format(date)
+    return format.format(this)
 }
 
 fun tomorrowDate(): Date {

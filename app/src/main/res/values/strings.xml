@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Quakes</string>
+    <string name="magnitude">Magnitude</string>
+    <string name="region">Region</string>
+    <string name="time">Time</string>
+    <string name="descending">Descending</string>
 </resources>

@@ -6,7 +6,8 @@ import com.asemlab.quakes.database.models.EarthquakeData
 import com.asemlab.quakes.database.models.UsaStateData
 import com.asemlab.quakes.ui.models.EarthquakesUI
 import com.asemlab.quakes.ui.models.toEarthquakeUI
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class EarthquakeManager
@@ -23,22 +24,21 @@ class EarthquakeManager
         endTime: String,
         context: Context,
         onStart: () -> Unit,
-        onComplete: () -> Unit,
+        onSuccess: (List<EarthquakesUI>) -> Unit,
         onError: (String?) -> Unit
-    ): Flow<List<EarthquakesUI>> {
-        return flow {
-            val earthquakes = earthquakeRepository.getEarthquakes(
-                startTime, endTime, onError
-            )
+    ) {
+        onStart()
+        val earthquakes = earthquakeRepository.getEarthquakes(
+            startTime, endTime, onError
+        )
 
-            if (!::countries.isInitialized) countries = countriesRepository.getAllCountries(onError)
-            if (!::states.isInitialized) states = countriesRepository.getUsaStates(context)
+        if (!::countries.isInitialized) countries = countriesRepository.getAllCountries(onError)
+        if (!::states.isInitialized) states = countriesRepository.getUsaStates(context)
 
-            val uiEvents = earthquakes.map { event ->
-                findCountryByEventTitle(event, states, countries)
-            }
-            emit(uiEvents)
-        }.onStart { onStart() }.onCompletion { onComplete() }
+        val uiEvents = earthquakes.map { event ->
+            findCountryByEventTitle(event, states, countries)
+        }
+        onSuccess(uiEvents)
     }
 
     private fun findCountryByEventTitle(
