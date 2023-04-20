@@ -54,7 +54,7 @@ class HomeViewModel @Inject constructor(
             if (descending) {
                 currentUiState.copy(lastSortBy = sortBy.toDesc(), data = when (sortBy.toDesc()) {
                     EQSort.MAG_DEC -> currentUiState.data.sortedByDescending { it.mag }
-                    EQSort.REGION_DEC -> currentUiState.data.sortedByDescending { it.region }
+                    EQSort.NAME_DEC -> currentUiState.data.sortedByDescending { it.name }
                     EQSort.TIME_DEC -> currentUiState.data.sortedByDescending { it.time }
                     else -> {
                         currentUiState.data
@@ -63,7 +63,7 @@ class HomeViewModel @Inject constructor(
             } else {
                 currentUiState.copy(lastSortBy = sortBy.toAsc(), data = when (sortBy.toAsc()) {
                     EQSort.MAG -> currentUiState.data.sortedBy { it.mag }
-                    EQSort.REGION -> currentUiState.data.sortedBy { it.region }
+                    EQSort.NAME -> currentUiState.data.sortedBy { it.name }
                     EQSort.TIME -> currentUiState.data.sortedBy { it.time }
                     else -> {
                         currentUiState.data

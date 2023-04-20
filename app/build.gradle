@@ -44,6 +44,7 @@ dependencies {
     def lifecycle_version = "2.6.0"
     def room_version = "2.5.0"
     def retrofit_version = "2.9.0"
+    def glide_version = "4.15.0"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -80,4 +81,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp-bom:4.10.0'
     implementation 'com.squareup.okhttp3:okhttp'
     implementation 'com.squareup.okhttp3:logging-interceptor'
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    implementation "io.coil-kt:coil:2.3.0"
+    implementation "io.coil-kt:coil-svg:2.3.0"
+
 }

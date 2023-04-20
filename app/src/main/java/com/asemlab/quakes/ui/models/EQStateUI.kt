@@ -8,15 +8,15 @@ data class EQStateUI(
 )
 
 enum class EQSort{
-    TIME, MAG, REGION, TIME_DEC, MAG_DEC, REGION_DEC
+    TIME, MAG, NAME, TIME_DEC, MAG_DEC, NAME_DEC
 }
 
 fun EQSort.toDesc(): EQSort{
     return when(this){
         EQSort.TIME -> EQSort.TIME_DEC
         EQSort.MAG -> EQSort.MAG_DEC
-        EQSort.REGION -> EQSort.REGION_DEC
-        else ->  EQSort.TIME_DEC
+        EQSort.NAME -> EQSort.NAME_DEC
+        else ->  this
     }
 }
 
@@ -24,7 +24,7 @@ fun EQSort.toAsc(): EQSort{
     return when(this){
         EQSort.TIME_DEC -> EQSort.TIME
         EQSort.MAG_DEC -> EQSort.MAG
-        EQSort.REGION_DEC -> EQSort.REGION
-        else ->  EQSort.TIME
+        EQSort.NAME_DEC -> EQSort.NAME
+        else ->  this
     }
 }

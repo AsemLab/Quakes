@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.asemlab.quakes.ui.models.EarthquakesUI" />
+
+        <variable
+            name="event"
+            type="EarthquakesUI" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:id="@+id/border"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/black_ring"
+            app:layout_constraintBottom_toBottomOf="@id/divider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/gray" />
+
+        <ImageView
+            android:id="@+id/flag"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:circularSrcUrl="@{event.cca2}"
+            app:layout_constraintBottom_toBottomOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="@id/border"
+            app:layout_constraintStart_toStartOf="@id/border"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_globe" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="16dp"
+            android:text="@{event.name}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/place"
+            app:layout_constraintStart_toEndOf="@+id/flag"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Turkey" />
+
+        <TextView
+            android:id="@+id/place"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{event.place}"
+            android:textColor="#8E8E8E"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/time"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="8km NE of Turkey 8km NE of Turkey Turkey8km NE of Turkey " />
+
+        <TextView
+            android:id="@+id/mag"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_round_retangle"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="1dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:colorMagnitude="@{event.mag}"
+            app:formatMagnitude="@{event.mag}"
+            app:layout_constraintBaseline_toBaselineOf="@id/title"
+            app:layout_constraintEnd_toEndOf="@id/time"
+            tools:backgroundTint="@color/red"
+            tools:text="7.50" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#8E8E8E"
+            android:textSize="12sp"
+            app:formatTime="@{event.time}"
+            app:layout_constraintBaseline_toBaselineOf="@id/place"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="32 minutes ago" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height=".5dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/border" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

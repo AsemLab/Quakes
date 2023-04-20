@@ -19,8 +19,8 @@
             android:paddingHorizontal="24dp"
             android:paddingVertical="4dp"
             android:text="@string/app_name"
-            android:textSize="20sp"
             android:textColor="@color/dark_blue"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,35 +28,52 @@
             android:id="@+id/moreButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_more"
             android:background="@drawable/white_circle"
+            android:src="@drawable/ic_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/dark_blue" />
 
         <ImageButton
             android:id="@+id/sortButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/moreButton"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_sort"
             android:background="@drawable/white_circle"
+            android:src="@drawable/ic_sort"
+            app:layout_constraintEnd_toStartOf="@id/moreButton"
+            app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/dark_blue" />
 
         <ImageButton
             android:id="@+id/searchButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/sortButton"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_search"
             android:background="@drawable/white_circle"
+            android:src="@drawable/ic_search"
+            app:layout_constraintEnd_toStartOf="@id/sortButton"
+            app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/dark_blue" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/eventsRV"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline"
+            tools:itemCount="15"
+            tools:listitem="@layout/quake_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

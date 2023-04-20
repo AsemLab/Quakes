@@ -12,7 +12,8 @@ data class EarthquakesUI(
     val coordinates: List<Double?>? = null,
     val flags: Flags? = null,
     val name: String? = null,
-    val region: String? = null
+    val region: String? = null,
+    val cca2: String? = null
 )
 
 fun EarthquakeData.toEarthquakeUI(countryData: CountryData?): EarthquakesUI {
@@ -23,7 +24,8 @@ fun EarthquakeData.toEarthquakeUI(countryData: CountryData?): EarthquakesUI {
         properties?.time,
         geometry?.coordinates,
         countryData?.flags,
-        countryData?.name?.common,
-        countryData?.region
+        countryData?.name?.common ?: "Global",
+        countryData?.region,
+        countryData?.cca2
     )
 }

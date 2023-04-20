@@ -2,16 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/timeMenu"
+        android:id="@+id/sortTime"
         android:title="@string/time" />
     <item
-        android:id="@+id/magMenu"
+        android:id="@+id/sortMag"
         android:title="@string/magnitude" />
     <item
-        android:id="@+id/regionMenu"
-        android:title="@string/region" />
+        android:id="@+id/sortName"
+        android:title="@string/name" />
     <item
-        android:id="@+id/descMenu"
+        android:id="@+id/sortDesc"
         android:checkable="true"
+        android:checked="true"
         android:title="@string/descending" />
 </menu>

@@ -1,7 +1,6 @@
 package com.asemlab.quakes.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.asemlab.quakes.R
 import com.asemlab.quakes.databinding.FragmentHomeBinding
 import com.asemlab.quakes.ui.models.EQSort
@@ -24,6 +24,9 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModels<HomeViewModel>()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var popupMenu: PopupMenu
+    private var earthquakeUIAdapter = EarthquakeUIAdapter(emptyList()){
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,13 +34,16 @@ class HomeFragment : Fragment() {
     ): View {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-
+        binding.eventsRV.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = earthquakeUIAdapter
+        }
         viewModel.getLastEarthquakes(requireContext())
 
         addPopupMenu()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+            viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect {
                     it.userMessage?.let { msg ->
                         makeToast(msg)
@@ -45,7 +51,8 @@ class HomeFragment : Fragment() {
                     if (it.isLoading) {
                         makeToast("Loading...")
                     } else {
-                        Log.d("TAG", it.data.toString())
+                        earthquakeUIAdapter.setEvents(it.data)
+//                        Log.d("TAG", it.data.toString())
                     }
                 }
 
@@ -72,21 +79,21 @@ class HomeFragment : Fragment() {
     private fun addPopupMenu() {
         popupMenu = PopupMenu(requireContext(), binding.sortButton).apply {
             setOnMenuItemClickListener {
-                val descending = popupMenu.menu.findItem(R.id.descMenu).isChecked
+                val descending = popupMenu.menu.findItem(R.id.sortDesc).isChecked
                 when (it.itemId) {
-                    R.id.magMenu -> viewModel.sortEarthquakes(
+                    R.id.sortMag -> viewModel.sortEarthquakes(
                         EQSort.MAG,
                         descending
                     )
-                    R.id.timeMenu -> viewModel.sortEarthquakes(
+                    R.id.sortTime -> viewModel.sortEarthquakes(
                         EQSort.TIME,
                         descending
                     )
-                    R.id.regionMenu -> viewModel.sortEarthquakes(
-                        EQSort.REGION,
+                    R.id.sortName -> viewModel.sortEarthquakes(
+                        EQSort.NAME,
                         descending
                     )
-                    R.id.descMenu -> {
+                    R.id.sortDesc -> {
                         it.isChecked = !it.isChecked
                         viewModel.sortEarthquakes(
                             descending = it.isChecked

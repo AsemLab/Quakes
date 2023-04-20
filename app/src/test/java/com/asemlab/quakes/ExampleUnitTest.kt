@@ -14,7 +14,7 @@ import java.util.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        val s = toSimpleDateFormat(Date(1679864400000))
+        val s = Date(1679864400000).toSimpleDateFormat()
         assertEquals("2023-03-27", s)
     }
 }
