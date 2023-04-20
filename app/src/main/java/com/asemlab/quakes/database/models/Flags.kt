@@ -1,10 +1,13 @@
 package com.asemlab.quakes.database.models
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
+import kotlinx.parcelize.Parcelize
 
 @Keep
+@Parcelize
 data class Flags(
     @SerializedName("alt")
     val alt: String? = null,
@@ -12,4 +15,4 @@ data class Flags(
     val png: String? = null,
     @SerializedName("svg")
     val svg: String? = null
-)
+) : Parcelable

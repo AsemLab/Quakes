@@ -1,9 +1,12 @@
 package com.asemlab.quakes.ui.models
 
+import android.os.Parcelable
 import com.asemlab.quakes.database.models.CountryData
 import com.asemlab.quakes.database.models.EarthquakeData
 import com.asemlab.quakes.database.models.Flags
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class EarthquakesUI(
     val felt: Int? = null,
     val mag: Double? = null,
@@ -14,7 +17,7 @@ data class EarthquakesUI(
     val name: String? = null,
     val region: String? = null,
     val cca2: String? = null
-)
+) : Parcelable
 
 fun EarthquakeData.toEarthquakeUI(countryData: CountryData?): EarthquakesUI {
     return EarthquakesUI(

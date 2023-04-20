@@ -6,4 +6,6 @@
     <string name="descending">Descending</string>
     <string name="mag_format">%1$1.2f</string>
     <string name="name">Name</string>
+    <string name="global">Global</string>
+    <string name="details">Details</string>
 </resources>

@@ -13,9 +13,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainItemContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/gray_ripple"
         android:paddingHorizontal="16dp">
 
         <ImageView
@@ -74,7 +75,7 @@
             android:id="@+id/mag"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_round_retangle"
+            android:background="@drawable/white_round_rectangle"
             android:paddingHorizontal="24dp"
             android:paddingVertical="1dp"
             android:textAlignment="center"

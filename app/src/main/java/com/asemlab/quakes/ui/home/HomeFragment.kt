@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asemlab.quakes.R
 import com.asemlab.quakes.databinding.FragmentHomeBinding
@@ -25,7 +26,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var popupMenu: PopupMenu
     private var earthquakeUIAdapter = EarthquakeUIAdapter(emptyList()){
-
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToEventDetailsFragment(it))
     }
 
     override fun onCreateView(

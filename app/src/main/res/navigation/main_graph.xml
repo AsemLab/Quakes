@@ -9,5 +9,18 @@
         android:id="@+id/homeFragment"
         android:name="com.asemlab.quakes.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventDetailsFragment"
+        android:name="com.asemlab.quakes.ui.details.EventDetailsFragment"
+        android:label="EventDetailsFragment" >
+        <argument
+            android:name="event"
+            app:argType="com.asemlab.quakes.ui.models.EarthquakesUI"
+            app:nullable="true"/>
+    </fragment>
 </navigation>

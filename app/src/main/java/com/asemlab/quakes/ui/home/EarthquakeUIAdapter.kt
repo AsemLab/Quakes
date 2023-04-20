@@ -27,7 +27,7 @@ class EarthquakeUIAdapter(
         holder.bind(events[position], onClick)
     }
 
-    class EarthquakeVH private constructor(val binding: QuakeItemBinding) :
+    class EarthquakeVH private constructor(private val binding: QuakeItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         companion object {
             fun from(parent: ViewGroup): EarthquakeVH {
@@ -39,8 +39,8 @@ class EarthquakeUIAdapter(
         fun bind(event: EarthquakesUI, onClick: (EarthquakesUI) -> Unit) {
             with(binding) {
                 this.event = event
-                root.setOnClickListener {
-                    onClick(this.event)
+                mainItemContainer.setOnClickListener {
+                    onClick(event)
                 }
             }
         }
