@@ -8,4 +8,22 @@
     <string name="name">Name</string>
     <string name="global">Global</string>
     <string name="details">Details</string>
+    <string name="feeling">Feeling</string>
+    <string name="location">Location</string>
+    <string name="depth">Depth</string>
+    <string name="coordinates_format">%1$3.2f, \t %2$3.2f</string>
+    <string name="depth_format">%1$3.2f \t %2$s</string>
+
+    <string-array name="feeling_scale">
+        <item>Not felt</item>
+        <item>Felt slightly by some people. No damage to buildings</item>
+        <item>Often felt by people, but very rarely causes damage</item>
+        <item>Felt by most people</item>
+        <item>Zero to slight damage to buildings. Felt by everyone</item>
+        <item>Damage to a moderate number of well-built structures in populated areas</item>
+        <item>Causes damage to most building</item>
+        <item>Major damage to buildings</item>
+        <item>Severe damage or collapse to all buildings</item>
+    </string-array>
+
 </resources>

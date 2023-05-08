@@ -13,8 +13,10 @@ import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.asemlab.quakes.R
+import com.asemlab.quakes.ui.models.EarthquakesUI
 import com.bumptech.glide.Glide
 import java.io.FileNotFoundException
+import java.util.*
 
 
 @BindingAdapter(value = ["circularSrcRes", "circularSrcUrl"], requireAll = false)
@@ -65,18 +67,19 @@ fun ImageView.loadSvg(url: String) {
 
 @BindingAdapter("formatMagnitude")
 fun TextView.formatMagnitude(mag: Double) {
-    val floor = (mag * 100).toInt()
-    text = if (floor % 100 == 0)
-        "${floor / 100}"
-    else
-        "${floor / 100.0}"
 
+    text = formatNumberToTwoDecimal(mag).toString()
 }
 
 @BindingAdapter("formatTime")
 fun TextView.formatTime(time: Long) {
     text = timeAgo(time)
 
+}
+
+fun formatNumberToTwoDecimal(number: Double): Double {
+    val floor = (number * 100).toInt()
+    return floor / 100.0
 }
 
 @BindingAdapter("colorMagnitude")
@@ -104,4 +107,34 @@ fun TextView.colorMagnitude(mag: Double) {
     )
 
     backgroundTintList = stateList
+}
+
+@BindingAdapter("formatDate")
+fun TextView.formatDate(time: Long) {
+    text = Date(time).toDetailedDateFormat()
+}
+
+@BindingAdapter("formatCoordinates")
+fun TextView.formatCoordinates(point: List<Double>) {
+    val latitude = formatNumberToTwoDecimal(point[1])
+    val longitude = formatNumberToTwoDecimal(point[0])
+    text = context.getString(R.string.coordinates_format, latitude, longitude)
+}
+
+@BindingAdapter("formatDepth")
+fun TextView.formatDepth(depth: Double) {
+    text = context.getString(R.string.depth_format, formatNumberToTwoDecimal(depth), "km")
+}
+
+@BindingAdapter("feelingScale")
+fun TextView.feelingScale(mag: Double) {
+    val scale = resources.getStringArray(R.array.feeling_scale)
+    text = scale[mag.toInt()]
+}
+
+@BindingAdapter("eventTitle")
+fun TextView.eventTitle(event: EarthquakesUI) {
+    val city = event.place?.split("of")?.lastOrNull()?.split(",")?.firstOrNull() ?: ""
+    val title = if (city.isEmpty()) event.name else city + ", " + event.name
+    text = title
 }
