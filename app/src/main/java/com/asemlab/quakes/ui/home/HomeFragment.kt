@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.asemlab.quakes.R
 import com.asemlab.quakes.databinding.FragmentHomeBinding
 import com.asemlab.quakes.ui.models.EQSort
+import com.asemlab.quakes.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,10 +48,10 @@ class HomeFragment : Fragment() {
             viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect {
                     it.userMessage?.let { msg ->
-                        makeToast(msg)
+                        makeToast(requireContext(), msg)
                     }
                     if (it.isLoading) {
-                        makeToast("Loading...")
+                        makeToast(requireContext(), "Loading...")
                     } else {
                         earthquakeUIAdapter.setEvents(it.data)
 //                        Log.d("TAG", it.data.toString())
@@ -61,7 +62,7 @@ class HomeFragment : Fragment() {
 
         with(binding) {
             searchButton.setOnClickListener {
-                makeToast("search")
+                findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
             }
 
             sortButton.setOnClickListener {
@@ -69,7 +70,7 @@ class HomeFragment : Fragment() {
             }
 
             moreButton.setOnClickListener {
-                makeToast("more")
+                makeToast(requireContext(), "more")
             }
         }
 
@@ -108,8 +109,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun makeToast(m: String) {
-        Toast.makeText(requireContext(), m, Toast.LENGTH_SHORT).show()
-    }
+
 
 }

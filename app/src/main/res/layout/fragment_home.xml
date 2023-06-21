@@ -11,16 +11,8 @@
 
         <TextView
             android:id="@+id/appTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/white_round_rectangle"
-            android:gravity="center"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="4dp"
+            style="@style/fragment_title"
             android:text="@string/app_name"
-            android:textColor="@color/dark_blue"
-            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

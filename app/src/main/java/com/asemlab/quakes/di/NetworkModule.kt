@@ -38,7 +38,7 @@ class NetworkModule {
     fun providesOkhttpClient() = OkHttpClient.Builder().apply {
         if (BuildConfig.DEBUG) {
             val logInterceptor = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
+                level = HttpLoggingInterceptor.Level.HEADERS
             }
             addNetworkInterceptor(logInterceptor)
         }

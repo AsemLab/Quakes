@@ -28,3 +28,11 @@ fun EQSort.toAsc(): EQSort{
         else ->  this
     }
 }
+fun EQSort.isDesc(): Boolean{
+    return when(this){
+        EQSort.TIME_DEC,
+        EQSort.MAG_DEC,
+        EQSort.NAME_DEC -> true
+        else ->  false
+    }
+}

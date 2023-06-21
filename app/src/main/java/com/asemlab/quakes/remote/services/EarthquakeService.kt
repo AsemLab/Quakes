@@ -24,10 +24,10 @@ interface EarthquakeService {
         startTime: String,
         @Query("endtime")
         endTime: String,
-        @Query("maxmagnitude")
-        maxMagnitude: Double,
         @Query("minmagnitude")
         minMagnitude: Double,
+        @Query("maxmagnitude")
+        maxMagnitude: Double,
         @Query("format")
         format: String = "geojson"
     ): Response<EarthquakeResponse>

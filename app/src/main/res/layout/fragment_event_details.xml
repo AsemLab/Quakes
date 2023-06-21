@@ -27,16 +27,8 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/white_round_rectangle"
-            android:gravity="center"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="4dp"
+            style="@style/fragment_title"
             android:text="@string/details"
-            android:textColor="@color/dark_blue"
-            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/backButton"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,9 +111,6 @@
                 <TextView
                     android:id="@+id/fellingSubtitle"
                     style="@style/details_subtitle"
-                    android:autoSizeMaxTextSize="16sp"
-                    android:autoSizeMinTextSize="8sp"
-                    android:autoSizeTextType="uniform"
                     android:lines="2"
                     app:feelingScale="@{event.mag}"
                     app:layout_constraintBottom_toTopOf="@+id/timeSubtitle"

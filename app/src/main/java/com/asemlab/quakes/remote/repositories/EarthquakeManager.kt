@@ -6,8 +6,6 @@ import com.asemlab.quakes.database.models.EarthquakeData
 import com.asemlab.quakes.database.models.UsaStateData
 import com.asemlab.quakes.ui.models.EarthquakesUI
 import com.asemlab.quakes.ui.models.toEarthquakeUI
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class EarthquakeManager
@@ -63,19 +61,20 @@ class EarthquakeManager
     suspend fun getEarthquakesByMag(
         startTime: String,
         endTime: String,
-        maxMagnitude: Double,
         minMagnitude: Double,
+        maxMagnitude: Double,
         onStart: () -> Unit,
-        onComplete: () -> Unit,
+        onSuccess: (List<EarthquakesUI>) -> Unit,
         onError: (String?) -> Unit
-    ): Flow<List<EarthquakesUI>> {
-        return earthquakeRepository.getEarthquakesByMag(
-            startTime, endTime, maxMagnitude, minMagnitude, onStart, onComplete, onError
-        ).map {
-            it.map { event ->
-                findCountryByEventTitle(event, states, countries)
-            }
+    ) {
+        val earthquakes = earthquakeRepository.getEarthquakesByMag(
+            startTime, endTime, minMagnitude, maxMagnitude, onStart, onError
+        )
+
+        val uiEvents = earthquakes.map { event ->
+            findCountryByEventTitle(event, states, countries)
         }
+        onSuccess(uiEvents)
     }
 
 }

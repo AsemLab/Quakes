@@ -19,12 +19,12 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+open class HomeViewModel @Inject constructor(
     private val earthquakeManager: EarthquakeManager
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(EQStateUI(isLoading = true))
-    val uiState: StateFlow<EQStateUI> = _uiState
+    protected val _uiState = MutableStateFlow(EQStateUI(isLoading = true))
+    var uiState: StateFlow<EQStateUI> = _uiState
 
     fun getLastEarthquakes(context: Context) {
         viewModelScope.launch {

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/backButton"
+                    style="@style/round_button"
+                    android:src="@drawable/ic_back"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/fragment_title"
+                    android:text="@string/search_title"
+                    app:layout_constraintStart_toEndOf="@id/backButton"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/fromDate"
+                    style="@style/details_title"
+                    android:paddingHorizontal="8dp"
+                    android:text="@string/from_title"
+                    app:drawableStartCompat="@drawable/ic_calendar"
+                    app:layout_constraintEnd_toStartOf="@id/toDate"
+                    app:layout_constraintStart_toStartOf="@id/backButton"
+                    app:layout_constraintTop_toBottomOf="@+id/title" />
+
+                <TextView
+                    android:id="@+id/toDate"
+                    style="@style/details_title"
+                    android:layout_marginEnd="16dp"
+                    android:paddingHorizontal="8dp"
+                    android:text="@string/to_title"
+                    app:drawableStartCompat="@drawable/ic_calendar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/fromDate"
+                    app:layout_constraintTop_toBottomOf="@+id/title" />
+
+                <Spinner
+                    android:id="@+id/regionSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/region_spinner"
+                    android:paddingStart="36dp"
+                    app:layout_constraintEnd_toStartOf="@+id/sortSpinner"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toStartOf="@id/backButton"
+                    app:layout_constraintTop_toBottomOf="@+id/magTitle" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/sortSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/sort_spinner"
+                    android:paddingStart="36dp"
+                    android:text="@string/time"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="@id/toDate"
+                    app:layout_constraintStart_toEndOf="@+id/regionSpinner"
+                    app:layout_constraintTop_toBottomOf="@+id/magTitle" />
+
+                <TextView
+                    android:id="@+id/magTitle"
+                    style="@style/details_title"
+                    android:text="@string/magnitude"
+                    app:layout_constraintEnd_toStartOf="@id/magSlider"
+                    app:layout_constraintStart_toStartOf="@id/backButton"
+                    app:layout_constraintTop_toBottomOf="@+id/fromDate" />
+
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/magSlider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:stepSize="0.5"
+                    android:valueFrom="0.0"
+                    android:valueTo="10.0"
+                    app:layout_constraintBottom_toBottomOf="@+id/magTitle"
+                    app:layout_constraintEnd_toEndOf="@id/toDate"
+                    app:layout_constraintStart_toEndOf="@id/magTitle"
+                    app:layout_constraintTop_toTopOf="@+id/magTitle"
+                    app:values="@array/initial_slider_values" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/eventsRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@drawable/white_top_round_rectangle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/regionSpinner"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/quake_item" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/searchLoading"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/startSearch"
+            style="@style/details_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_search"
+            android:textColor="@color/dark_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/noResultsTV"
+            style="@style/details_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_results"
+            android:textColor="@color/dark_blue"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@android:color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
