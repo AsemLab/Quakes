@@ -79,7 +79,7 @@
             android:paddingHorizontal="24dp"
             android:paddingVertical="1dp"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="#fff"
             android:textSize="16sp"
             app:colorMagnitude="@{event.mag}"
             app:formatMagnitude="@{event.mag}"

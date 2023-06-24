@@ -1,12 +1,14 @@
 package com.asemlab.quakes.ui.search
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -40,6 +42,7 @@ class SearchFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +53,28 @@ class SearchFragment : Fragment() {
             eventsRV.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = earthquakeUIAdapter
+                nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                    if (scrollY == 0) {
+                        searchButton.apply {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                transitionAlpha = 1f
+                            } else {
+                                alpha = 1f
+                            }
+                            extend()
+                        }
+                    } else {
+                        searchButton.apply {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                transitionAlpha = .5f
+                            } else {
+                                alpha = .5f
+                            }
+                            shrink()
+                        }
+                    }
+                }
+
             }
             backButton.setOnClickListener {
                 findNavController().navigateUp()
@@ -61,7 +86,7 @@ class SearchFragment : Fragment() {
             regionSpinner.apply {
                 adapter = ArrayAdapter(
                     requireContext(),
-                    android.R.layout.simple_list_item_1,
+                    R.layout.region_spinner_item,
                     resources.getStringArray(R.array.regions)
                 )
 

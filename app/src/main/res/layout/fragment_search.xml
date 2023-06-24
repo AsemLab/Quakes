@@ -5,7 +5,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
@@ -48,8 +49,8 @@
                 <TextView
                     android:id="@+id/toDate"
                     style="@style/details_title"
-                    android:background="@drawable/gray_round_rectangle_ripple"
                     android:layout_marginEnd="16dp"
+                    android:background="@drawable/gray_round_rectangle_ripple"
                     android:paddingHorizontal="8dp"
                     android:text="@string/to_title"
                     app:drawableStartCompat="@drawable/ic_calendar"
@@ -66,16 +67,18 @@
                     app:layout_constraintEnd_toStartOf="@+id/sortSpinner"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="@id/backButton"
-                    app:layout_constraintTop_toBottomOf="@+id/magTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/magTitle"
+                    tools:listitem="@layout/region_spinner_item" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/sortSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:background="@drawable/sort_spinner"
-                    android:paddingStart="36dp"
                     android:text="@string/time"
                     android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@id/toDate"
                     app:layout_constraintStart_toEndOf="@+id/regionSpinner"
                     app:layout_constraintTop_toBottomOf="@+id/magTitle" />
@@ -154,15 +157,18 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_search"
+            android:text="@string/search_title"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_search"
+            app:iconTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/white" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
