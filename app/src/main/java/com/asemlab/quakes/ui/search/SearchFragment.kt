@@ -35,9 +35,7 @@ class SearchFragment : Fragment() {
     private lateinit var popupMenu: PopupMenu
     private var earthquakeUIAdapter = EarthquakeUIAdapter(emptyList()) {
         findNavController().navigate(
-            SearchFragmentDirections.actionSearchFragmentToEventDetailsFragment(
-                it
-            )
+            SearchFragmentDirections.actionSearchFragmentToEventDetailsFragment(it)
         )
     }
 

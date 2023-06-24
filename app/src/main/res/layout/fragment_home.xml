@@ -35,7 +35,6 @@
         <ImageButton
             android:id="@+id/searchButton"
             style="@style/round_button"
-            android:background="@drawable/white_circle"
             android:src="@drawable/ic_search"
             app:layout_constraintEnd_toStartOf="@id/sortButton"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,12 +51,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/white_top_round_rectangle"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/guideline"
             tools:itemCount="15"
-            tools:listitem="@layout/quake_item" />
+            tools:listitem="@layout/quake_item"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

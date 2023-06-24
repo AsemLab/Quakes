@@ -5,7 +5,7 @@
         <item name="android:layout_width">36dp</item>
         <item name="android:layout_height">36dp</item>
         <item name="android:layout_margin">16dp</item>
-        <item name="android:background">@drawable/white_circle</item>
+        <item name="android:background">@drawable/gray_circle_ripple</item>
         <item name="tint">@color/dark_blue</item>
     </style>
 

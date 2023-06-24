@@ -37,6 +37,7 @@
                 <TextView
                     android:id="@+id/fromDate"
                     style="@style/details_title"
+                    android:background="@drawable/gray_round_rectangle_ripple"
                     android:paddingHorizontal="8dp"
                     android:text="@string/from_title"
                     app:drawableStartCompat="@drawable/ic_calendar"
@@ -47,6 +48,7 @@
                 <TextView
                     android:id="@+id/toDate"
                     style="@style/details_title"
+                    android:background="@drawable/gray_round_rectangle_ripple"
                     android:layout_marginEnd="16dp"
                     android:paddingHorizontal="8dp"
                     android:text="@string/to_title"
