@@ -5,8 +5,7 @@ import kotlinx.coroutines.coroutineScope
 import retrofit2.Response
 
 suspend fun <T> performRequest(request: suspend () -> Response<T>): ServerResponse<T> {
-    return coroutineScope {
-        try {
+    return try {
             val body = request()
             if (body.isSuccessful)
                 ServerResponse.Success(body.body()!!)
@@ -18,5 +17,4 @@ suspend fun <T> performRequest(request: suspend () -> Response<T>): ServerRespon
         } catch (e: Exception) {
             throw e
         }
-    }
 }

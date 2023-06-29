@@ -3,6 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.asemlab.quakes.ui.search.SearchViewModel" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,30 +49,33 @@
                     android:id="@+id/fromDate"
                     style="@style/details_title"
                     android:background="@drawable/gray_round_rectangle_ripple"
+                    android:onClick="@{(v) -> viewModel.showFromDatePicker(v)}"
                     android:paddingHorizontal="8dp"
-                    android:text="@string/from_title"
                     app:drawableStartCompat="@drawable/ic_calendar"
                     app:layout_constraintEnd_toStartOf="@id/toDate"
                     app:layout_constraintStart_toStartOf="@id/backButton"
-                    app:layout_constraintTop_toBottomOf="@+id/title" />
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    tools:text="@string/from_title" />
 
                 <TextView
                     android:id="@+id/toDate"
                     style="@style/details_title"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/gray_round_rectangle_ripple"
+                    android:onClick="@{(v) -> viewModel.showToDatePicker(v)}"
                     android:paddingHorizontal="8dp"
-                    android:text="@string/to_title"
                     app:drawableStartCompat="@drawable/ic_calendar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fromDate"
-                    app:layout_constraintTop_toBottomOf="@+id/title" />
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    tools:text="@string/to_title" />
 
                 <Spinner
                     android:id="@+id/regionSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:background="@drawable/region_spinner"
+                    android:onItemSelected="@{viewModel::onRegionSelected}"
                     android:paddingStart="36dp"
                     app:layout_constraintEnd_toStartOf="@+id/sortSpinner"
                     app:layout_constraintHorizontal_chainStyle="spread"
@@ -75,6 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:background="@drawable/sort_spinner"
+                    android:onClick="@{() -> viewModel.showPopupMenu()}"
                     android:text="@string/time"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
@@ -162,6 +176,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:onClick="@{(v) -> viewModel.onSearch(v)}"
             android:text="@string/search_title"
             android:textAllCaps="false"
             android:textColor="@color/white"

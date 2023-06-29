@@ -1,15 +1,12 @@
 package com.asemlab.quakes.ui.search
 
-import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,12 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.asemlab.quakes.R
 import com.asemlab.quakes.databinding.FragmentSearchBinding
 import com.asemlab.quakes.ui.home.EarthquakeUIAdapter
-import com.asemlab.quakes.ui.models.EQSort
 import com.asemlab.quakes.utils.makeToast
-import com.asemlab.quakes.utils.toSimpleDateFormat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -34,7 +28,6 @@ class SearchFragment : Fragment() {
 
     private val viewModel by viewModels<SearchViewModel>()
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var popupMenu: PopupMenu
     private var earthquakeUIAdapter = EarthquakeUIAdapter(emptyList()) {
         findNavController().navigate(
             SearchFragmentDirections.actionSearchFragmentToEventDetailsFragment(it)
@@ -48,39 +41,35 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-        addPopupMenu()
         with(binding) {
+            viewModel = this@SearchFragment.viewModel
             eventsRV.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = earthquakeUIAdapter
-                nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-                    if (scrollY == 0) {
-                        searchButton.apply {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                transitionAlpha = 1f
-                            } else {
-                                alpha = 1f
-                            }
-                            extend()
+            }
+            nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                if (scrollY == 0) {
+                    searchButton.apply {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            transitionAlpha = 1f
+                        } else {
+                            alpha = 1f
                         }
-                    } else {
-                        searchButton.apply {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                transitionAlpha = .5f
-                            } else {
-                                alpha = .5f
-                            }
-                            shrink()
+                        extend()
+                    }
+                } else {
+                    searchButton.apply {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            transitionAlpha = .5f
+                        } else {
+                            alpha = .5f
                         }
+                        shrink()
                     }
                 }
-
             }
             backButton.setOnClickListener {
                 findNavController().navigateUp()
-            }
-            sortSpinner.setOnClickListener {
-                popupMenu.show()
             }
 
             regionSpinner.apply {
@@ -89,97 +78,29 @@ class SearchFragment : Fragment() {
                     R.layout.region_spinner_item,
                     resources.getStringArray(R.array.regions)
                 )
-
-                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        val a = resources.getStringArray(R.array.regions)
-                        viewModel.filterByRegion(a[position])
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                    }
-
-                }
             }
 
-            val maxDate = Calendar.getInstance()
-            val minDate = Calendar.getInstance().apply {
-                set(1960, 0, 1)
-            }
-
-            val from = Calendar.getInstance()
-            val to = Calendar.getInstance()
-
-            fromDate.setOnClickListener {
-                DatePickerDialog(
-                    requireContext(),
-                    { view, year, month, dayOfMonth ->
-                        fromDate.text = "$year-${month + 1}-$dayOfMonth"
-
-                        from.set(year, month, dayOfMonth)
-
-                    },
-                    maxDate.get(Calendar.YEAR),
-                    maxDate.get(Calendar.MONTH),
-                    maxDate.get(Calendar.DAY_OF_MONTH)
-                ).apply {
-                    datePicker.maxDate = maxDate.time.time
-                    datePicker.minDate = minDate.time.time
-                }.show()
-            }
-
-            toDate.setOnClickListener {
-
-                DatePickerDialog(
-                    requireContext(),
-                    { view, year, month, dayOfMonth ->
-                        toDate.text = "$year-${month + 1}-$dayOfMonth"
-                        to.set(year, month, dayOfMonth)
-                    },
-                    maxDate.get(Calendar.YEAR),
-                    maxDate.get(Calendar.MONTH),
-                    maxDate.get(Calendar.DAY_OF_MONTH)
-                ).apply {
-                    datePicker.maxDate = maxDate.time.time
-                    datePicker.minDate = minDate.time.time
-                }.show()
-            }
-
-            searchButton.setOnClickListener {
-
-                if (from.timeInMillis == to.timeInMillis) {
-                    makeToast(requireContext(), getString(R.string.please_select_a_date))
-                    return@setOnClickListener
-                }
-
-                fromDate.text = "${from.time.year + 1900}-${from.time.month + 1}-${from.time.date}"
-                toDate.text = "${to.time.year + 1900}-${to.time.month + 1}-${to.time.date}"
-                startSearch.isVisible = false
-
-                if (from.after(to)) {
-                    viewModel.searchEvents(
-                        to.time.toSimpleDateFormat(),
-                        from.time.toSimpleDateFormat(),
-                        binding.magSlider.values[0].toDouble(),
-                        binding.magSlider.values[1].toDouble()
-                    )
-                } else {
-                    viewModel.searchEvents(
-                        from.time.toSimpleDateFormat(),
-                        to.time.toSimpleDateFormat(),
-                        binding.magSlider.values[0].toDouble(),
-                        binding.magSlider.values[1].toDouble()
-                    )
-                }
+            magSlider.addOnChangeListener { slider, value, fromUser ->
+                viewModel?.onMagSliderChanged(slider, value, fromUser)
             }
 
         }
+        viewModel.apply {
+            addPopupMenu(binding.sortSpinner)
+            showStartSearch.observe(viewLifecycleOwner) {
+                binding.startSearch.isVisible = it
+            }
+            fromDate.observe(viewLifecycleOwner) {
+                binding.fromDate.text = it.ifEmpty { getString(R.string.from_title) }
+            }
+            toDate.observe(viewLifecycleOwner) {
+                binding.toDate.text = it.ifEmpty { getString(R.string.to_title) }
+            }
+            sortText.observe(viewLifecycleOwner) {
+                binding.sortSpinner.text = it.ifEmpty { getString(R.string.time) }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect {
@@ -197,55 +118,9 @@ class SearchFragment : Fragment() {
 //                        Log.d("TAG", it.data.toString())
                     }
                 }
-
-
         }
-
         return binding.root
     }
 
-    private fun addPopupMenu() {
-        popupMenu = PopupMenu(requireContext(), binding.sortSpinner).apply {
-            setOnMenuItemClickListener {
-                val descending = popupMenu.menu.findItem(R.id.sortDesc).isChecked
-                when (it.itemId) {
-                    R.id.sortMag -> {
-                        viewModel.sortEarthquakes(
-                            EQSort.MAG,
-                            descending
-                        )
-                        binding.sortSpinner.text = it.title
-                    }
-
-                    R.id.sortTime -> {
-                        viewModel.sortEarthquakes(
-                            EQSort.TIME,
-                            descending
-                        )
-                        binding.sortSpinner.text = it.title
-                    }
-
-                    R.id.sortName -> {
-                        viewModel.sortEarthquakes(
-                            EQSort.NAME,
-                            descending
-                        )
-                        binding.sortSpinner.text = it.title
-                    }
-
-                    R.id.sortDesc -> {
-                        it.isChecked = !it.isChecked
-                        viewModel.sortEarthquakes(
-                            descending = it.isChecked
-                        )
-                    }
-
-                    else -> {}
-                }
-                return@setOnMenuItemClickListener true
-            }
-            inflate(R.menu.sort_menu)
-        }
-    }
 
 }

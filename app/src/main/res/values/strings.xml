@@ -20,6 +20,7 @@
     <string name="start_search">Select date and click on the search button</string>
     <string name="please_select_a_date">Please select valid dates</string>
     <string name="no_results">No results for your entries</string>
+    <string name="date_format">%1$d-%2$d-%3$d</string>
 
     <string-array name="feeling_scale">
         <item>Not felt</item>
