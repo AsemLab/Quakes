@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.asemlab.quakes.ui.home.HomeViewModel" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,6 +37,7 @@
             style="@style/round_button"
             android:layout_margin="16dp"
             android:src="@drawable/ic_sort"
+            android:onClick="@{() -> viewModel.showPopupMenu()}"
             app:layout_constraintEnd_toStartOf="@id/moreButton"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,7 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/white_top_round_rectangle"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,6 +67,15 @@
             tools:itemCount="15"
             tools:listitem="@layout/quake_item"
             tools:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/searchLoading"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/eventsRV" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

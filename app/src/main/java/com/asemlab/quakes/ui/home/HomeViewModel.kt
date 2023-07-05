@@ -1,11 +1,15 @@
 package com.asemlab.quakes.ui.home
 
 import android.content.Context
+import android.view.View
+import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.asemlab.quakes.R
 import com.asemlab.quakes.remote.repositories.EarthquakeManager
 import com.asemlab.quakes.ui.models.EQSort
 import com.asemlab.quakes.ui.models.EQStateUI
+import com.asemlab.quakes.ui.models.isDesc
 import com.asemlab.quakes.ui.models.toAsc
 import com.asemlab.quakes.ui.models.toDesc
 import com.asemlab.quakes.utils.toSimpleDateFormat
@@ -25,6 +29,8 @@ open class HomeViewModel @Inject constructor(
 
     protected val _uiState = MutableStateFlow(EQStateUI(isLoading = true))
     var uiState: StateFlow<EQStateUI> = _uiState
+    private lateinit var popupMenu: PopupMenu
+
 
     fun getLastEarthquakes(context: Context) {
         viewModelScope.launch {
@@ -40,6 +46,7 @@ open class HomeViewModel @Inject constructor(
                     _uiState.update { currentUiState ->
                         currentUiState.copy(data = it, isLoading = false, userMessage = null)
                     }
+                    sortEarthquakes(descending = _uiState.value.lastSortBy.isDesc())
                 },
                 onError = {
                     _uiState.update { currentUiState ->
@@ -70,6 +77,57 @@ open class HomeViewModel @Inject constructor(
                     }
                 })
             }
+        }
+    }
+    fun addPopupMenu(view: View, onItemClick: (String) -> Unit) {
+        popupMenu = PopupMenu(view.context, view).apply {
+            setOnMenuItemClickListener {
+                val descending = _uiState.value.lastSortBy.isDesc()
+                when (it.itemId) {
+                    R.id.sortMag -> {
+                        sortEarthquakes(
+                            EQSort.MAG,
+                            descending
+                        )
+                        onItemClick(it.title.toString())
+                    }
+
+                    R.id.sortTime -> {
+                        sortEarthquakes(
+                            EQSort.TIME,
+                            descending
+                        )
+                        onItemClick(it.title.toString())
+                    }
+
+                    R.id.sortName -> {
+                        sortEarthquakes(
+                            EQSort.NAME,
+                            descending
+                        )
+                        onItemClick(it.title.toString())
+                    }
+
+                    R.id.sortDesc -> {
+                        it.isChecked = !it.isChecked
+                        sortEarthquakes(
+                            descending = it.isChecked
+                        )
+                    }
+
+                    else -> {}
+                }
+                return@setOnMenuItemClickListener true
+            }
+            inflate(R.menu.sort_menu)
+            val descending = _uiState.value.lastSortBy.isDesc()
+            menu.findItem(R.id.sortDesc).isChecked = descending
+        }
+    }
+
+    fun showPopupMenu() {
+        if (::popupMenu.isInitialized) {
+            popupMenu.show()
         }
     }
 }

@@ -4,8 +4,6 @@ import android.app.DatePickerDialog
 import android.view.View
 import android.widget.AdapterView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.asemlab.quakes.R
@@ -30,7 +28,6 @@ class SearchViewModel @Inject constructor(
 
     private val _tempEvents = mutableListOf<EarthquakesUI>()
     private var _region = "All"
-    private lateinit var popupMenu: PopupMenu
     private val maxDate = Calendar.getInstance()
     private val minDate = Calendar.getInstance().apply {
         set(1960, 0, 1)
@@ -85,58 +82,6 @@ class SearchViewModel @Inject constructor(
                 isLoading = false,
                 lastSortBy = _uiState.value.lastSortBy
             )
-        }
-    }
-
-    fun addPopupMenu(button: AppCompatButton) {
-        popupMenu = PopupMenu(button.context, button).apply {
-            setOnMenuItemClickListener {
-                val descending = _uiState.value.lastSortBy.isDesc()
-                when (it.itemId) {
-                    R.id.sortMag -> {
-                        sortEarthquakes(
-                            EQSort.MAG,
-                            descending
-                        )
-                        sortText.postValue(it.title.toString())
-                    }
-
-                    R.id.sortTime -> {
-                        sortEarthquakes(
-                            EQSort.TIME,
-                            descending
-                        )
-                        sortText.postValue(it.title.toString())
-                    }
-
-                    R.id.sortName -> {
-                        sortEarthquakes(
-                            EQSort.NAME,
-                            descending
-                        )
-                        sortText.postValue(it.title.toString())
-                    }
-
-                    R.id.sortDesc -> {
-                        it.isChecked = !it.isChecked
-                        sortEarthquakes(
-                            descending = it.isChecked
-                        )
-                    }
-
-                    else -> {}
-                }
-                return@setOnMenuItemClickListener true
-            }
-            inflate(R.menu.sort_menu)
-            val descending = _uiState.value.lastSortBy.isDesc()
-            menu.findItem(R.id.sortDesc).isChecked = descending
-        }
-    }
-
-    fun showPopupMenu() {
-        if (::popupMenu.isInitialized) {
-            popupMenu.show()
         }
     }
 

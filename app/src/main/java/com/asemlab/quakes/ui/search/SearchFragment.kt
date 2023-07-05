@@ -86,7 +86,9 @@ class SearchFragment : Fragment() {
 
         }
         viewModel.apply {
-            addPopupMenu(binding.sortSpinner)
+            addPopupMenu(binding.sortSpinner){
+                sortText.postValue(it)
+            }
             showStartSearch.observe(viewLifecycleOwner) {
                 binding.startSearch.isVisible = it
             }
