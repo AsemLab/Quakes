@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.asemlab.quakes.R
 import com.asemlab.quakes.databinding.FragmentEventDetailsBinding
+import com.asemlab.quakes.utils.isNightModeOn
 import com.asemlab.quakes.utils.slideDown
 import com.asemlab.quakes.utils.slideDownAndFadeOut
 import com.asemlab.quakes.utils.slideUp
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,8 +48,7 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
                     detailsContainer.slideDownAndFadeOut(detailsContainer.height)
                     fullscreenButton.slideDown(detailsContainer.height - fullscreenButton.height - 50)
                     fullscreenButton.setImageResource(R.drawable.ic_fullscreen_exit)
-                }
-                else {
+                } else {
                     detailsContainer.slideUpAndFadeIn()
                     fullscreenButton.slideUp()
                     fullscreenButton.setImageResource(R.drawable.ic_fullscreen)
@@ -71,7 +72,17 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
 
         val eventPosition = LatLng(latitude, longitude)
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(eventPosition, zoom))
-        map.addMarker(MarkerOptions().position(eventPosition))
+        with(map) {
+            moveCamera(CameraUpdateFactory.newLatLngZoom(eventPosition, zoom))
+            addMarker(MarkerOptions().position(eventPosition))
+            if (isNightModeOn()) {
+                setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                        requireContext().applicationContext,
+                        R.raw.map_night_style
+                    )
+                )
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ class ColorClusterRenderer(
 ) : DefaultClusterRenderer<MarkerItem>(context, map, clusterManager) {
 
     override fun getColor(clusterSize: Int): Int {
-        return ResourcesCompat.getColor(context.resources, R.color.green, null)
+        return ResourcesCompat.getColor(context.resources, R.color.cluster, null)
     }
 
 }

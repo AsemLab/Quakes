@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,6 +18,7 @@ import com.asemlab.quakes.databinding.FragmentHomeBinding
 import com.asemlab.quakes.ui.models.EarthquakesUI
 import com.asemlab.quakes.ui.models.MarkerItem
 import com.asemlab.quakes.utils.ColorClusterRenderer
+import com.asemlab.quakes.utils.isNightModeOn
 import com.asemlab.quakes.utils.makeToast
 import com.asemlab.quakes.utils.toTimeString
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -24,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -127,6 +130,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             setOnCameraMoveListener {
                 currentPosition = cameraPosition.target
                 currentZoom = cameraPosition.zoom
+            }
+            if(isNightModeOn()) {
+                setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                        requireContext().applicationContext,
+                        R.raw.map_night_style
+                    )
+                )
             }
         }
         setUpClusterer()
