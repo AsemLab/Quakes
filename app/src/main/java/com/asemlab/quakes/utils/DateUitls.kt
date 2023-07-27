@@ -3,8 +3,9 @@ package com.asemlab.quakes.utils
 import java.text.SimpleDateFormat
 import java.util.*
 
-val SERVER_DATE_FORMAT = "yyyy-MM-dd"
-val DATE_TIME_FORMAT = "dd MMM,  yy \t hh:mm aa"
+const val SERVER_DATE_FORMAT = "yyyy-MM-dd"
+const val DATE_TIME_FORMAT = "dd MMM,  yy \t hh:mm aa"
+const val TIME_FORMAT = "hh:mm aa"
 
 fun Date.toSimpleDateFormat(timeZone: TimeZone = TimeZone.getDefault()): String {
     val format = SimpleDateFormat(SERVER_DATE_FORMAT).also {
@@ -37,6 +38,13 @@ fun timeAgo(time: Long): String {
 
 fun Date.toDetailedDateFormat(timeZone: TimeZone = TimeZone.getDefault()): String {
     val format = SimpleDateFormat(DATE_TIME_FORMAT).also {
+        it.timeZone = timeZone
+    }
+    return format.format(this)
+}
+
+fun Date.toTimeString(timeZone: TimeZone = TimeZone.getDefault()): String {
+    val format = SimpleDateFormat(TIME_FORMAT).also {
         it.timeZone = timeZone
     }
     return format.format(this)

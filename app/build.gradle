@@ -5,7 +5,7 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs'
-
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -91,5 +91,10 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide_version"
     implementation "io.coil-kt:coil:2.3.0"
     implementation "io.coil-kt:coil-svg:2.3.0"
+
+    // Google Maps
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.maps.android:android-maps-utils:2.3.0'
+    implementation 'com.google.maps.android:maps-utils-ktx:3.4.0'
 
 }

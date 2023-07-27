@@ -12,10 +12,20 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/map"
         tools:context=".ui.home.HomeFragment">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/appTitle"
@@ -29,6 +39,7 @@
             style="@style/round_button"
             android:layout_margin="16dp"
             android:src="@drawable/ic_more"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,8 +47,8 @@
             android:id="@+id/sortButton"
             style="@style/round_button"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_sort"
             android:onClick="@{() -> viewModel.showPopupMenu()}"
+            android:src="@drawable/ic_sort"
             app:layout_constraintEnd_toStartOf="@id/moreButton"
             app:layout_constraintTop_toTopOf="parent" />
 

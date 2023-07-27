@@ -14,13 +14,31 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asemlab.quakes.R
 import com.asemlab.quakes.databinding.FragmentHomeBinding
+import com.asemlab.quakes.ui.models.EarthquakesUI
+import com.asemlab.quakes.ui.models.MarkerItem
+import com.asemlab.quakes.utils.ColorClusterRenderer
 import com.asemlab.quakes.utils.makeToast
+import com.asemlab.quakes.utils.toTimeString
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Date
+
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnMapReadyCallback {
 
+    private lateinit var map: GoogleMap
+    private lateinit var mapFragment: SupportMapFragment
+    private var currentPosition = LatLng(31.975429, 35.860139)
+    private var currentZoom = 2f
+    private lateinit var clusterManager: ClusterManager<MarkerItem>
     private val viewModel by viewModels<HomeViewModel>()
     private lateinit var binding: FragmentHomeBinding
     private var earthquakeUIAdapter = EarthquakeUIAdapter(emptyList()) {
@@ -48,7 +66,7 @@ class HomeFragment : Fragment() {
 
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
+            viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
                 .collect {
                     it.userMessage?.let { msg ->
                         makeToast(requireContext(), msg)
@@ -58,7 +76,9 @@ class HomeFragment : Fragment() {
                     } else {
                         binding.searchLoading.isVisible = false
                         earthquakeUIAdapter.setEvents(it.data)
-//                        Log.d("TAG", it.data.toString())
+                        if (!::map.isInitialized)
+                            delay(500)
+                        addMarkers(it.data)
                     }
                 }
 
@@ -76,9 +96,79 @@ class HomeFragment : Fragment() {
             }
         }
 
-
+        mapFragment = childFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
         return binding.root
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+        with(map) {
+            moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, currentZoom))
+            setOnCameraMoveListener {
+                currentPosition = cameraPosition.target
+                currentZoom = cameraPosition.zoom
+            }
+        }
+        setUpClusterer()
+    }
+
+    private fun setUpClusterer() {
+        clusterManager = ClusterManager(requireContext(), map)
+        with(clusterManager) {
+            val renderer = ColorClusterRenderer(requireContext(), map, clusterManager)
+            this.renderer = renderer
+            setOnClusterItemInfoWindowClickListener { event ->
+                val e = viewModel.uiState.value.data.firstOrNull {
+                    val latitude = it.coordinates?.get(1)
+                    val longitude = it.coordinates?.get(0)
+
+                    event.position == LatLng(latitude ?: 0.0, longitude ?: 0.0)
+                }
+                e?.let {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToEventDetailsFragment(e)
+                    )
+                }
+            }
+        }
+        with(map) {
+            setOnMarkerClickListener(clusterManager)
+            setOnCameraIdleListener(clusterManager)
+            setOnInfoWindowClickListener(clusterManager)
+        }
+    }
+
+    private fun addMarkers(events: List<EarthquakesUI>) {
+        events.forEach { item ->
+            val latitude = item.coordinates?.get(1)
+            val longitude = item.coordinates?.get(0)
+            val time = Date(item.time ?: System.currentTimeMillis()).toTimeString()
+
+            if (latitude != null && longitude != null) {
+                val offsetItem =
+                    MarkerItem(latitude, longitude, "${item.place} (${item.mag})", time)
+                clusterManager.addItem(offsetItem)
+            }
+
+        }
+        clusterManager.cluster()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (::clusterManager.isInitialized) {
+            clusterManager.clearItems()
+            clusterManager.cluster()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::map.isInitialized) {
+            setUpClusterer()
+        }
+    }
 
 }
