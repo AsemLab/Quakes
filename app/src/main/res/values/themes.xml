@@ -20,4 +20,12 @@
         <item name="colorPrimaryContainer">@color/light_green</item>
         <item name="colorSurfaceVariant">@color/light_light_green</item>
     </style>
+
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">750</item>
+        <item name="postSplashScreenTheme">@style/Theme.Quakes</item>
+    </style>
+
 </resources>
