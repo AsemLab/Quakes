@@ -2,8 +2,8 @@
 <resources>
 
     <style name="round_button">
-        <item name="android:layout_width">36dp</item>
-        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
         <item name="android:layout_margin">16dp</item>
         <item name="android:background">@drawable/gray_circle_ripple</item>
         <item name="tint">@color/dark_blue</item>
@@ -54,4 +54,15 @@
         <item name="android:textColor">@color/dark_blue</item>
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@color/white</item>
+        <item name="shapeAppearance">@style/LargeComponent</item>
+    </style>
+
+    <style name="LargeComponent" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
 </resources>

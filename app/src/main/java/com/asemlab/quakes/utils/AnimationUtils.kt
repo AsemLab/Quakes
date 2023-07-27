@@ -70,3 +70,19 @@ fun View.slideUpAndFadeIn(delay: Long = 0) {
     }
     animator.start()
 }
+
+fun View.animateHeight(delay: Long = 0) {
+    val tY = ObjectAnimator.ofInt(measuredHeight, measuredHeight + 500).apply {
+        duration = 500
+        repeatCount = 0
+        startDelay = delay
+        addUpdateListener {
+            val l = it.animatedValue as Int
+            val layoutParams = layoutParams
+            layoutParams.height = l
+
+            this@animateHeight.layoutParams = layoutParams
+        }
+    }
+    tY.start()
+}

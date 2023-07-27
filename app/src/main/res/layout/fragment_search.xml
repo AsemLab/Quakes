@@ -54,7 +54,7 @@
                     app:drawableStartCompat="@drawable/ic_calendar"
                     app:layout_constraintEnd_toStartOf="@id/toDate"
                     app:layout_constraintStart_toStartOf="@id/backButton"
-                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    app:layout_constraintTop_toBottomOf="@+id/backButton"
                     tools:text="@string/from_title" />
 
                 <TextView
@@ -67,7 +67,7 @@
                     app:drawableStartCompat="@drawable/ic_calendar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fromDate"
-                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    app:layout_constraintTop_toBottomOf="@+id/backButton"
                     tools:text="@string/to_title" />
 
                 <Spinner

@@ -3,6 +3,7 @@ package com.asemlab.quakes.ui.home
 import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asemlab.quakes.R
@@ -14,6 +15,7 @@ import com.asemlab.quakes.ui.models.toAsc
 import com.asemlab.quakes.ui.models.toDesc
 import com.asemlab.quakes.utils.toSimpleDateFormat
 import com.asemlab.quakes.utils.tomorrowDate
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,6 +32,7 @@ open class HomeViewModel @Inject constructor(
     protected val _uiState = MutableStateFlow(EQStateUI(isLoading = true))
     var uiState: StateFlow<EQStateUI> = _uiState
     private lateinit var popupMenu: PopupMenu
+    var bottomSheetState = BottomSheetBehavior.STATE_COLLAPSED
 
 
     fun getLastEarthquakes(context: Context) {

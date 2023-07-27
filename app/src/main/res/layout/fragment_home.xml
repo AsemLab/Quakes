@@ -44,19 +44,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/sortButton"
-            style="@style/round_button"
-            android:layout_margin="16dp"
-            android:onClick="@{() -> viewModel.showPopupMenu()}"
-            android:src="@drawable/ic_sort"
-            app:layout_constraintEnd_toStartOf="@id/moreButton"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
             android:id="@+id/searchButton"
             style="@style/round_button"
             android:src="@drawable/ic_search"
-            app:layout_constraintEnd_toStartOf="@id/sortButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -66,18 +57,61 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.5" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/eventsRV"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/white_top_round_rectangle"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guideline"
-            tools:itemCount="15"
-            tools:listitem="@layout/quake_item"
-            tools:visibility="visible" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <FrameLayout
+                android:id="@+id/bottomSheet"
+                style="@style/BottomSheetStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:behavior_hideable="false"
+                app:behavior_peekHeight="150dp"
+                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                        android:id="@+id/drag_handle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/sortButton"
+                        style="@style/round_button"
+                        android:layout_margin="16dp"
+                        android:onClick="@{() -> viewModel.showPopupMenu()}"
+                        android:src="@drawable/ic_sort"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/eventsRV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/white_top_round_rectangle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sortButton"
+                        tools:itemCount="15"
+                        tools:listitem="@layout/quake_item"
+                        tools:visibility="visible" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </FrameLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <ProgressBar
             android:id="@+id/searchLoading"
@@ -86,7 +120,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/eventsRV" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -94,6 +95,23 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             moreButton.setOnClickListener {
                 makeToast(requireContext(), "more")
             }
+
+            BottomSheetBehavior.from(bottomSheet).apply {
+                addBottomSheetCallback(object :
+                    BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        this@HomeFragment.viewModel.bottomSheetState = newState
+                    }
+
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                    }
+
+                })
+
+                state = this@HomeFragment.viewModel.bottomSheetState
+            }
+
         }
 
         mapFragment = childFragmentManager
