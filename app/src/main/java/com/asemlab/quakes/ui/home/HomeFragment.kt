@@ -126,7 +126,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             forceUpdate.observe(viewLifecycleOwner) { shouldUpdate ->
                 shouldUpdate?.let {
                     if (it)
-                        makeToast(requireContext(), it.toString())
+                       findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToForceUpdateFragment())
                 }
             }
         }

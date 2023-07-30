@@ -20,8 +20,13 @@ object FirebaseDB {
         val myRef = database.getReference("version")
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val version = dataSnapshot.getValue<Int>() ?: -1
-                forceUpdate.postValue(version > BuildConfig.VERSION_CODE)
+                try {
+
+                    val version = dataSnapshot.getValue<Int>() ?: -1
+                    forceUpdate.postValue(version > BuildConfig.VERSION_CODE)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to convert value. ${e.message}")
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

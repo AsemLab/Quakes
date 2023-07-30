@@ -26,6 +26,9 @@
     <string name="dialog_permission_button">Allow</string>
     <string name="default_notification_channel_id">Updates</string>
     <string name="default_notification_channel_desc">The default channel for general notifications</string>
+    <string name="update_required">Update required</string>
+    <string name="update_message">To keep using Quakes, download \n the latest version</string>
+    <string name="update_title">Update</string>
 
     <string-array name="feeling_scale">
         <item>Not felt</item>

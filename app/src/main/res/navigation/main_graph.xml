@@ -24,12 +24,17 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_homeFragment_to_forceUpdateFragment"
+            app:destination="@id/forceUpdateFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventDetailsFragment"
         android:name="com.asemlab.quakes.ui.details.EventDetailsFragment"
-        android:label="EventDetailsFragment">
-        <argument
+        android:label="EventDetailsFragment"
+        tools:layout="@layout/fragment_event_details">
+
+    <argument
             android:name="event"
             app:argType="com.asemlab.quakes.ui.models.EarthquakesUI"
             app:nullable="true" />
@@ -37,8 +42,9 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.asemlab.quakes.ui.search.SearchFragment"
-        android:label="SearchFragment">
-        <action
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search">
+    <action
             android:id="@+id/action_searchFragment_to_eventDetailsFragment"
             app:destination="@id/eventDetailsFragment"
             app:enterAnim="@android:anim/fade_in"
@@ -46,4 +52,9 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
     </fragment>
+    <fragment
+        android:id="@+id/forceUpdateFragment"
+        android:name="com.asemlab.quakes.ui.update.ForceUpdateFragment"
+        android:label="ForceUpdateFragment"
+        tools:layout="@layout/fragment_force_update"/>
 </navigation>
