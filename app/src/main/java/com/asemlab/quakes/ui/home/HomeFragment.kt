@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asemlab.quakes.R
 import com.asemlab.quakes.databinding.FragmentHomeBinding
+import com.asemlab.quakes.remote.FirebaseDB
 import com.asemlab.quakes.ui.models.EarthquakesUI
 import com.asemlab.quakes.ui.models.MarkerItem
 import com.asemlab.quakes.utils.ColorClusterRenderer
@@ -120,6 +121,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        with(FirebaseDB) {
+            forceUpdate.observe(viewLifecycleOwner) { shouldUpdate ->
+                shouldUpdate?.let {
+                    if (it)
+                        makeToast(requireContext(), it.toString())
+                }
+            }
+        }
+
         return binding.root
     }
 

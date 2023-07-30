@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.asemlab.quakes.remote.FirebaseDB
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 setCancelable(true)
             }.show()
         }
-
+        FirebaseDB.getVersion()
         getFCMToken()
 
     }
