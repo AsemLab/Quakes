@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "565932083514",
+    "project_id": "asemlab-quakes",
+    "storage_bucket": "asemlab-quakes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565932083514:android:2d63d0bc2cc6a57021e803",
+        "android_client_info": {
+          "package_name": "com.asemlab.quakes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "565932083514-0nonkcet0718urkmnpgnq3vgs8svugev.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAy_z1sA434_U-730gh7n0EjPYA4v5s5K8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "565932083514-0nonkcet0718urkmnpgnq3vgs8svugev.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

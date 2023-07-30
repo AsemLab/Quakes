@@ -21,6 +21,11 @@
     <string name="please_select_a_date">Please select valid dates</string>
     <string name="no_results">No results for your entries</string>
     <string name="date_format">%1$d-%2$d-%3$d</string>
+    <string name="dialog_permission_title">Permission required</string>
+    <string name="dialog_permission_text">Allow the app to send notification?</string>
+    <string name="dialog_permission_button">Allow</string>
+    <string name="default_notification_channel_id">Updates</string>
+    <string name="default_notification_channel_desc">The default channel for general notifications</string>
 
     <string-array name="feeling_scale">
         <item>Not felt</item>

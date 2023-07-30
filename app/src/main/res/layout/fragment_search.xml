@@ -41,8 +41,9 @@
                     android:id="@+id/title"
                     style="@style/fragment_title"
                     android:text="@string/search_title"
+                    app:layout_constraintBottom_toBottomOf="@+id/backButton"
                     app:layout_constraintStart_toEndOf="@id/backButton"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@id/backButton" />
 
 
                 <TextView
@@ -51,6 +52,7 @@
                     android:background="@drawable/gray_round_rectangle_ripple"
                     android:onClick="@{(v) -> viewModel.showFromDatePicker(v)}"
                     android:paddingHorizontal="8dp"
+                    android:layout_marginTop="16dp"
                     app:drawableStartCompat="@drawable/ic_calendar"
                     app:layout_constraintEnd_toStartOf="@id/toDate"
                     app:layout_constraintStart_toStartOf="@id/backButton"
@@ -67,7 +69,7 @@
                     app:drawableStartCompat="@drawable/ic_calendar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/fromDate"
-                    app:layout_constraintTop_toBottomOf="@+id/backButton"
+                    app:layout_constraintTop_toTopOf="@id/fromDate"
                     tools:text="@string/to_title" />
 
                 <Spinner
@@ -79,7 +81,7 @@
                     android:paddingStart="36dp"
                     app:layout_constraintEnd_toStartOf="@+id/sortSpinner"
                     app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toStartOf="@id/backButton"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/magTitle"
                     tools:listitem="@layout/region_spinner_item" />
 
@@ -93,7 +95,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@id/toDate"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/regionSpinner"
                     app:layout_constraintTop_toBottomOf="@+id/magTitle" />
 

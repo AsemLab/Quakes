@@ -38,8 +38,9 @@
             android:id="@+id/title"
             style="@style/fragment_title"
             android:text="@string/details"
+            app:layout_constraintBottom_toBottomOf="@+id/backButton"
             app:layout_constraintStart_toEndOf="@id/backButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/backButton" />
 
         <ImageButton
             android:id="@+id/fullscreenButton"
