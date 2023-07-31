@@ -24,13 +24,6 @@ class ForceUpdateFragment : Fragment() {
     ): View {
         binding = FragmentForceUpdateBinding.inflate(inflater, container, false)
 
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-
-        })
-
         with(FirebaseDB) {
             forceUpdate.observe(viewLifecycleOwner) { shouldUpdate ->
                 shouldUpdate?.let {
