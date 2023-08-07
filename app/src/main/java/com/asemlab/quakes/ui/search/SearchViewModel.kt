@@ -1,24 +1,30 @@
 package com.asemlab.quakes.ui.search
 
-import android.app.DatePickerDialog
+import android.content.Context
 import android.view.View
 import android.widget.AdapterView
-import android.widget.TextView
+import androidx.core.util.Pair
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.asemlab.quakes.R
 import com.asemlab.quakes.remote.repositories.EarthquakeManager
 import com.asemlab.quakes.ui.home.HomeViewModel
-import com.asemlab.quakes.ui.models.EQSort
+import com.asemlab.quakes.ui.models.DateRangeValidator
 import com.asemlab.quakes.ui.models.EarthquakesUI
 import com.asemlab.quakes.ui.models.isDesc
+import com.asemlab.quakes.utils.RANGE_DATE_FORMAT
 import com.asemlab.quakes.utils.makeToast
 import com.asemlab.quakes.utils.toSimpleDateFormat
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,15 +34,14 @@ class SearchViewModel @Inject constructor(
 
     private val _tempEvents = mutableListOf<EarthquakesUI>()
     private var _region = "All"
-    private val maxDate = Calendar.getInstance()
-    private val minDate = Calendar.getInstance().apply {
-        set(1960, 0, 1)
-    }
+    private val todayDate = Calendar.getInstance()
+    lateinit var rangePicker: MaterialDatePicker<Pair<Long, Long>>
 
-    private val from = Calendar.getInstance()
-    private val to = Calendar.getInstance()
-    val fromDate = MutableLiveData("")
-    val toDate = MutableLiveData("")
+
+    private val fromDate = Calendar.getInstance()
+    private val toDate = Calendar.getInstance()
+    val fromDateText = MutableLiveData("")
+    val toDateText = MutableLiveData("")
     val sortText = MutableLiveData("")
     val showStartSearch = MutableLiveData(true)
     private var values = listOf(0f, 8f)
@@ -85,58 +90,6 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-
-    fun showFromDatePicker(tv: View) {
-        with(tv as TextView) {
-            DatePickerDialog(
-                context,
-                { _, year, month, dayOfMonth ->
-                    from.set(year, month, dayOfMonth)
-                    fromDate.postValue(
-                        context.getString(
-                            R.string.date_format,
-                            year,
-                            month + 1,
-                            dayOfMonth
-                        )
-                    )
-                },
-                maxDate.get(Calendar.YEAR),
-                maxDate.get(Calendar.MONTH),
-                maxDate.get(Calendar.DAY_OF_MONTH)
-            ).apply {
-                datePicker.maxDate = maxDate.time.time
-                datePicker.minDate = minDate.time.time
-            }.show()
-        }
-    }
-
-    fun showToDatePicker(tv: View) {
-        with(tv as TextView) {
-            DatePickerDialog(
-                context,
-                { _, year, month, dayOfMonth ->
-                    text = context.getString(R.string.date_format, year, month + 1, dayOfMonth)
-                    to.set(year, month, dayOfMonth)
-                    toDate.postValue(
-                        context.getString(
-                            R.string.date_format,
-                            year,
-                            month + 1,
-                            dayOfMonth
-                        )
-                    )
-                },
-                maxDate.get(Calendar.YEAR),
-                maxDate.get(Calendar.MONTH),
-                maxDate.get(Calendar.DAY_OF_MONTH)
-            ).apply {
-                datePicker.maxDate = maxDate.time.time
-                datePicker.minDate = minDate.time.time
-            }.show()
-        }
-    }
-
     fun onRegionSelected(
         parent: AdapterView<*>?,
         view: View?,
@@ -150,24 +103,24 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearch(view: View) {
-        if (from.timeInMillis == to.timeInMillis) {
+        if (fromDate.timeInMillis == toDate.timeInMillis) {
             makeToast(view.context, view.context.getString(R.string.please_select_a_date))
             return
         }
 
         showStartSearch.postValue(false)
 
-        if (from.after(to)) {
+        if (fromDate.after(toDate)) {
             searchEvents(
-                to.time.toSimpleDateFormat(),
-                from.time.toSimpleDateFormat(),
+                toDate.time.toSimpleDateFormat(),
+                fromDate.time.toSimpleDateFormat(),
                 values[0].toDouble(),
                 values[1].toDouble()
             )
         } else {
             searchEvents(
-                from.time.toSimpleDateFormat(),
-                to.time.toSimpleDateFormat(),
+                fromDate.time.toSimpleDateFormat(),
+                toDate.time.toSimpleDateFormat(),
                 values[0].toDouble(),
                 values[1].toDouble()
             )
@@ -178,5 +131,55 @@ class SearchViewModel @Inject constructor(
         values = slider.values
     }
 
+    fun initializeDateRangePicker(context: Context) {
+        val validation = DateRangeValidator(14)
+        rangePicker = MaterialDatePicker.Builder.dateRangePicker()
+            .setTextInputFormat(SimpleDateFormat(RANGE_DATE_FORMAT).also {
+                it.timeZone = TimeZone.getDefault()
+            })
+            .setTitleText(context.getString(R.string.select_up_to_14_days))
+            .setCalendarConstraints(
+                CalendarConstraints.Builder()
+                    .setValidator(validation)
+                    .setOpenAt(todayDate.timeInMillis)
+                    .setStart(
+                        Date(60, 1, 1).time
+                    ).setEnd(
+                        todayDate.timeInMillis
+                    ).build()
+            )
+            .build()
+
+        validation.setDatePicker(rangePicker)
+        with(rangePicker) {
+            addOnPositiveButtonClickListener {
+                val f = Date(rangePicker.selection?.first ?: System.currentTimeMillis())
+                val s = Date(rangePicker.selection?.second ?: System.currentTimeMillis())
+
+
+                fromDate.time = f
+                fromDateText.postValue(
+                    context.getString(
+                        R.string.date_format,
+                        fromDate.get(Calendar.YEAR),
+                        (fromDate.get(Calendar.MONTH) + 1).toString().padStart(2, '0'),
+                        fromDate.get(Calendar.DAY_OF_MONTH).toString().padStart(2, '0')
+                    )
+                )
+
+                toDate.time = s
+                toDateText.postValue(
+                    context.getString(
+                        R.string.date_format,
+                        toDate.get(Calendar.YEAR),
+                        (toDate.get(Calendar.MONTH) + 1).toString().padStart(2, '0'),
+                        toDate.get(Calendar.DAY_OF_MONTH).toString().padStart(2, '0')
+                    )
+                )
+
+            }
+
+        }
+    }
 
 }

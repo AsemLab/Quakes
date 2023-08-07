@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -37,10 +38,10 @@ class SearchFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
+
         with(binding) {
             viewModel = this@SearchFragment.viewModel
             eventsRV.apply {
@@ -50,21 +51,17 @@ class SearchFragment : Fragment() {
             nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
                 if (scrollY == 0) {
                     searchButton.apply {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            transitionAlpha = 1f
-                        } else {
-                            alpha = 1f
-                        }
+                        icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_search, null)
                         extend()
+                        setOnClickListener(this@SearchFragment.viewModel::onSearch)
                     }
                 } else {
                     searchButton.apply {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            transitionAlpha = .5f
-                        } else {
-                            alpha = .5f
-                        }
+                        icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_arrow_up, null)
                         shrink()
+                        setOnClickListener {
+                            nestedScrollView.smoothScrollTo(0, 0)
+                        }
                     }
                 }
             }
@@ -84,19 +81,35 @@ class SearchFragment : Fragment() {
                 viewModel?.onMagSliderChanged(slider, value, fromUser)
             }
 
+            dateRange.setOnClickListener {
+                this@SearchFragment.viewModel.rangePicker.show(childFragmentManager, null)
+            }
+
         }
         viewModel.apply {
-            addPopupMenu(binding.sortSpinner){
+            initializeDateRangePicker(requireContext())
+
+            addPopupMenu(binding.sortSpinner) {
                 sortText.postValue(it)
             }
             showStartSearch.observe(viewLifecycleOwner) {
                 binding.startSearch.isVisible = it
             }
-            fromDate.observe(viewLifecycleOwner) {
-                binding.fromDate.text = it.ifEmpty { getString(R.string.from_title) }
+            fromDateText.observe(viewLifecycleOwner) {
+                binding.fromTitle.isVisible = it.isNotEmpty()
+                binding.toTitle.isVisible = it.isNotEmpty()
+                val from = it.ifEmpty { getString(R.string.from_title) }
+                val to = toDateText.value?.ifEmpty { getString(R.string.to_title) }
+
+                binding.dateRange.text = getString(R.string.from_to, from, to)
             }
-            toDate.observe(viewLifecycleOwner) {
-                binding.toDate.text = it.ifEmpty { getString(R.string.to_title) }
+            toDateText.observe(viewLifecycleOwner) {
+                binding.fromTitle.isVisible = it.isNotEmpty()
+                binding.toTitle.isVisible = it.isNotEmpty()
+                val from = fromDateText.value?.ifEmpty { getString(R.string.from_title) }
+                val to = it.ifEmpty { getString(R.string.to_title) }
+
+                binding.dateRange.text = getString(R.string.from_to, from, to)
             }
             sortText.observe(viewLifecycleOwner) {
                 binding.sortSpinner.text = it.ifEmpty { getString(R.string.time) }
@@ -104,22 +117,21 @@ class SearchFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-                .collect {
-                    it.userMessage?.let { msg ->
-                        makeToast(requireContext(), msg)
-                    }
-                    if (it.isLoading) {
-                        binding.searchLoading.isVisible = true
-                        binding.noResultsTV.isVisible = false
-                    } else {
-                        binding.searchLoading.isVisible = false
-                        earthquakeUIAdapter.setEvents(it.data)
-                        binding.noResultsTV.isVisible =
-                            it.data.isEmpty() && !binding.startSearch.isVisible
-//                        Log.d("TAG", it.data.toString())
-                    }
+            viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.CREATED).collect {
+                it.userMessage?.let { msg ->
+                    makeToast(requireContext(), msg)
                 }
+                if (it.isLoading) {
+                    binding.searchLoading.isVisible = true
+                    binding.noResultsTV.isVisible = false
+                } else {
+                    binding.searchLoading.isVisible = false
+                    earthquakeUIAdapter.setEvents(it.data)
+                    binding.noResultsTV.isVisible =
+                        it.data.isEmpty() && !binding.startSearch.isVisible
+//                        Log.d("TAG", it.data.toString())
+                }
+            }
         }
         return binding.root
     }

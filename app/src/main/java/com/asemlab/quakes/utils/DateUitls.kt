@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 const val SERVER_DATE_FORMAT = "yyyy-MM-dd"
+const val RANGE_DATE_FORMAT = "dd/MM/yyyy"
 const val DATE_TIME_FORMAT = "dd MMM,  yy \t hh:mm aa"
 const val TIME_FORMAT = "hh:mm aa"
 

@@ -8,6 +8,9 @@ import android.widget.Toast
 fun makeToast(context: Context, m: String) {
     Toast.makeText(context, m, Toast.LENGTH_SHORT).show()
 }
+fun makeLongToast(context: Context, m: String) {
+    Toast.makeText(context, m, Toast.LENGTH_LONG).show()
+}
 
 fun isNightModeOn(): Boolean {
     val nightModeFlags = Resources.getSystem().configuration.uiMode and

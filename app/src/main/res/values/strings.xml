@@ -20,7 +20,7 @@
     <string name="start_search">Select date and click on the search button</string>
     <string name="please_select_a_date">Please select valid dates</string>
     <string name="no_results">No results for your entries</string>
-    <string name="date_format">%1$d-%2$d-%3$d</string>
+    <string name="date_format">%1$d-%2$s-%3$s</string>
     <string name="dialog_permission_title">Permission required</string>
     <string name="dialog_permission_text">Allow the app to send notification?</string>
     <string name="dialog_permission_button">Allow</string>
@@ -29,6 +29,9 @@
     <string name="update_required">Update required</string>
     <string name="update_message">To keep using Quakes, download \n the latest version</string>
     <string name="update_title">Update</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="select_up_to_14_days">Select up to 14 days</string>
+    <string name="from_to">%1$s ─ %2$s</string>
 
     <string-array name="feeling_scale">
         <item>Not felt</item>

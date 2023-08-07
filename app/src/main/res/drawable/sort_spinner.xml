@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:height="48dp" android:width="150dp">
+    <item>
         <shape>
             <solid android:color="?attr/colorSurfaceVariant" />
             <corners android:radius="16dp" />
@@ -9,7 +9,7 @@
 
     <item
         android:start="12dp"
-        android:top="12dp"
+        android:top="16dp"
         android:drawable="@drawable/ic_sort" android:height="24dp" android:width="24dp">
 
     </item>
