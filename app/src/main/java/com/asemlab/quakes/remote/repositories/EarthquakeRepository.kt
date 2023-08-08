@@ -54,7 +54,7 @@ class EarthquakeRepository @Inject constructor(
                 )
             }
             response.performOnSuccess {
-                earthquakes = it.features!!.take(20)
+                earthquakes = it.features!!.take(500)
             }.performOnError {
                 onError(it)
             }

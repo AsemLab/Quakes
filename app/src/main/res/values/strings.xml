@@ -32,6 +32,8 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="select_up_to_14_days">Select up to 14 days</string>
     <string name="from_to">%1$s ─ %2$s</string>
+    <string name="no_available_data">There is no available data</string>
+    <string name="latest_earthquakes_title">Latest earthquakes in last 24 hours</string>
 
     <string-array name="feeling_scale">
         <item>Not felt</item>

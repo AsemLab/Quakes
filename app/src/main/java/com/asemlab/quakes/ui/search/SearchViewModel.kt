@@ -13,6 +13,7 @@ import com.asemlab.quakes.ui.models.DateRangeValidator
 import com.asemlab.quakes.ui.models.EarthquakesUI
 import com.asemlab.quakes.ui.models.isDesc
 import com.asemlab.quakes.utils.RANGE_DATE_FORMAT
+import com.asemlab.quakes.utils.isConnected
 import com.asemlab.quakes.utils.makeToast
 import com.asemlab.quakes.utils.toSimpleDateFormat
 import com.google.android.material.datepicker.CalendarConstraints
@@ -103,6 +104,12 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onSearch(view: View) {
+
+        if(!isConnected(view.context)) {
+            makeToast(view.context, view.context.getString(R.string.no_internet_connection))
+            return
+        }
+
         if (fromDate.timeInMillis == toDate.timeInMillis) {
             makeToast(view.context, view.context.getString(R.string.please_select_a_date))
             return

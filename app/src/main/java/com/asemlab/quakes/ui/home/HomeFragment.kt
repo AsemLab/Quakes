@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,6 +18,7 @@ import com.asemlab.quakes.remote.FirebaseDB
 import com.asemlab.quakes.ui.models.EarthquakesUI
 import com.asemlab.quakes.ui.models.MarkerItem
 import com.asemlab.quakes.utils.ColorClusterRenderer
+import com.asemlab.quakes.utils.isConnected
 import com.asemlab.quakes.utils.isNightModeOn
 import com.asemlab.quakes.utils.makeToast
 import com.asemlab.quakes.utils.toTimeString
@@ -66,7 +66,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
         with(viewModel) {
             addPopupMenu(binding.sortButton) {}
-            getLastEarthquakes(requireContext())
+            if(isConnected(requireContext()))
+                getLastEarthquakes(requireContext())
+            else {
+                makeToast(requireContext(), getString(R.string.no_internet_connection))
+            }
         }
 
 
@@ -78,8 +82,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     }
                     if (it.isLoading) {
                         binding.searchLoading.isVisible = true
+                        binding.noDataTV.isVisible = false
                     } else {
                         binding.searchLoading.isVisible = false
+                        binding.noDataTV.isVisible = it.data.isEmpty()
                         earthquakeUIAdapter.setEvents(it.data)
                         if (!::map.isInitialized)
                             delay(500)
@@ -126,7 +132,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             forceUpdate.observe(viewLifecycleOwner) { shouldUpdate ->
                 shouldUpdate?.let {
                     if (it)
-                       findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToForceUpdateFragment())
+                        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToForceUpdateFragment())
                 }
             }
         }
@@ -142,7 +148,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 currentPosition = cameraPosition.target
                 currentZoom = cameraPosition.zoom
             }
-            if(isNightModeOn()) {
+            if (isNightModeOn()) {
                 setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                         requireContext().applicationContext,

@@ -21,6 +21,12 @@ fun tomorrowDate(): Date {
     }.time
 }
 
+fun yesterdayDate(): Date {
+    return Calendar.getInstance().apply {
+        add(Calendar.DAY_OF_MONTH, -1)
+    }.time
+}
+
 fun timeAgo(time: Long): String {
     val now = Date()
     val then = Date(time)
