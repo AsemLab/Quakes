@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -13,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asemlab.quakes.R
+import com.asemlab.quakes.base.BaseFragment
 import com.asemlab.quakes.databinding.FragmentHomeBinding
 import com.asemlab.quakes.remote.FirebaseDB
 import com.asemlab.quakes.ui.models.EarthquakesUI
@@ -37,7 +37,7 @@ import java.util.Date
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), OnMapReadyCallback {
+class HomeFragment : BaseFragment(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private lateinit var mapFragment: SupportMapFragment
@@ -66,9 +66,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
         with(viewModel) {
             addPopupMenu(binding.sortButton) {}
-            if(isConnected(requireContext()))
-                getLastEarthquakes(requireContext())
-            else {
+            if (!isConnected(requireContext())) {
                 makeToast(requireContext(), getString(R.string.no_internet_connection))
             }
         }
@@ -215,6 +213,19 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         if (::map.isInitialized) {
             setUpClusterer()
         }
+    }
+
+    override fun onAvailableNetwork() {
+        viewModel.getLastEarthquakes(requireContext())
+    }
+
+    override fun onUnavailableNetwork() {
+        makeToast(requireContext(), "UnAvailable")
+
+    }
+
+    override fun onLost() {
+        makeToast(requireContext(), "OnLost")
     }
 
 }
