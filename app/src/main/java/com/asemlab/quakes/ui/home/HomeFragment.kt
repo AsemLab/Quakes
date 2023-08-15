@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -24,6 +25,7 @@ import com.asemlab.quakes.utils.makeToast
 import com.asemlab.quakes.utils.toTimeString
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -60,6 +62,16 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
     ): View {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+
+        val options = GoogleMapOptions().apply {
+            useViewLifecycleInFragment(true)
+        }
+        mapFragment = SupportMapFragment.newInstance(options)
+        childFragmentManager.beginTransaction().replace(binding.map.id, mapFragment).commit()
+        mapFragment.getMapAsync(this)
+
+
         binding.eventsRV.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = earthquakeUIAdapter
@@ -68,6 +80,8 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
             addPopupMenu(binding.sortButton) {}
             if (!isConnected(requireContext())) {
                 makeToast(requireContext(), getString(R.string.no_internet_connection))
+            } else {
+                viewModel.getLastEarthquakes(requireContext())
             }
         }
 
@@ -97,7 +111,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
             viewModel = this@HomeFragment.viewModel
 
             searchButton.setOnClickListener {
-                findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
             }
 
             moreButton.setOnClickListener {
@@ -121,10 +135,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
             }
 
         }
-
-        mapFragment = childFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
 
         with(FirebaseDB) {
             forceUpdate.observe(viewLifecycleOwner) { shouldUpdate ->
@@ -155,10 +165,10 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
                 )
             }
         }
-        setUpClusterer()
+        setUpCluster()
     }
 
-    private fun setUpClusterer() {
+    private fun setUpCluster() {
         clusterManager = ClusterManager(requireContext(), map)
         with(clusterManager) {
             val renderer = ColorClusterRenderer(requireContext(), map, clusterManager)
@@ -211,21 +221,25 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
         if (::map.isInitialized) {
-            setUpClusterer()
+            setUpCluster()
         }
     }
 
-    override fun onAvailableNetwork() {
-        viewModel.getLastEarthquakes(requireContext())
-    }
+    override fun onAvailableNetwork() {}
 
     override fun onUnavailableNetwork() {
-        makeToast(requireContext(), "UnAvailable")
+        requireActivity().runOnUiThread {
+            binding.map.removeAllViewsInLayout()
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNoInternetFragment())
+        }
 
     }
 
     override fun onLost() {
-        makeToast(requireContext(), "OnLost")
+        requireActivity().runOnUiThread {
+            binding.map.removeAllViewsInLayout()
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNoInternetFragment())
+        }
     }
 
 }

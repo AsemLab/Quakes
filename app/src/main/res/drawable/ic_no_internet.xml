@@ -1,0 +1,21 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <size
+                android:width="36dp"
+                android:height="36dp" />
+            <solid
+                android:width="2dp"
+                android:color="@color/light_green" />
+
+        </shape>
+    </item>
+    <item
+        android:bottom="16dp"
+        android:drawable="@drawable/ic_wifi_off"
+        android:left="16dp"
+        android:right="16dp"
+        android:top="16dp" />
+
+
+</layer-list>

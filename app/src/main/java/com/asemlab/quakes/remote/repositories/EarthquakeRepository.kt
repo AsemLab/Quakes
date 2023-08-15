@@ -1,5 +1,6 @@
 package com.asemlab.quakes.remote.repositories
 
+import android.util.Log
 import com.asemlab.quakes.database.EarthquakesDao
 import com.asemlab.quakes.database.models.EarthquakeData
 import com.asemlab.quakes.remote.performOnError
@@ -30,7 +31,7 @@ class EarthquakeRepository @Inject constructor(
                 onError(it)
             }
         } catch (e: Exception) {
-//            earthquakes = earthquakesDao.getAllEarthquakes()
+            Log.e("getEarthquakes", "${e.message}")
         } finally {
             return earthquakes
         }

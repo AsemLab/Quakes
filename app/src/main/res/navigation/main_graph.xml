@@ -26,7 +26,18 @@
             app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_homeFragment_to_forceUpdateFragment"
-            app:destination="@id/forceUpdateFragment" />
+            app:destination="@id/forceUpdateFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_homeFragment_to_noInternetFragment"
+            app:destination="@id/noInternetFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/eventDetailsFragment"
@@ -57,4 +68,9 @@
         android:name="com.asemlab.quakes.ui.update.ForceUpdateFragment"
         android:label="ForceUpdateFragment"
         tools:layout="@layout/fragment_force_update"/>
+    <fragment
+        android:id="@+id/noInternetFragment"
+        android:name="com.asemlab.quakes.ui.nointernet.NoInternetFragment"
+        android:label="NoInternetFragment"
+        tools:layout="@layout/fragment_no_internet"/>
 </navigation>

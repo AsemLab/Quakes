@@ -6,6 +6,9 @@ import android.net.ConnectivityManager.NetworkCallback
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.os.Build
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 
 abstract class BaseFragment : Fragment() {
@@ -13,8 +16,8 @@ abstract class BaseFragment : Fragment() {
     private lateinit var connectivityManager: ConnectivityManager
     private lateinit var networkCallback: NetworkCallback
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         connectivityManager =
             requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -41,7 +44,12 @@ abstract class BaseFragment : Fragment() {
         }
 
 
-        connectivityManager.registerNetworkCallback(request, networkCallback)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            connectivityManager.requestNetwork(request, networkCallback, 2000)
+        } else {
+            connectivityManager.requestNetwork(request, networkCallback)
+        }
+
     }
 
     abstract fun onAvailableNetwork()
@@ -50,8 +58,8 @@ abstract class BaseFragment : Fragment() {
 
     abstract fun onLost()
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroyView() {
+        super.onDestroyView()
         connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 

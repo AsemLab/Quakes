@@ -30,6 +30,8 @@
     <string name="update_message">To keep using Quakes, download \n the latest version</string>
     <string name="update_title">Update</string>
     <string name="no_internet_connection">No internet connection</string>
+    <string name="no_internet_title">No internet</string>
+    <string name="no_internet_message">Please check your connection and try again</string>
     <string name="select_up_to_14_days">Select up to 14 days</string>
     <string name="from_to">%1$s ─ %2$s</string>
     <string name="no_available_data">There is no available data</string>
