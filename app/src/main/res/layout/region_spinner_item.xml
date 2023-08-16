@@ -10,5 +10,5 @@
     android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
     android:textColor="@color/black"
     android:textSize="14sp"
-    android:textStyle="bold"
+    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
     tools:text="All" />

@@ -36,6 +36,14 @@
     <string name="from_to">%1$s ─ %2$s</string>
     <string name="no_available_data">There is no available data</string>
     <string name="latest_earthquakes_title">Latest earthquakes in last 24 hours</string>
+    <string name="confirm">Confirm</string>
+    <string name="region_all">All</string>
+    <string name="region_africa">Africa</string>
+    <string name="region_americas">Americas</string>
+    <string name="region_antarctic">Antarctic</string>
+    <string name="region_asia">Asia</string>
+    <string name="region_europe">Europe</string>
+    <string name="region_oceania">Oceania</string>
 
     <string-array name="feeling_scale">
         <item>Not felt</item>

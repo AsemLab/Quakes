@@ -30,7 +30,7 @@ class NotificationsService : FirebaseMessagingService() {
             .setContentTitle(it.title ?: "")
             .setContentText(it.body ?: "")
             .setAutoCancel(true)
-            .setSmallIcon(R.drawable.asset_7)
+            .setSmallIcon(R.drawable.notification_icon)
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

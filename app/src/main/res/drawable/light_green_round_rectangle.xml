@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item >
+    <item>
         <shape>
             <solid android:color="?attr/colorSurfaceVariant" />
             <corners android:radius="16dp" />
         </shape>
-    </item>
-
-    <item
-        android:start="12dp"
-        android:top="16dp"
-        android:drawable="@drawable/ic_globe_black" android:height="24dp" android:width="24dp">
-
     </item>
 
 </layer-list>

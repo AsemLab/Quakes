@@ -12,7 +12,8 @@
     <style name="divider">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">.5dp</item>
-        <item name="android:layout_marginHorizontal">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
         <item name="android:background">@color/gray</item>
     </style>
 
@@ -25,9 +26,9 @@
         <item name="android:padding">16dp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:autoSizeTextType">uniform</item>
-        <item name="android:autoSizeMaxTextSize">18sp</item>
-        <item name="android:autoSizeMinTextSize">8sp</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">18sp</item>
+        <item name="autoSizeMinTextSize">8sp</item>
         <item name="android:lines">1</item>
     </style>
 
@@ -38,9 +39,9 @@
         <item name="android:padding">16dp</item>
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:autoSizeTextType">uniform</item>
-        <item name="android:autoSizeMaxTextSize">16sp</item>
-        <item name="android:autoSizeMinTextSize">8sp</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">16sp</item>
+        <item name="autoSizeMinTextSize">8sp</item>
     </style>
 
     <style name="fragment_title">
@@ -49,8 +50,10 @@
         <item name="android:layout_margin">16dp</item>
         <item name="android:background">@drawable/white_round_rectangle</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingHorizontal">24dp</item>
-        <item name="android:paddingVertical">4dp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
         <item name="android:textColor">@color/dark_blue</item>
         <item name="android:textSize">20sp</item>
     </style>
@@ -69,9 +72,22 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/white</item>
-        <item name="android:paddingHorizontal">4dp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="light_green_button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/light_green_round_rectangle</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.BodySmall</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

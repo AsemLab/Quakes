@@ -81,38 +81,30 @@
                     app:layout_constraintTop_toTopOf="@id/dateRange"
                     tools:visibility="visible" />
 
-                <Spinner
+                <TextView
                     android:id="@+id/regionSpinner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    style="@style/light_green_button"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/region_spinner"
-                    android:gravity="center"
-                    android:onItemSelected="@{viewModel::onRegionSelected}"
-                    android:padding="4dp"
-                    android:paddingStart="36dp"
+                    android:onClick="@{() -> viewModel.showRegionPopupMenu()}"
+                    android:text="@={viewModel.region}"
+                    app:drawableStartCompat="@drawable/ic_globe_black"
                     app:layout_constraintEnd_toEndOf="@+id/magTitle"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="@+id/backButton"
                     app:layout_constraintTop_toBottomOf="@+id/magTitle"
-                    tools:listitem="@layout/region_spinner_item" />
+                    tools:text="@string/region_all" />
 
-                <androidx.appcompat.widget.AppCompatButton
+                <TextView
                     android:id="@+id/sortSpinner"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/sort_spinner"
+                    style="@style/light_green_button"
                     android:onClick="@{() -> viewModel.showPopupMenu()}"
-                    android:paddingStart="48dp"
-                    android:text="@string/time"
-                    android:textAlignment="textStart"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:text="@={viewModel.sortText}"
+                    app:drawableStartCompat="@drawable/ic_sort"
                     app:layout_constraintBottom_toBottomOf="@+id/regionSpinner"
                     app:layout_constraintEnd_toEndOf="@+id/dateRange"
                     app:layout_constraintStart_toStartOf="@+id/magSlider"
-                    app:layout_constraintTop_toTopOf="@+id/regionSpinner" />
+                    app:layout_constraintTop_toTopOf="@+id/regionSpinner"
+                    tools:text="@string/time" />
 
                 <TextView
                     android:id="@+id/magTitle"
@@ -154,6 +146,14 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/searchGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".25" />
+
+
         <ProgressBar
             android:id="@+id/searchLoading"
             android:layout_width="64dp"
@@ -161,7 +161,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/searchGuide" />
 
         <TextView
             android:id="@+id/startSearch"
@@ -173,7 +173,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/searchGuide" />
 
         <TextView
             android:id="@+id/noResultsTV"
@@ -186,7 +186,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/searchGuide"
             tools:visibility="visible" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

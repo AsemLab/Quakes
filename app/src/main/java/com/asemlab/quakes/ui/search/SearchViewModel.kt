@@ -2,7 +2,7 @@ package com.asemlab.quakes.ui.search
 
 import android.content.Context
 import android.view.View
-import android.widget.AdapterView
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.util.Pair
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -34,19 +34,26 @@ class SearchViewModel @Inject constructor(
 ) : HomeViewModel(earthquakeManager) {
 
     private val _tempEvents = mutableListOf<EarthquakesUI>()
-    private var _region = "All"
+    var region = MutableLiveData("All")
     private val todayDate = Calendar.getInstance()
     lateinit var rangePicker: MaterialDatePicker<Pair<Long, Long>>
+    private lateinit var regionPopupMenu: PopupMenu
 
 
     private val fromDate = Calendar.getInstance()
     private val toDate = Calendar.getInstance()
     val fromDateText = MutableLiveData("")
     val toDateText = MutableLiveData("")
-    val sortText = MutableLiveData("")
+    val sortText = MutableLiveData("Time")
     val showStartSearch = MutableLiveData(true)
     private var values = listOf(0f, 8f)
 
+
+    init {
+        _uiState.update { currentUiState ->
+            currentUiState.copy(isLoading = false, userMessage = null)
+        }
+    }
 
     fun searchEvents(
         startTime: String,
@@ -64,7 +71,7 @@ class SearchViewModel @Inject constructor(
                 onSuccess = {
                     _tempEvents.clear()
                     _tempEvents.addAll(it)
-                    filterByRegion(_region)
+                    filterByRegion(region.value ?: "All")
                     sortEarthquakes(descending = _uiState.value.lastSortBy.isDesc())
                 },
                 onError = {
@@ -77,7 +84,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun filterByRegion(region: String) {
-        _region = region
+        this.region.postValue(region)
         _uiState.update { currentUiState ->
             currentUiState.copy(
                 data =
@@ -88,18 +95,6 @@ class SearchViewModel @Inject constructor(
                 isLoading = false,
                 lastSortBy = _uiState.value.lastSortBy
             )
-        }
-    }
-
-    fun onRegionSelected(
-        parent: AdapterView<*>?,
-        view: View?,
-        position: Int,
-        id: Long
-    ) {
-        view?.resources?.getStringArray(R.array.regions)?.let {
-            filterByRegion(it[position])
-            sortEarthquakes(descending = _uiState.value.lastSortBy.isDesc())
         }
     }
 
@@ -144,6 +139,7 @@ class SearchViewModel @Inject constructor(
             .setTextInputFormat(SimpleDateFormat(RANGE_DATE_FORMAT).also {
                 it.timeZone = TimeZone.getDefault()
             })
+            .setPositiveButtonText(context.getString(R.string.confirm))
             .setTitleText(context.getString(R.string.select_up_to_14_days))
             .setCalendarConstraints(
                 CalendarConstraints.Builder()
@@ -186,6 +182,24 @@ class SearchViewModel @Inject constructor(
 
             }
 
+        }
+    }
+
+    fun addRegionPopupMenu(view: View, onItemClick: (String) -> Unit) {
+        regionPopupMenu = PopupMenu(view.context, view).apply {
+            setOnMenuItemClickListener {
+                onItemClick(it.title.toString())
+                filterByRegion(it.title.toString())
+                sortEarthquakes(descending = _uiState.value.lastSortBy.isDesc())
+                return@setOnMenuItemClickListener true
+            }
+            inflate(R.menu.region_menu)
+        }
+    }
+
+    fun showRegionPopupMenu() {
+        if (::regionPopupMenu.isInitialized) {
+            regionPopupMenu.show()
         }
     }
 

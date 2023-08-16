@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -43,6 +42,7 @@ class SearchFragment : Fragment() {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         with(binding) {
+            lifecycleOwner = this@SearchFragment
             viewModel = this@SearchFragment.viewModel
             eventsRV.apply {
                 layoutManager = LinearLayoutManager(context)
@@ -69,13 +69,6 @@ class SearchFragment : Fragment() {
                 findNavController().navigateUp()
             }
 
-            regionSpinner.apply {
-                adapter = ArrayAdapter(
-                    requireContext(),
-                    R.layout.region_spinner_item,
-                    resources.getStringArray(R.array.regions)
-                )
-            }
 
             magSlider.addOnChangeListener { slider, value, fromUser ->
                 viewModel?.onMagSliderChanged(slider, value, fromUser)
@@ -92,6 +85,11 @@ class SearchFragment : Fragment() {
             addPopupMenu(binding.sortSpinner) {
                 sortText.postValue(it)
             }
+
+            addRegionPopupMenu(binding.regionSpinner) {
+                region.postValue(it)
+            }
+
             showStartSearch.observe(viewLifecycleOwner) {
                 binding.startSearch.isVisible = it
             }
@@ -111,9 +109,6 @@ class SearchFragment : Fragment() {
 
                 binding.dateRange.text = getString(R.string.from_to, from, to)
             }
-            sortText.observe(viewLifecycleOwner) {
-                binding.sortSpinner.text = it.ifEmpty { getString(R.string.time) }
-            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -129,7 +124,6 @@ class SearchFragment : Fragment() {
                     earthquakeUIAdapter.setEvents(it.data)
                     binding.noResultsTV.isVisible =
                         it.data.isEmpty() && !binding.startSearch.isVisible
-//                        Log.d("TAG", it.data.toString())
                 }
             }
         }
