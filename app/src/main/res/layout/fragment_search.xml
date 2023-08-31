@@ -13,195 +13,208 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
-            android:layout_width="0dp"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbarLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:contentScrim="@color/white"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <ImageButton
-                    android:id="@+id/backButton"
-                    style="@style/round_button"
-                    android:src="@drawable/ic_back"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/title"
-                    style="@style/fragment_title"
-                    android:text="@string/search_title"
-                    app:layout_constraintBottom_toBottomOf="@+id/backButton"
-                    app:layout_constraintStart_toEndOf="@id/backButton"
-                    app:layout_constraintTop_toTopOf="@id/backButton" />
-
-
-                <TextView
-                    android:id="@+id/dateRange"
-                    style="@style/details_title"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/gray_round_rectangle_ripple"
-                    android:paddingHorizontal="8dp"
-                    app:drawableStartCompat="@drawable/ic_calendar"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/backButton"
-                    app:layout_constraintTop_toBottomOf="@+id/backButton"
-                    tools:text="From ─ To" />
-
-                <TextView
-                    android:id="@+id/fromTitle"
-                    style="@style/text_header"
-                    android:layout_marginStart="44dp"
-                    android:text="@string/from_title"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@id/dateRange"
-                    app:layout_constraintStart_toStartOf="@id/dateRange"
-                    app:layout_constraintTop_toTopOf="@id/dateRange"
-                    tools:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/toTitle"
-                    style="@style/text_header"
-                    android:text="@string/to_title"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@id/dateRange"
-                    app:layout_constraintEnd_toEndOf="@id/dateRange"
-                    app:layout_constraintStart_toStartOf="@id/dateRange"
-                    app:layout_constraintTop_toTopOf="@id/dateRange"
-                    tools:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/regionSpinner"
-                    style="@style/light_green_button"
-                    android:layout_marginTop="16dp"
-                    android:onClick="@{() -> viewModel.showRegionPopupMenu()}"
-                    android:text="@={viewModel.region}"
-                    app:drawableStartCompat="@drawable/ic_globe_black"
-                    app:layout_constraintEnd_toEndOf="@+id/magTitle"
-                    app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toStartOf="@+id/backButton"
-                    app:layout_constraintTop_toBottomOf="@+id/magTitle"
-                    tools:text="@string/region_all" />
-
-                <TextView
-                    android:id="@+id/sortSpinner"
-                    style="@style/light_green_button"
-                    android:onClick="@{() -> viewModel.showPopupMenu()}"
-                    android:text="@={viewModel.sortText}"
-                    app:drawableStartCompat="@drawable/ic_sort"
-                    app:layout_constraintBottom_toBottomOf="@+id/regionSpinner"
-                    app:layout_constraintEnd_toEndOf="@+id/dateRange"
-                    app:layout_constraintStart_toStartOf="@+id/magSlider"
-                    app:layout_constraintTop_toTopOf="@+id/regionSpinner"
-                    tools:text="@string/time" />
-
-                <TextView
-                    android:id="@+id/magTitle"
-                    style="@style/details_title"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/magnitude"
-                    app:layout_constraintEnd_toStartOf="@id/magSlider"
-                    app:layout_constraintStart_toStartOf="@id/backButton"
-                    app:layout_constraintTop_toBottomOf="@+id/dateRange" />
-
-                <com.google.android.material.slider.RangeSlider
-                    android:id="@+id/magSlider"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:stepSize="0.5"
-                    android:valueFrom="0.0"
-                    android:valueTo="10.0"
-                    app:layout_constraintBottom_toBottomOf="@+id/magTitle"
-                    app:layout_constraintEnd_toEndOf="@id/dateRange"
-                    app:layout_constraintStart_toEndOf="@id/magTitle"
-                    app:layout_constraintTop_toTopOf="@+id/magTitle"
-                    app:values="@array/initial_slider_values" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/eventsRV"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/toolbarContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="64dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/regionSpinner"
-                    tools:itemCount="10"
-                    tools:listitem="@layout/quake_item" />
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    app:layout_collapseMode="parallax">
 
+                    <ImageButton
+                        android:id="@+id/backButton"
+                        style="@style/round_button"
+                        android:src="@drawable/ic_back"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+                    <TextView
+                        android:id="@+id/title"
+                        style="@style/fragment_title"
+                        android:text="@string/search_title"
+                        app:layout_constraintBottom_toBottomOf="@+id/backButton"
+                        app:layout_constraintStart_toEndOf="@id/backButton"
+                        app:layout_constraintTop_toTopOf="@id/backButton" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/searchGuide"
-            android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/dateRange"
+                        style="@style/details_title"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/gray_round_rectangle_ripple"
+                        android:paddingHorizontal="8dp"
+                        app:drawableStartCompat="@drawable/ic_calendar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/backButton"
+                        app:layout_constraintTop_toBottomOf="@+id/backButton"
+                        tools:text="From ─ To" />
+
+                    <TextView
+                        android:id="@+id/fromTitle"
+                        style="@style/text_header"
+                        android:layout_marginStart="44dp"
+                        android:text="@string/from_title"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toTopOf="@id/dateRange"
+                        app:layout_constraintStart_toStartOf="@id/dateRange"
+                        app:layout_constraintTop_toTopOf="@id/dateRange"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/toTitle"
+                        style="@style/text_header"
+                        android:text="@string/to_title"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toTopOf="@id/dateRange"
+                        app:layout_constraintEnd_toEndOf="@id/dateRange"
+                        app:layout_constraintStart_toStartOf="@id/dateRange"
+                        app:layout_constraintTop_toTopOf="@id/dateRange"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/regionSpinner"
+                        style="@style/light_green_button"
+                        android:layout_marginTop="16dp"
+                        android:onClick="@{() -> viewModel.showRegionPopupMenu()}"
+                        android:text="@={viewModel.region}"
+                        app:drawableStartCompat="@drawable/ic_globe_black"
+                        app:layout_constraintEnd_toEndOf="@+id/magTitle"
+                        app:layout_constraintHorizontal_chainStyle="spread"
+                        app:layout_constraintStart_toStartOf="@+id/backButton"
+                        app:layout_constraintTop_toBottomOf="@+id/magTitle"
+                        tools:text="@string/region_all" />
+
+                    <TextView
+                        android:id="@+id/sortSpinner"
+                        style="@style/light_green_button"
+                        android:onClick="@{() -> viewModel.showSortPopupMenu()}"
+                        android:text="@={viewModel.sortText}"
+                        app:drawableStartCompat="@drawable/ic_sort"
+                        app:layout_constraintBottom_toBottomOf="@+id/regionSpinner"
+                        app:layout_constraintEnd_toEndOf="@+id/dateRange"
+                        app:layout_constraintStart_toStartOf="@+id/magSlider"
+                        app:layout_constraintTop_toTopOf="@+id/regionSpinner"
+                        tools:text="@string/time" />
+
+                    <TextView
+                        android:id="@+id/magTitle"
+                        style="@style/details_title"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/magnitude"
+                        app:layout_constraintEnd_toStartOf="@id/magSlider"
+                        app:layout_constraintStart_toStartOf="@id/backButton"
+                        app:layout_constraintTop_toBottomOf="@+id/dateRange" />
+
+                    <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/magSlider"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:stepSize="0.5"
+                        android:valueFrom="0.0"
+                        android:valueTo="10.0"
+                        app:layout_constraintBottom_toBottomOf="@+id/magTitle"
+                        app:layout_constraintEnd_toEndOf="@id/dateRange"
+                        app:layout_constraintStart_toEndOf="@id/magTitle"
+                        app:layout_constraintTop_toTopOf="@+id/magTitle"
+                        app:values="@array/initial_slider_values" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/helpersContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="8dp">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/searchGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".25" />
+
+            <ProgressBar
+                android:id="@+id/searchLoading"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/searchGuide" />
+
+            <TextView
+                android:id="@+id/startSearch"
+                style="@style/details_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_search"
+                android:textColor="@color/dark_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/searchGuide" />
+
+            <TextView
+                android:id="@+id/noResultsTV"
+                style="@style/details_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_results"
+                android:textColor="@color/dark_blue"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/searchGuide"
+                tools:visibility="visible" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:onClick="@{(v) -> viewModel.onSearch(v)}"
+                android:text="@string/search_title"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_search"
+                app:iconTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/eventsRV"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".25" />
+            android:background="@color/white"
+            android:paddingTop="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:itemCount="10"
+            tools:listitem="@layout/quake_item" />
 
-
-        <ProgressBar
-            android:id="@+id/searchLoading"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/searchGuide" />
-
-        <TextView
-            android:id="@+id/startSearch"
-            style="@style/details_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/start_search"
-            android:textColor="@color/dark_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/searchGuide" />
-
-        <TextView
-            android:id="@+id/noResultsTV"
-            style="@style/details_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_results"
-            android:textColor="@color/dark_blue"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/searchGuide"
-            tools:visibility="visible" />
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:onClick="@{(v) -> viewModel.onSearch(v)}"
-            android:text="@string/search_title"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            app:icon="@drawable/ic_search"
-            app:iconTint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

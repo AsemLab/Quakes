@@ -1,11 +1,19 @@
 package com.asemlab.quakes.remote.repositories
 
 import android.content.Context
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.sqlite.db.SupportSQLiteQuery
+import com.asemlab.quakes.database.SearchQuakesPagingSource
 import com.asemlab.quakes.database.models.CountryData
 import com.asemlab.quakes.database.models.EarthquakeData
 import com.asemlab.quakes.database.models.UsaStateData
+import com.asemlab.quakes.ui.models.EQSort
 import com.asemlab.quakes.ui.models.EarthquakesUI
-import com.asemlab.quakes.ui.models.toEarthquakeUI
+import com.asemlab.quakes.utils.DEFAULT_PAGE_SIZE
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class EarthquakeManager
@@ -22,7 +30,7 @@ class EarthquakeManager
         endTime: String,
         context: Context,
         onStart: () -> Unit,
-        onSuccess: (List<EarthquakesUI>) -> Unit,
+        onSuccess: (List<EarthquakeData>) -> Unit,
         onError: (String?) -> Unit
     ) {
         onStart()
@@ -33,48 +41,66 @@ class EarthquakeManager
         if (!::countries.isInitialized) countries = countriesRepository.getAllCountries(onError)
         if (!::states.isInitialized) states = countriesRepository.getUsaStates(context)
 
-        val uiEvents = earthquakes.map { event ->
-            findCountryByEventTitle(event, states, countries)
-        }
-        onSuccess(uiEvents)
+        onSuccess(earthquakes)
     }
 
-    private fun findCountryByEventTitle(
-        event: EarthquakeData, states: List<UsaStateData>, countries: List<CountryData>
-    ): EarthquakesUI {
-        val nameFromTitle = event.properties?.place?.split(", ")?.last()
-        val state = states.firstOrNull {
-            it.name.equals(nameFromTitle, true) || it.code.equals(nameFromTitle, true)
-        }
-        val country = if (state == null) {
-            countries.firstOrNull {
-                it.name?.common?.equals(nameFromTitle, true) ?: false
-            }
-        } else {
-            countries.first {
-                it.cca2 == "US"
-            }
-        }
-        return event.toEarthquakeUI(country)
-    }
-
-    suspend fun getEarthquakesByMag(
+    fun getEarthquakesPagerByMag(
         startTime: String,
         endTime: String,
         minMagnitude: Double,
         maxMagnitude: Double,
-        onStart: () -> Unit,
-        onSuccess: (List<EarthquakesUI>) -> Unit,
+        region: String,
+        orderBy: EQSort,
         onError: (String?) -> Unit
-    ) {
-        val earthquakes = earthquakeRepository.getEarthquakesByMag(
-            startTime, endTime, minMagnitude, maxMagnitude, onStart, onError
-        )
-
-        val uiEvents = earthquakes.map { event ->
-            findCountryByEventTitle(event, states, countries)
-        }
-        onSuccess(uiEvents)
+    ): Flow<PagingData<EarthquakesUI>> {
+        return Pager(
+            config = PagingConfig(DEFAULT_PAGE_SIZE, enablePlaceholders = false),
+            pagingSourceFactory = {
+                SearchQuakesPagingSource(
+                    this,
+                    startTime,
+                    endTime,
+                    minMagnitude,
+                    maxMagnitude,
+                    onError,
+                    region, orderBy
+                )
+            }
+        ).flow
     }
 
+    suspend fun getEarthquakesByMag(
+        startTime: String, endTime: String, minMagnitude: Double, maxMagnitude: Double,
+        onStart: () -> Unit,
+        onError: (String?) -> Unit
+    ): List<EarthquakeData> {
+        return earthquakeRepository.getEarthquakesByMag(
+            startTime,
+            endTime,
+            minMagnitude,
+            maxMagnitude,
+            onStart,
+            onError
+        )
+    }
+
+    fun getCountries() = listOf(*countries.toTypedArray())
+    fun getStates() = listOf(*states.toTypedArray())
+
+    suspend fun insertEarthquakes(data: List<EarthquakesUI>) =
+        earthquakeRepository.insertEarthquakes(data)
+
+    suspend fun getEarthquakesUISize() = earthquakeRepository.getEarthquakesUISize()
+
+    suspend fun getEarthquakesUIOffset(query: SupportSQLiteQuery): List<EarthquakesUI> {
+        return earthquakeRepository.getEarthquakesUIOffset(query)
+    }
+
+    fun getOrderByQuery(region: String, sort: EQSort, offset: Int): SimpleSQLiteQuery {
+        return earthquakeRepository.getOrderByQuery(region, sort, offset)
+    }
+
+    suspend fun clearAllEarthquakes() {
+        earthquakeRepository.clearAllEarthquakes()
+    }
 }

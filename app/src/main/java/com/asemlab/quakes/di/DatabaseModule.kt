@@ -3,10 +3,6 @@ package com.asemlab.quakes.di
 import android.content.Context
 import androidx.room.Room
 import com.asemlab.quakes.database.EarthquakesDB
-import com.asemlab.quakes.database.typeconverters.FlagsConverter
-import com.asemlab.quakes.database.typeconverters.GeometryConverter
-import com.asemlab.quakes.database.typeconverters.NameConverter
-import com.asemlab.quakes.database.typeconverters.PropertiesConverter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +18,6 @@ class DatabaseModule {
     @Singleton
     fun provideEarthquakeDB(@ApplicationContext context: Context) =
         Room.databaseBuilder(context, EarthquakesDB::class.java, "earthquakes_db")
-            .addMigrations(EarthquakesDB.MIGRATION_1_2)
             .build()
 
     @Provides
@@ -32,5 +27,9 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun providerCountriesDao(earthquakesDB: EarthquakesDB) = earthquakesDB.getCountriesDao()
+
+    @Provides
+    @Singleton
+    fun providerEarthquakesUIDao(earthquakesDB: EarthquakesDB) = earthquakesDB.getEarthquakesUIDao()
 
 }

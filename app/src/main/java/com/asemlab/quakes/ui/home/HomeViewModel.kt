@@ -3,7 +3,6 @@ package com.asemlab.quakes.ui.home
 import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asemlab.quakes.R
@@ -13,6 +12,7 @@ import com.asemlab.quakes.ui.models.EQStateUI
 import com.asemlab.quakes.ui.models.isDesc
 import com.asemlab.quakes.ui.models.toAsc
 import com.asemlab.quakes.ui.models.toDesc
+import com.asemlab.quakes.utils.toEarthquakeUI
 import com.asemlab.quakes.utils.toSimpleDateFormat
 import com.asemlab.quakes.utils.tomorrowDate
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -29,7 +29,7 @@ open class HomeViewModel @Inject constructor(
     private val earthquakeManager: EarthquakeManager
 ) : ViewModel() {
 
-    protected val _uiState = MutableStateFlow(EQStateUI(isLoading = true))
+    private val _uiState = MutableStateFlow(EQStateUI(isLoading = true))
     var uiState: StateFlow<EQStateUI> = _uiState
     private lateinit var popupMenu: PopupMenu
     var bottomSheetState = BottomSheetBehavior.STATE_COLLAPSED
@@ -46,8 +46,10 @@ open class HomeViewModel @Inject constructor(
                     }
                 },
                 onSuccess = {
+                    val quakesUi = it.toEarthquakeUI(earthquakeManager.getStates(), earthquakeManager.getCountries())
+
                     _uiState.update { currentUiState ->
-                        currentUiState.copy(data = it, isLoading = false, userMessage = null)
+                        currentUiState.copy(data = quakesUi, isLoading = false, userMessage = null)
                     }
                     sortEarthquakes(descending = _uiState.value.lastSortBy.isDesc())
                 },

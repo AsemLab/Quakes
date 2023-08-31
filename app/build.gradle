@@ -22,7 +22,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String","LOCATION_IQ_KEY",LOCATION_IQ_KEY)
+        buildConfigField("String", "LOCATION_IQ_KEY", LOCATION_IQ_KEY)
     }
 
     buildTypes {
@@ -50,6 +50,8 @@ dependencies {
     def room_version = "2.5.0"
     def retrofit_version = "2.9.0"
     def glide_version = "4.15.0"
+    def paging_version = "3.1.1"
+
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -70,7 +72,7 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
-    kapt  "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
@@ -107,4 +109,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
 
+    // Pagination
+    implementation "androidx.paging:paging-runtime:$paging_version"
+
+    implementation 'com.blankj:utilcodex:1.31.1'
 }

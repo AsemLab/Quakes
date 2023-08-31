@@ -1,7 +1,7 @@
 package com.asemlab.quakes.di
 
 import com.asemlab.quakes.database.CountriesDao
-import com.asemlab.quakes.database.EarthquakesDao
+import com.asemlab.quakes.database.EarthquakesUIDao
 import com.asemlab.quakes.remote.repositories.CountriesRepository
 import com.asemlab.quakes.remote.repositories.EarthquakeManager
 import com.asemlab.quakes.remote.repositories.EarthquakeRepository
@@ -22,8 +22,8 @@ class RepositoriesModule {
     @Provides
     @Singleton
     fun providesEarthquakeRepository(
-        earthquakesDao: EarthquakesDao, earthquakeService: EarthquakeService
-    ) = EarthquakeRepository(earthquakesDao, earthquakeService)
+        earthquakesUIDao: EarthquakesUIDao, earthquakeService: EarthquakeService
+    ) = EarthquakeRepository(earthquakesUIDao, earthquakeService)
 
     @Provides
     @Singleton
