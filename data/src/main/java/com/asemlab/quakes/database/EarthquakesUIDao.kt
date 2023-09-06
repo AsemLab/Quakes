@@ -6,8 +6,8 @@ import androidx.room.Query
 import androidx.room.RawQuery
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
-import com.asemlab.quakes.ui.models.EQSort
-import com.asemlab.quakes.ui.models.EarthquakesUI
+import com.asemlab.quakes.database.models.EQSort
+import com.asemlab.quakes.database.models.EarthquakesUI
 import com.asemlab.quakes.utils.DEFAULT_PAGE_SIZE
 
 @Dao

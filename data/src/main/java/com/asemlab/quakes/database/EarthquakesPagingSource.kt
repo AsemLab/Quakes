@@ -2,11 +2,10 @@ package com.asemlab.quakes.database
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.asemlab.quakes.database.models.EQSort
+import com.asemlab.quakes.database.models.EarthquakesUI
+import com.asemlab.quakes.database.models.findCountryByEventTitle
 import com.asemlab.quakes.remote.repositories.EarthquakeManager
-import com.asemlab.quakes.ui.models.EQSort
-import com.asemlab.quakes.ui.models.EarthquakesUI
-import com.asemlab.quakes.utils.DEFAULT_PAGE_SIZE
-import com.asemlab.quakes.utils.findCountryByEventTitle
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,8 +50,7 @@ class SearchQuakesPagingSource(
                     }.await()
                     earthquakeManager.insertEarthquakes(
                         earthquakeData.map {
-                            findCountryByEventTitle(
-                                it,
+                            it.findCountryByEventTitle(
                                 earthquakeManager.getStates(),
                                 earthquakeManager.getCountries()
                             )
@@ -64,8 +62,8 @@ class SearchQuakesPagingSource(
 
                 LoadResult.Page(
                     data = result,
-                    prevKey = if (position == 0) null else position - DEFAULT_PAGE_SIZE,
-                    nextKey = if (result.isEmpty()) null else position + DEFAULT_PAGE_SIZE
+                    prevKey = if (position == 0) null else position - com.asemlab.quakes.utils.DEFAULT_PAGE_SIZE,
+                    nextKey = if (result.isEmpty()) null else position + com.asemlab.quakes.utils.DEFAULT_PAGE_SIZE
                 )
             } catch (e: Exception) {
                 LogUtils.e("SearchQuakesPaging", e.message ?: "")

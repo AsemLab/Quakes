@@ -7,13 +7,13 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.asemlab.quakes.database.models.CountryData
 import com.asemlab.quakes.database.models.EarthquakeData
+import com.asemlab.quakes.database.models.EarthquakesUI
 import com.asemlab.quakes.database.models.UsaStateData
 import com.asemlab.quakes.database.typeconverters.CoordinatesConverter
 import com.asemlab.quakes.database.typeconverters.FlagsConverter
 import com.asemlab.quakes.database.typeconverters.GeometryConverter
 import com.asemlab.quakes.database.typeconverters.NameConverter
 import com.asemlab.quakes.database.typeconverters.PropertiesConverter
-import com.asemlab.quakes.ui.models.EarthquakesUI
 
 @Database(
     entities = [EarthquakeData::class, CountryData::class, UsaStateData::class, EarthquakesUI::class],

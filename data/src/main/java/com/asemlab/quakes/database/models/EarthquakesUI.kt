@@ -1,11 +1,8 @@
-package com.asemlab.quakes.ui.models
+package com.asemlab.quakes.database.models
 
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.asemlab.quakes.database.models.CountryData
-import com.asemlab.quakes.database.models.EarthquakeData
-import com.asemlab.quakes.database.models.Flags
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -39,3 +36,27 @@ fun EarthquakeData.toEarthquakeUI(countryData: CountryData?): EarthquakesUI {
         countryData?.cca2
     )
 }
+
+fun EarthquakeData.findCountryByEventTitle(
+    states: List<UsaStateData>, countries: List<CountryData>
+): EarthquakesUI {
+    val nameFromTitle = properties?.place?.split(", ")?.last()
+    val state = states.firstOrNull {
+        it.name.equals(nameFromTitle, true) || it.code.equals(nameFromTitle, true)
+    }
+    val country = if (state == null) {
+        countries.firstOrNull {
+            it.name?.common?.equals(nameFromTitle, true) ?: false
+        }
+    } else {
+        countries.first {
+            it.cca2 == "US"
+        }
+    }
+    return toEarthquakeUI(country)
+}
+
+fun List<EarthquakeData>.toEarthquakeUI(states: List<UsaStateData>, countries: List<CountryData>) =
+    map { event ->
+        event.findCountryByEventTitle(states, countries)
+    }

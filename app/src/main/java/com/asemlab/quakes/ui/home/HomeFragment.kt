@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -16,7 +15,7 @@ import com.asemlab.quakes.R
 import com.asemlab.quakes.base.BaseFragment
 import com.asemlab.quakes.databinding.FragmentHomeBinding
 import com.asemlab.quakes.remote.FirebaseDB
-import com.asemlab.quakes.ui.models.EarthquakesUI
+import com.asemlab.quakes.database.models.EarthquakesUI
 import com.asemlab.quakes.ui.models.MarkerItem
 import com.asemlab.quakes.utils.ColorClusterRenderer
 import com.asemlab.quakes.utils.isConnected
@@ -79,7 +78,10 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         with(viewModel) {
             addPopupMenu(binding.sortButton) {}
             if (!isConnected(requireContext())) {
-                makeToast(requireContext(), getString(R.string.no_internet_connection))
+                makeToast(
+                    requireContext(),
+                    getString(R.string.no_internet_connection)
+                )
             } else {
                 viewModel.getLastEarthquakes(requireContext())
             }
@@ -171,7 +173,8 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
     private fun setUpCluster() {
         clusterManager = ClusterManager(requireContext(), map)
         with(clusterManager) {
-            val renderer = ColorClusterRenderer(requireContext(), map, clusterManager)
+            val renderer =
+                ColorClusterRenderer(requireContext(), map, clusterManager)
             this.renderer = renderer
             setOnClusterItemInfoWindowClickListener { event ->
                 val e = viewModel.uiState.value.data.firstOrNull {

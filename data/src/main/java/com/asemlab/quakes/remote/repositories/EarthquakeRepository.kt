@@ -4,12 +4,12 @@ import android.util.Log
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.asemlab.quakes.database.EarthquakesUIDao
+import com.asemlab.quakes.database.models.EQSort
 import com.asemlab.quakes.database.models.EarthquakeData
+import com.asemlab.quakes.database.models.EarthquakesUI
 import com.asemlab.quakes.remote.performOnError
 import com.asemlab.quakes.remote.performOnSuccess
 import com.asemlab.quakes.remote.services.EarthquakeService
-import com.asemlab.quakes.ui.models.EQSort
-import com.asemlab.quakes.ui.models.EarthquakesUI
 import com.asemlab.quakes.utils.performRequest
 import javax.inject.Inject
 

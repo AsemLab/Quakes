@@ -6,13 +6,13 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asemlab.quakes.R
+import com.asemlab.quakes.database.models.EQSort
+import com.asemlab.quakes.database.models.isDesc
+import com.asemlab.quakes.database.models.toAsc
+import com.asemlab.quakes.database.models.toDesc
+import com.asemlab.quakes.database.models.toEarthquakeUI
 import com.asemlab.quakes.remote.repositories.EarthquakeManager
-import com.asemlab.quakes.ui.models.EQSort
 import com.asemlab.quakes.ui.models.EQStateUI
-import com.asemlab.quakes.ui.models.isDesc
-import com.asemlab.quakes.ui.models.toAsc
-import com.asemlab.quakes.ui.models.toDesc
-import com.asemlab.quakes.utils.toEarthquakeUI
 import com.asemlab.quakes.utils.toSimpleDateFormat
 import com.asemlab.quakes.utils.tomorrowDate
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,7 +46,10 @@ open class HomeViewModel @Inject constructor(
                     }
                 },
                 onSuccess = {
-                    val quakesUi = it.toEarthquakeUI(earthquakeManager.getStates(), earthquakeManager.getCountries())
+                    val quakesUi = it.toEarthquakeUI(
+                        earthquakeManager.getStates(),
+                        earthquakeManager.getCountries()
+                    )
 
                     _uiState.update { currentUiState ->
                         currentUiState.copy(data = quakesUi, isLoading = false, userMessage = null)
@@ -84,6 +87,7 @@ open class HomeViewModel @Inject constructor(
             }
         }
     }
+
     fun addPopupMenu(view: View, onItemClick: (String) -> Unit) {
         popupMenu = PopupMenu(view.context, view).apply {
             setOnMenuItemClickListener {

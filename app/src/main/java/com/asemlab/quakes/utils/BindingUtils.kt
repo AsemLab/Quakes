@@ -13,7 +13,7 @@ import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.asemlab.quakes.R
-import com.asemlab.quakes.ui.models.EarthquakesUI
+import com.asemlab.quakes.database.models.EarthquakesUI
 import com.bumptech.glide.Glide
 import java.io.FileNotFoundException
 import java.util.*
@@ -88,12 +88,15 @@ fun TextView.colorMagnitude(mag: Double) {
         mag < 3.0 -> {
             R.color.green
         }
+
         mag < 6.0 -> {
             R.color.yellow
         }
+
         mag < 7.5 -> {
             R.color.red
         }
+
         else -> {
             R.color.green
         }

@@ -7,13 +7,13 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.asemlab.quakes.BuildConfig
 import com.asemlab.quakes.R
 import com.asemlab.quakes.remote.FirebaseDB
+import com.blankj.utilcode.util.LogUtils
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,12 +59,12 @@ class MainActivity : AppCompatActivity() {
     private fun getFCMToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.e(TAG, "Fetching FCM registration token failed", task.exception)
+                LogUtils.e("Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
 
             if (BuildConfig.DEBUG)
-                Log.d(TAG, task.result)
+                LogUtils.d("FCM Token", task.result)
         })
     }
 }

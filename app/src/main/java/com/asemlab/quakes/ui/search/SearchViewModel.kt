@@ -9,13 +9,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.asemlab.quakes.R
+import com.asemlab.quakes.database.models.EQSort
+import com.asemlab.quakes.database.models.isDesc
+import com.asemlab.quakes.database.models.toAsc
+import com.asemlab.quakes.database.models.toDesc
 import com.asemlab.quakes.remote.repositories.EarthquakeManager
 import com.asemlab.quakes.ui.models.DateRangeValidator
 import com.asemlab.quakes.ui.models.EQSearchStateUI
-import com.asemlab.quakes.ui.models.EQSort
-import com.asemlab.quakes.ui.models.isDesc
-import com.asemlab.quakes.ui.models.toAsc
-import com.asemlab.quakes.ui.models.toDesc
 import com.asemlab.quakes.utils.RANGE_DATE_FORMAT
 import com.asemlab.quakes.utils.isConnected
 import com.asemlab.quakes.utils.makeToast
@@ -25,7 +25,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -107,12 +106,18 @@ class SearchViewModel @Inject constructor(
     fun onSearch(view: View) {
 
         if (!isConnected(view.context)) {
-            makeToast(view.context, view.context.getString(R.string.no_internet_connection))
+            makeToast(
+                view.context,
+                view.context.getString(R.string.no_internet_connection)
+            )
             return
         }
 
         if (fromDate.timeInMillis == toDate.timeInMillis) {
-            makeToast(view.context, view.context.getString(R.string.please_select_a_date))
+            makeToast(
+                view.context,
+                view.context.getString(R.string.please_select_a_date)
+            )
             return
         }
         clearData()
@@ -189,7 +194,12 @@ class SearchViewModel @Inject constructor(
         regionPopupMenu = PopupMenu(view.context, view).apply {
             setOnMenuItemClickListener {
                 onItemClick(it.title.toString())
-                filterByRegion(it.title.toString()) { e -> makeToast(view.context, e) }
+                filterByRegion(it.title.toString()) { e ->
+                    makeToast(
+                        view.context,
+                        e
+                    )
+                }
                 return@setOnMenuItemClickListener true
             }
             inflate(R.menu.region_menu)
