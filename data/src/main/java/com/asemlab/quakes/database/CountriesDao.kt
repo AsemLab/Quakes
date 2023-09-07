@@ -10,17 +10,17 @@ import com.asemlab.quakes.database.models.UsaStateData
 interface CountriesDao {
 
     @Insert
-    suspend fun insertAll(countryData: List<CountryData>)
+    fun insertAll(countryData: List<CountryData>)
 
     @Query("SELECT * FROM countries")
-    suspend fun getAllCountries(): List<CountryData>
+    fun getAllCountries(): List<CountryData>
 
     @Query("DELETE FROM countries")
-    suspend fun clearCountries()
+    fun clearCountries()
 
     @Insert
-    suspend fun insertAllStates(states: List<UsaStateData>)
+    fun insertAllStates(states: List<UsaStateData>)
 
     @Query("SELECT * FROM usa_states")
-    suspend fun getAllStates(): List<UsaStateData>
+    fun getAllStates(): List<UsaStateData>
 }

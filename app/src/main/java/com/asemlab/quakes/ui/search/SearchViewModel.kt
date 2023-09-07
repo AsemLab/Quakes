@@ -134,7 +134,9 @@ class SearchViewModel @Inject constructor(
 
     private fun clearData() {
         viewModelScope.launch {
-            earthquakeManager.clearAllEarthquakes()
+            withContext(Dispatchers.IO) {
+                earthquakeManager.clearAllEarthquakes()
+            }
         }
     }
 

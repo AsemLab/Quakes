@@ -12,11 +12,11 @@ data class CountryData(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
     @SerializedName("cca2")
-    val cca2: String? = null,
+    var cca2: String? = null,
     @SerializedName("flags")
-    val flags: Flags? = null,
+    var flags: Flags? = null,
     @SerializedName("name")
-    val name: Name? = null,
+    var name: Name? = null,
     @SerializedName("region")
-    val region: String? = null
+    var region: String? = null
 )

@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace 'com.asemlab.quakes'
-    compileSdk 33
 
     defaultConfig {
         minSdk 22
-        targetSdk 33
+        targetSdk 34
+        compileSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -48,7 +48,7 @@ dependencies {
     kapt libs.androidx.room.compiler
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:32.2.0')
+    implementation platform('com.google.firebase:firebase-bom:32.2.3')
     implementation 'com.google.firebase:firebase-database-ktx'
 
     // Coroutines

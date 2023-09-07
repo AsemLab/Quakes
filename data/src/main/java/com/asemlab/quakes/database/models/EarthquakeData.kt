@@ -12,9 +12,9 @@ data class EarthquakeData(
     @PrimaryKey(autoGenerate = true)
     var rowId: Int? = null,
     @SerializedName("geometry")
-    val geometry: Geometry? = null,
+    var geometry: Geometry? = null,
     @SerializedName("id")
-    val serverId: String? = null,
+    var serverId: String? = null,
     @SerializedName("properties")
-    val properties: Properties? = null
+    var properties: Properties? = null
 )

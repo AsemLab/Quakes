@@ -25,5 +25,9 @@ data class MarkerItem(
         return markerSnippet
     }
 
+    override fun getZIndex(): Float? {
+        return 0f
+    }
+
 }
 

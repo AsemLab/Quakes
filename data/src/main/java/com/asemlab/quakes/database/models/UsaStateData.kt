@@ -12,7 +12,7 @@ data class UsaStateData(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
     @SerializedName("code")
-    val code: String? = null,
+    var code: String? = null,
     @SerializedName("name")
-    val name: String? = null
+    var name: String? = null
 )

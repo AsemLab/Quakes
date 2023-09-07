@@ -13,7 +13,9 @@ import com.asemlab.quakes.database.models.EarthquakeData
 import com.asemlab.quakes.database.models.EarthquakesUI
 import com.asemlab.quakes.database.models.UsaStateData
 import com.asemlab.quakes.utils.DEFAULT_PAGE_SIZE
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class EarthquakeManager
@@ -37,11 +39,12 @@ class EarthquakeManager
         val earthquakes = earthquakeRepository.getEarthquakes(
             startTime, endTime, onError
         )
+        withContext(Dispatchers.IO) {
+            if (!::countries.isInitialized) countries = countriesRepository.getAllCountries(onError)
+            if (!::states.isInitialized) states = countriesRepository.getUsaStates(context)
 
-        if (!::countries.isInitialized) countries = countriesRepository.getAllCountries(onError)
-        if (!::states.isInitialized) states = countriesRepository.getUsaStates(context)
-
-        onSuccess(earthquakes)
+            onSuccess(earthquakes)
+        }
     }
 
     fun getEarthquakesPagerByMag(

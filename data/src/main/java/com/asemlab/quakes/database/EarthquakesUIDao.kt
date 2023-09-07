@@ -14,22 +14,22 @@ import com.asemlab.quakes.utils.DEFAULT_PAGE_SIZE
 interface EarthquakesUIDao {
 
     @Insert
-    suspend fun insertEarthquakesUIAll(earthquakeUI: List<EarthquakesUI>)
+    fun insertEarthquakesUIAll(earthquakeUI: List<EarthquakesUI>)
 
     @Query("SELECT * FROM earthquakes_ui")
-    suspend fun getAllEarthquakesUI(): List<EarthquakesUI>
+    fun getAllEarthquakesUI(): List<EarthquakesUI>
 
     @Query("DELETE FROM earthquakes_ui")
-    suspend fun clearEarthquakesUI()
+    fun clearEarthquakesUI()
 
     @RawQuery
-    suspend fun getEarthquakesUIOffset(query: SupportSQLiteQuery): List<EarthquakesUI>
+    fun getEarthquakesUIOffset(query: SupportSQLiteQuery): List<EarthquakesUI>
 
     @Query("DELETE FROM sqlite_sequence WHERE name  = 'earthquakes_ui'")
-    suspend fun clearEarthquakesUIPrimaryKey()
+    fun clearEarthquakesUIPrimaryKey()
 
     @Query("SELECT count(*) FROM earthquakes_ui")
-    suspend fun getEarthquakesUISize(): Int
+    fun getEarthquakesUISize(): Int
 
     fun getOrderByQuery(region: String, sort: EQSort, offset: Int): SimpleSQLiteQuery {
         val orderBy = when (sort) {

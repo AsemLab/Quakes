@@ -13,7 +13,7 @@ data class EarthquakesUI(
     var mag: Double? = null,
     var place: String? = null,
     var time: Long? = null,
-    val coordinates: List<Double?>? = null,
+    var coordinates: List<Double?>? = null,
     var flags: Flags? = null,
     var name: String? = null,
     var region: String? = null,

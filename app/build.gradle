@@ -11,12 +11,12 @@ plugins {
 
 android {
     namespace 'com.asemlab.quakes'
-    compileSdk 33
 
     defaultConfig {
         applicationId "com.asemlab.quakes"
         minSdk 22
-        targetSdk 33
+        compileSdk 34
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -85,7 +85,7 @@ dependencies {
     implementation libs.androidx.core.splashscreen
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:32.2.0')
+    implementation platform('com.google.firebase:firebase-bom:32.2.3')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
