@@ -1,8 +1,8 @@
 plugins {
-    id 'kotlin-kapt'
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-parcelize'
+    alias libs.plugins.android.library
+    alias libs.plugins.kotlin.plugin
+    alias libs.plugins.kotlin.kapt
+    alias libs.plugins.kotlin.parcelize
 }
 
 android {
@@ -37,43 +37,37 @@ android {
 
 dependencies {
 
-    def room_version = "2.5.0"
-    def retrofit_version = "2.9.0"
-    def paging_version = "3.1.1"
-
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation libs.androidx.core.ktx
+    implementation libs.appcompat
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
 
     // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    implementation libs.androidx.room.runtime
+    implementation libs.androidx.room.ktx
+    kapt libs.androidx.room.compiler
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:32.2.0')
     implementation 'com.google.firebase:firebase-database-ktx'
 
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation libs.kotlinx.coroutines.android
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:2.44.2"
-    kapt "com.google.dagger:hilt-compiler:2.44.2"
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.google.code.gson:gson:$retrofit_version"
-    implementation 'com.squareup.okhttp3:okhttp-bom:4.10.0'
+    implementation libs.retrofit
+    implementation libs.converter.gson
+    implementation libs.gson
+    implementation platform('com.squareup.okhttp3:okhttp-bom:4.10.0')
     implementation 'com.squareup.okhttp3:okhttp'
     implementation 'com.squareup.okhttp3:logging-interceptor'
 
     // Pagination
-    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation libs.androidx.paging.runtime
 
-    implementation 'com.blankj:utilcodex:1.31.1'
+    implementation libs.utilcodex
 }

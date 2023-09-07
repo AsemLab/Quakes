@@ -1,12 +1,12 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'com.google.dagger.hilt.android'
-    id 'kotlin-parcelize'
-    id 'androidx.navigation.safeargs'
-    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-    id 'com.google.gms.google-services'
+    alias libs.plugins.android.application
+    alias libs.plugins.kotlin.kapt
+    alias libs.plugins.kotlin.plugin
+    alias libs.plugins.kotlin.parcelize
+    alias libs.plugins.hilt.plugin
+    alias libs.plugins.navigation.safeargs
+    alias libs.plugins.google.maps
+    alias libs.plugins.google.services
 }
 
 android {
@@ -34,6 +34,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -43,51 +44,45 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation project(":data")
 
-    def nav_version = "2.5.3"
-    def lifecycle_version = "2.6.0"
-    def glide_version = "4.15.0"
-    def paging_version = "3.1.1"
-
-
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation libs.androidx.legacy.support.v4
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.constraintlayout
+    implementation libs.appcompat
+    implementation libs.android.material
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation libs.androidx.navigation.fragment.ktx
+    implementation libs.androidx.navigation.ui.ktx
 
     // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.lifecycle.livedata.ktx
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:2.44.2"
-    kapt "com.google.dagger:hilt-compiler:2.44.2"
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation libs.kotlinx.coroutines.android
 
     //Glide
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
-    implementation "io.coil-kt:coil:2.3.0"
-    implementation "io.coil-kt:coil-svg:2.3.0"
+    implementation libs.glide
+    kapt libs.glide.compiler
+    implementation libs.coil
+    implementation libs.coil.svg
 
     // Google Maps
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
-    implementation 'com.google.maps.android:android-maps-utils:2.3.0'
-    implementation 'com.google.maps.android:maps-utils-ktx:3.4.0'
+    implementation libs.play.services.maps
+    implementation libs.android.maps.utils
+    implementation libs.maps.utils.ktx
 
     // Splash screen API
-    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
+    implementation libs.androidx.core.splashscreen
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:32.2.0')
@@ -95,7 +90,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
     // Pagination
-    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation libs.androidx.paging.runtime
 
-    implementation 'com.blankj:utilcodex:1.31.1'
+    implementation libs.utilcodex
 }

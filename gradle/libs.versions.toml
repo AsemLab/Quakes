@@ -1,0 +1,77 @@
+[versions]
+android-maps-utils = "2.4.0"
+androidx-junit = "1.1.5"
+coil-svg = "2.3.0"
+coil = "2.3.0"
+constraintlayout = "2.1.4"
+converter-gson = "2.9.0"
+core-ktx = "1.7.0"
+core-splashscreen = "1.0.0-beta02"
+espresso-core = "3.5.1"
+glide = "4.15.0"
+gson = "2.9.0"
+hilt-android = "2.44.2"
+junit = "4.13.2"
+kotlinx-coroutines-android = "1.6.4"
+legacy-support-v4 = "1.0.0"
+appcompat = "1.6.1"
+android-material = "1.8.0"
+lifecycle-viewmodel-ktx = "2.6.1"
+maps-utils-ktx = "3.4.0"
+navigation-android = "2.5.3"
+paging-runtime = "3.1.1"
+play-services-maps = "18.1.0"
+retrofit = "2.9.0"
+room-runtime = "2.5.0"
+utilcodex = "1.31.1"
+agp = "7.4.0"
+kotlin-android = "1.8.10"
+hilt-plugin = "2.44"
+android-library = "7.4.0"
+google-maps-plugin = "2.0.1"
+google-services-plugin = "4.3.15"
+
+[libraries]
+android-maps-utils = { module = "com.google.maps.android:android-maps-utils", version.ref = "android-maps-utils" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+androidx-legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacy-support-v4" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-viewmodel-ktx" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel-ktx" }
+androidx-navigation-fragment-ktx= { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation-android" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation-android" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging-runtime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room-runtime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room-runtime" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-runtime" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+android-material = { module = "com.google.android.material:material", version.ref = "android-material" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil-svg" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converter-gson" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-android" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
+maps-utils-ktx = { module = "com.google.maps.android:maps-utils-ktx", version.ref = "maps-utils-ktx" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "play-services-maps" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+utilcodex = { module = "com.blankj:utilcodex", version.ref = "utilcodex" }
+
+[plugins]
+
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-android" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin-android" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-plugin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
+hilt-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt-plugin" }
+android-library = { id = "com.android.library", version.ref = "android-library" }
+google-maps = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "google-maps-plugin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services-plugin" }
+navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigation-android" }
