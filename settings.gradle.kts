@@ -3,7 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven { url 'https://jitpack.io' }
+        maven ( url = "https://jitpack.io" )
     }
 }
 dependencyResolutionManagement {
@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Quakes"
-include ':app'
-include ':data'
+include(":app")
+include(":data")
