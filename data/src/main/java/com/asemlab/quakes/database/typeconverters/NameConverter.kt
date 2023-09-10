@@ -1,7 +1,7 @@
 package com.asemlab.quakes.database.typeconverters
 
 import androidx.room.TypeConverter
-import com.asemlab.quakes.database.models.Name
+import com.asemlab.quakes.model.Name
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

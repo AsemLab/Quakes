@@ -13,7 +13,7 @@ import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.asemlab.quakes.R
-import com.asemlab.quakes.database.models.EarthquakesUI
+import com.asemlab.quakes.model.EarthquakesUI
 import com.bumptech.glide.Glide
 import java.io.FileNotFoundException
 import java.util.*

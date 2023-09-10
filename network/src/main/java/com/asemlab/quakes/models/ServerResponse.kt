@@ -1,4 +1,4 @@
-package com.asemlab.quakes.remote
+package com.asemlab.quakes.models
 
 
 sealed class ServerResponse<T> {
@@ -10,7 +10,7 @@ sealed class ServerResponse<T> {
     data class Exception<T>(val error: Throwable) : ServerResponse<T>()
 }
 
-suspend fun <T> ServerResponse<T>.performOnSuccess(onSuccess :suspend (T) -> Unit): ServerResponse<T>{
+suspend fun <T> ServerResponse<T>.performOnSuccess(onSuccess :suspend (T) -> Unit): ServerResponse<T> {
     if(this is ServerResponse.Success){
         onSuccess(responseData)
     }
@@ -18,7 +18,7 @@ suspend fun <T> ServerResponse<T>.performOnSuccess(onSuccess :suspend (T) -> Uni
     return this
 }
 
-fun <T> ServerResponse<T>.performOnError(onError : (String) -> Unit): ServerResponse<T>{
+fun <T> ServerResponse<T>.performOnError(onError : (String) -> Unit): ServerResponse<T> {
     if(this is ServerResponse.Error){
         onError(errorBody)
     }

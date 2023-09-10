@@ -1,9 +1,10 @@
 package com.asemlab.quakes.di
 
-import com.asemlab.quakes.BuildConfig
-import com.asemlab.quakes.remote.services.CountriesService
-import com.asemlab.quakes.remote.services.EarthquakeService
-import com.asemlab.quakes.remote.services.GeoLocationService
+
+import com.asemlab.quakes.network.BuildConfig
+import com.asemlab.quakes.services.CountriesService
+import com.asemlab.quakes.services.EarthquakeService
+import com.asemlab.quakes.services.GeoLocationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,8 +1,8 @@
 package com.asemlab.quakes.ui.models
 
 import androidx.paging.PagingData
-import com.asemlab.quakes.database.models.EQSort
-import com.asemlab.quakes.database.models.EarthquakesUI
+import com.asemlab.quakes.model.EQSort
+import com.asemlab.quakes.model.EarthquakesUI
 
 data class EQStateUI(
     val data: List<EarthquakesUI> = emptyList(),

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.asemlab.quakes.database.models.EarthquakesUI
+import com.asemlab.quakes.model.EarthquakesUI
 import com.asemlab.quakes.databinding.QuakeItemBinding
 
 class EarthquakesPagingAdapter(

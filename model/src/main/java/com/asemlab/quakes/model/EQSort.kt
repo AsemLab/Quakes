@@ -1,4 +1,4 @@
-package com.asemlab.quakes.database.models
+package com.asemlab.quakes.model
 
 enum class EQSort {
     TIME, MAG, NAME, TIME_DEC, MAG_DEC, NAME_DEC

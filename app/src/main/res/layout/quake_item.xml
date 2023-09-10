@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="com.asemlab.quakes.database.models.EarthquakesUI" />
+        <import type="com.asemlab.quakes.model.EarthquakesUI" />
 
         <variable
             name="event"
-            type="com.asemlab.quakes.database.models.EarthquakesUI" />
+            type="com.asemlab.quakes.model.EarthquakesUI" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

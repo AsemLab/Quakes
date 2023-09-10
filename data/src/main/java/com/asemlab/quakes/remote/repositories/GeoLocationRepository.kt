@@ -1,10 +1,10 @@
 package com.asemlab.quakes.remote.repositories
 
 import com.asemlab.quakes.BuildConfig
-import com.asemlab.quakes.database.models.GeoLocationData
-import com.asemlab.quakes.remote.performOnError
-import com.asemlab.quakes.remote.performOnSuccess
-import com.asemlab.quakes.remote.services.GeoLocationService
+import com.asemlab.quakes.model.GeoLocationData
+import com.asemlab.quakes.models.performOnError
+import com.asemlab.quakes.models.performOnSuccess
+import com.asemlab.quakes.services.GeoLocationService
 import com.asemlab.quakes.utils.performRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

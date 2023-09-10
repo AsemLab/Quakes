@@ -6,11 +6,11 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asemlab.quakes.R
-import com.asemlab.quakes.database.models.EQSort
-import com.asemlab.quakes.database.models.isDesc
-import com.asemlab.quakes.database.models.toAsc
-import com.asemlab.quakes.database.models.toDesc
-import com.asemlab.quakes.database.models.toEarthquakeUI
+import com.asemlab.quakes.model.EQSort
+import com.asemlab.quakes.model.isDesc
+import com.asemlab.quakes.model.toAsc
+import com.asemlab.quakes.model.toDesc
+import com.asemlab.quakes.model.toEarthquakeUI
 import com.asemlab.quakes.remote.repositories.EarthquakeManager
 import com.asemlab.quakes.ui.models.EQStateUI
 import com.asemlab.quakes.utils.toSimpleDateFormat

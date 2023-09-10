@@ -2,9 +2,9 @@ package com.asemlab.quakes.database
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.asemlab.quakes.database.models.EQSort
-import com.asemlab.quakes.database.models.EarthquakesUI
-import com.asemlab.quakes.database.models.findCountryByEventTitle
+import com.asemlab.quakes.model.EQSort
+import com.asemlab.quakes.model.EarthquakesUI
+import com.asemlab.quakes.model.findCountryByEventTitle
 import com.asemlab.quakes.remote.repositories.EarthquakeManager
 import com.blankj.utilcode.util.LogUtils
 import kotlinx.coroutines.CoroutineScope

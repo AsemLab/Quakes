@@ -3,7 +3,7 @@ package com.asemlab.quakes.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.asemlab.quakes.database.models.EarthquakeData
+import com.asemlab.quakes.model.EarthquakeData
 import com.asemlab.quakes.utils.DEFAULT_PAGE_SIZE
 
 @Dao

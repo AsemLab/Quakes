@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 rootProject.name = "Quakes"
 include(":app")
 include(":data")
+include(":network")
+include(":model")

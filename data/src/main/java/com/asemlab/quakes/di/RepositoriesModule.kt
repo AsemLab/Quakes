@@ -6,9 +6,9 @@ import com.asemlab.quakes.remote.repositories.CountriesRepository
 import com.asemlab.quakes.remote.repositories.EarthquakeManager
 import com.asemlab.quakes.remote.repositories.EarthquakeRepository
 import com.asemlab.quakes.remote.repositories.GeoLocationRepository
-import com.asemlab.quakes.remote.services.CountriesService
-import com.asemlab.quakes.remote.services.EarthquakeService
-import com.asemlab.quakes.remote.services.GeoLocationService
+import com.asemlab.quakes.services.CountriesService
+import com.asemlab.quakes.services.EarthquakeService
+import com.asemlab.quakes.services.GeoLocationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

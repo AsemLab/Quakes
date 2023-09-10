@@ -2,12 +2,12 @@ package com.asemlab.quakes.remote.repositories
 
 import android.content.Context
 import com.asemlab.quakes.database.CountriesDao
-import com.asemlab.quakes.database.models.CountryData
-import com.asemlab.quakes.database.models.UsaStateData
+import com.asemlab.quakes.model.UsaStateData
 import com.asemlab.quakes.database.typeconverters.UsaStateConverter
-import com.asemlab.quakes.remote.performOnError
-import com.asemlab.quakes.remote.performOnSuccess
-import com.asemlab.quakes.remote.services.CountriesService
+import com.asemlab.quakes.model.CountryData
+import com.asemlab.quakes.models.performOnError
+import com.asemlab.quakes.models.performOnSuccess
+import com.asemlab.quakes.services.CountriesService
 import com.asemlab.quakes.utils.performRequest
 import org.json.JSONArray
 import javax.inject.Inject

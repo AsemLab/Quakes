@@ -7,11 +7,11 @@ import androidx.paging.PagingData
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.asemlab.quakes.database.SearchQuakesPagingSource
-import com.asemlab.quakes.database.models.CountryData
-import com.asemlab.quakes.database.models.EQSort
-import com.asemlab.quakes.database.models.EarthquakeData
-import com.asemlab.quakes.database.models.EarthquakesUI
-import com.asemlab.quakes.database.models.UsaStateData
+import com.asemlab.quakes.model.EQSort
+import com.asemlab.quakes.model.EarthquakesUI
+import com.asemlab.quakes.model.UsaStateData
+import com.asemlab.quakes.model.CountryData
+import com.asemlab.quakes.model.EarthquakeData
 import com.asemlab.quakes.utils.DEFAULT_PAGE_SIZE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

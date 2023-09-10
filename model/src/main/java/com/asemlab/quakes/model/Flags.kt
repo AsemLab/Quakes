@@ -1,4 +1,4 @@
-package com.asemlab.quakes.database.models
+package com.asemlab.quakes.model
 
 
 import android.os.Parcelable

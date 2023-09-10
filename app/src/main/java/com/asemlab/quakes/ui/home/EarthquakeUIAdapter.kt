@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.asemlab.quakes.databinding.QuakeItemBinding
- import com.asemlab.quakes.database.models.EarthquakesUI
+import com.asemlab.quakes.model.EarthquakesUI
 
 class EarthquakeUIAdapter(
     private var events: List<EarthquakesUI>,

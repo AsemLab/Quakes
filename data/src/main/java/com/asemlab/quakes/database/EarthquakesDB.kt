@@ -5,10 +5,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.asemlab.quakes.database.models.CountryData
-import com.asemlab.quakes.database.models.EarthquakeData
-import com.asemlab.quakes.database.models.EarthquakesUI
-import com.asemlab.quakes.database.models.UsaStateData
+import com.asemlab.quakes.model.CountryData
+import com.asemlab.quakes.model.EarthquakeData
+import com.asemlab.quakes.model.EarthquakesUI
+import com.asemlab.quakes.model.UsaStateData
 import com.asemlab.quakes.database.typeconverters.CoordinatesConverter
 import com.asemlab.quakes.database.typeconverters.FlagsConverter
 import com.asemlab.quakes.database.typeconverters.GeometryConverter

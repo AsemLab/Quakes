@@ -3,7 +3,7 @@ package com.asemlab.quakes.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
-import com.asemlab.quakes.remote.ServerResponse
+import com.asemlab.quakes.models.ServerResponse
 import retrofit2.Response
 
 suspend fun <T> performRequest(request: suspend () -> Response<T>): ServerResponse<T> {

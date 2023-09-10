@@ -15,7 +15,7 @@ import com.asemlab.quakes.R
 import com.asemlab.quakes.base.BaseFragment
 import com.asemlab.quakes.databinding.FragmentHomeBinding
 import com.asemlab.quakes.remote.FirebaseDB
-import com.asemlab.quakes.database.models.EarthquakesUI
+import com.asemlab.quakes.model.EarthquakesUI
 import com.asemlab.quakes.ui.models.MarkerItem
 import com.asemlab.quakes.utils.ColorClusterRenderer
 import com.asemlab.quakes.utils.isConnected

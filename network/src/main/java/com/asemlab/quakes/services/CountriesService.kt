@@ -1,6 +1,6 @@
-package com.asemlab.quakes.remote.services
+package com.asemlab.quakes.services
 
-import com.asemlab.quakes.database.models.CountryData
+import com.asemlab.quakes.model.CountryData
 import retrofit2.Response
 import retrofit2.http.GET
 

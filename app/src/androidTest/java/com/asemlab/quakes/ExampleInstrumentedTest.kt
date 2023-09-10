@@ -1,9 +1,8 @@
 package com.asemlab.quakes
 
-import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.asemlab.quakes.database.models.UsaStateData
+import com.asemlab.quakes.model.UsaStateData
 import com.asemlab.quakes.database.typeconverters.UsaStateConverter
 import org.json.JSONArray
 
