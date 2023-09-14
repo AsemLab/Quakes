@@ -32,6 +32,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.UserMessagingPlatform
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,6 +46,8 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var adRequest: AdRequest
     private var interstitialAd: InterstitialAd? = null
     private lateinit var bannerAd: AdView
+    private lateinit var consentInformation: ConsentInformation
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,8 +72,11 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
                 }
 
             }
-            loadBannerAd()
-            loadInterstitialAd()
+            consentInformation = UserMessagingPlatform.getConsentInformation(requireContext())
+            if (consentInformation.canRequestAds()) {
+                loadBannerAd()
+                loadInterstitialAd()
+            }
         }
 
         val mapFragment = childFragmentManager

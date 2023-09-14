@@ -23,6 +23,10 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.ump.ConsentDebugSettings
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.ConsentRequestParameters
+import com.google.android.ump.UserMessagingPlatform
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         val TAG = MainActivity::class.simpleName
     }
+
+    private lateinit var consentInformation: ConsentInformation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -63,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         getFCMToken()
         MobileAds.initialize(this) {}
         checkUpdate()
+        requestAdsConsent()
     }
 
     private fun getFCMToken() {
@@ -76,12 +83,14 @@ class MainActivity : AppCompatActivity() {
                 LogUtils.d("FCM Token", task.result)
         })
     }
+
     private val updateResult =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult ->
             if (result.resultCode != Activity.RESULT_OK) {
                 LogUtils.e("Update flow Cancelled! Result code: " + result.resultCode)
             }
         }
+
     private fun checkUpdate() {
         val appUpdateManager = AppUpdateManagerFactory.create(this)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
@@ -96,5 +105,51 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    private fun requestAdsConsent() {
+
+        val debugSettings = ConsentDebugSettings
+            .Builder(this)
+            .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
+            .addTestDeviceHashedId("A2746E7E98645E0A8431F3176065B797") // Emulator
+            .build()
+
+        val params = ConsentRequestParameters
+            .Builder()
+            .setConsentDebugSettings(debugSettings)
+            .setTagForUnderAgeOfConsent(false)
+            .build()
+
+        consentInformation = UserMessagingPlatform.getConsentInformation(this)
+        consentInformation.requestConsentInfoUpdate(
+            this,
+            params,
+            {
+                UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+                    this
+                ) { loadAndShowError ->
+                    // Consent gathering failed.
+                    loadAndShowError?.let {
+                        LogUtils.w(
+                            String.format(
+                                "%s: %s",
+                                loadAndShowError.errorCode,
+                                loadAndShowError.message
+                            )
+                        )
+                    }
+                }
+            },
+            { requestConsentError ->
+                // Consent gathering failed.
+                LogUtils.e(
+                    String.format(
+                        "%s: %s",
+                        requestConsentError.errorCode,
+                        requestConsentError.message
+                    )
+                )
+            })
     }
 }

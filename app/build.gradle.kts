@@ -134,4 +134,5 @@ dependencies {
 
     // Google Ads
     implementation(libs.play.services.ads)
+    implementation(libs.play.services.user.messaging)
 }
