@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.asemlab.quakes.R
 import com.asemlab.quakes.base.BaseFragment
 import com.asemlab.quakes.databinding.FragmentHomeBinding
-import com.asemlab.quakes.remote.FirebaseDB
 import com.asemlab.quakes.model.EarthquakesUI
 import com.asemlab.quakes.ui.models.MarkerItem
 import com.asemlab.quakes.utils.ColorClusterRenderer
@@ -136,15 +135,6 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
                 state = this@HomeFragment.viewModel.bottomSheetState
             }
 
-        }
-
-        with(FirebaseDB) {
-            forceUpdate.observe(viewLifecycleOwner) { shouldUpdate ->
-                shouldUpdate?.let {
-                    if (it)
-                        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToForceUpdateFragment())
-                }
-            }
         }
 
         return binding.root

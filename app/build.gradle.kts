@@ -121,4 +121,7 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
 
     implementation(libs.utilcodex)
+
+    // In-App update
+    implementation(libs.play.services.update)
 }

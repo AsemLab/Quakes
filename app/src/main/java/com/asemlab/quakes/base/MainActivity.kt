@@ -1,12 +1,15 @@
 package com.asemlab.quakes.base
 
 import android.Manifest
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -15,6 +18,10 @@ import com.asemlab.quakes.R
 import com.asemlab.quakes.remote.FirebaseDB
 import com.blankj.utilcode.util.LogUtils
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
         FirebaseDB.getVersion()
         getFCMToken()
-
+        checkUpdate()
     }
 
     private fun getFCMToken() {
@@ -66,5 +73,26 @@ class MainActivity : AppCompatActivity() {
             if (BuildConfig.DEBUG)
                 LogUtils.d("FCM Token", task.result)
         })
+    }
+    private val updateResult =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult ->
+            if (result.resultCode != Activity.RESULT_OK) {
+                LogUtils.e("Update flow Cancelled! Result code: " + result.resultCode)
+            }
+        }
+    private fun checkUpdate() {
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    updateResult,
+                    AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
+                )
+            }
+        }
     }
 }
