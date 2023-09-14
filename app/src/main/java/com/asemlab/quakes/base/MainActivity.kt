@@ -17,6 +17,7 @@ import com.asemlab.quakes.BuildConfig
 import com.asemlab.quakes.R
 import com.asemlab.quakes.remote.FirebaseDB
 import com.blankj.utilcode.util.LogUtils
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         }
         FirebaseDB.getVersion()
         getFCMToken()
+        MobileAds.initialize(this) {}
         checkUpdate()
     }
 

@@ -32,6 +32,7 @@ google-maps-plugin = "2.0.1"
 google-services-plugin = "4.3.15"
 org-jetbrains-kotlin-jvm = "1.9.0"
 in-app-update = "2.1.0"
+google-services-ads = "22.3.0"
 
 [libraries]
 android-maps-utils = { module = "com.google.maps.android:android-maps-utils", version.ref = "android-maps-utils" }
@@ -66,7 +67,7 @@ play-services-maps = { module = "com.google.android.gms:play-services-maps", ver
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 utilcodex = { module = "com.blankj:utilcodex", version.ref = "utilcodex" }
 play-services-update = { module = "com.google.android.play:app-update-ktx", version.ref = "in-app-update" }
-
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "google-services-ads" }
 
 [plugins]
 

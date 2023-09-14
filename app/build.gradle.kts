@@ -52,10 +52,17 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")
+            buildConfigField("String", "BANNER_ID", "\"ca-app-pub-8534811027114540/6119287493\"")
+            buildConfigField("String", "INTERSTITIAL_ID", "\"ca-app-pub-8534811027114540/6810386782\"")
+
         }
+
         getByName("debug") {
             isDebuggable = true
             signingConfig = signingConfigs.getByName("release")
+            buildConfigField("String", "BANNER_ID", "\"ca-app-pub-3940256099942544/6300978111\"")
+            buildConfigField("String", "INTERSTITIAL_ID", "\"ca-app-pub-3940256099942544/1033173712\"")
+
         }
     }
     compileOptions {
@@ -124,4 +131,7 @@ dependencies {
 
     // In-App update
     implementation(libs.play.services.update)
+
+    // Google Ads
+    implementation(libs.play.services.ads)
 }
