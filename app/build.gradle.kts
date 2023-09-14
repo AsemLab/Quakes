@@ -1,4 +1,6 @@
 import com.asemlab.quakes.Configuration
+import java.io.FileInputStream
+import java.util.Properties
 
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -13,7 +15,21 @@ plugins {
     alias(libs.plugins.google.services)
 }
 
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties().apply {
+    load(FileInputStream(keystorePropertiesFile))
+}
+
+
 android {
+    signingConfigs {
+        create("release") {
+            storeFile = file(keystoreProperties.getProperty("storeFile") as String)
+            storePassword = keystoreProperties.getProperty("storePassword") as String
+            keyAlias = keystoreProperties.getProperty("keyAlias") as String
+            keyPassword = keystoreProperties.getProperty("keyPassword") as String
+        }
+    }
     namespace = "com.asemlab.quakes"
     compileSdk = Configuration.compileSdk
 
@@ -30,10 +46,16 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
+        }
+        getByName("debug") {
+            isDebuggable = true
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {

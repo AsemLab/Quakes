@@ -1,6 +1,6 @@
 package com.asemlab.quakes.remote.repositories
 
-import com.asemlab.quakes.BuildConfig
+import com.asemlab.quakes.data.BuildConfig
 import com.asemlab.quakes.model.GeoLocationData
 import com.asemlab.quakes.models.performOnError
 import com.asemlab.quakes.models.performOnSuccess

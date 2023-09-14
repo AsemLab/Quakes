@@ -12,7 +12,7 @@ plugins {
 val iq_key: String = gradleLocalProperties(rootDir).getProperty("LOCATION_IQ_KEY")
 
 android {
-    namespace = "com.asemlab.quakes"
+    namespace = "com.asemlab.quakes.data"
     compileSdk = Configuration.compileSdk
 
     defaultConfig {

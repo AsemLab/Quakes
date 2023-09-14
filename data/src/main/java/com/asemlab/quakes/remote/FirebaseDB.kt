@@ -2,7 +2,7 @@ package com.asemlab.quakes.remote
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.asemlab.quakes.BuildConfig
+import com.asemlab.quakes.data.BuildConfig
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
