@@ -63,7 +63,7 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
             fullscreenButton.setOnClickListener {
                 if (detailsContainer.alpha > 0) {
                     detailsContainer.slideDownAndFadeOut(detailsContainer.height)
-                    fullscreenButton.slideDown(detailsContainer.height - fullscreenButton.height - 50)
+                    fullscreenButton.slideDown(detailsContainer.height - 16)
                     fullscreenButton.setImageResource(R.drawable.ic_fullscreen_exit)
                 } else {
                     detailsContainer.slideUpAndFadeIn()
@@ -164,6 +164,7 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
                     )
                 )
             }
+            uiSettings.isMapToolbarEnabled = false
         }
     }
 

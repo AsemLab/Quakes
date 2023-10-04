@@ -181,6 +181,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
             }
         }
         with(map) {
+            uiSettings.isMapToolbarEnabled = false
             setOnMarkerClickListener(clusterManager)
             setOnCameraIdleListener(clusterManager)
             setOnInfoWindowClickListener(clusterManager)
