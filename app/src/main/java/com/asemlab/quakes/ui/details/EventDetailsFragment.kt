@@ -15,10 +15,6 @@ import com.asemlab.quakes.BuildConfig
 import com.asemlab.quakes.R
 import com.asemlab.quakes.databinding.FragmentEventDetailsBinding
 import com.asemlab.quakes.utils.isNightModeOn
-import com.asemlab.quakes.utils.slideDown
-import com.asemlab.quakes.utils.slideDownAndFadeOut
-import com.asemlab.quakes.utils.slideUp
-import com.asemlab.quakes.utils.slideUpAndFadeIn
 import com.blankj.utilcode.util.LogUtils
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -37,6 +33,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.UserMessagingPlatform
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,17 +62,10 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
             backButton.setOnClickListener {
                 findNavController().navigateUp()
             }
-            fullscreenButton.setOnClickListener {
-                if (detailsContainer.alpha > 0) {
-                    detailsContainer.slideDownAndFadeOut(detailsContainer.height)
-                    fullscreenButton.slideDown(detailsContainer.height - 16)
-                    fullscreenButton.setImageResource(R.drawable.ic_fullscreen_exit)
-                } else {
-                    detailsContainer.slideUpAndFadeIn()
-                    fullscreenButton.slideUp()
-                    fullscreenButton.setImageResource(R.drawable.ic_fullscreen)
+            detailsBottomSheet?.let {
+                BottomSheetBehavior.from(it).apply {
+                    state = BottomSheetBehavior.STATE_EXPANDED
                 }
-
             }
             consentInformation = UserMessagingPlatform.getConsentInformation(requireContext())
             if (consentInformation.canRequestAds()) {
