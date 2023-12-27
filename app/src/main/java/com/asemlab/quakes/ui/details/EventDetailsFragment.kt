@@ -1,9 +1,12 @@
 package com.asemlab.quakes.ui.details
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -25,6 +28,8 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.location.CurrentLocationRequest
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -165,6 +170,21 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
                 )
             }
             uiSettings.isMapToolbarEnabled = false
+            uiSettings.isMyLocationButtonEnabled = false
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                LocationServices.getFusedLocationProviderClient(requireContext())
+                    .getCurrentLocation(CurrentLocationRequest.Builder().build(), null)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            isMyLocationEnabled = true
+                        }
+                    }
+
+            }
         }
     }
 

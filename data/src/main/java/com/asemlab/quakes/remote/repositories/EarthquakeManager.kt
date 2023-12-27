@@ -40,7 +40,7 @@ class EarthquakeManager
             startTime, endTime, onError
         )
         withContext(Dispatchers.IO) {
-            if (!::countries.isInitialized) countries = countriesRepository.getAllCountries(onError)
+            if (!::countries.isInitialized) countries = countriesRepository.getAllCountries(context)
             if (!::states.isInitialized) states = countriesRepository.getUsaStates(context)
 
             onSuccess(earthquakes)

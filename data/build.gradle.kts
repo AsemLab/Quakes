@@ -82,4 +82,5 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
 
     implementation(libs.utilcodex)
+    implementation(libs.datastore)
 }

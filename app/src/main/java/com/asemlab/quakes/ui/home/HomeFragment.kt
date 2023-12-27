@@ -1,9 +1,15 @@
 package com.asemlab.quakes.ui.home
 
+import android.Manifest
+import android.content.IntentSender
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -14,13 +20,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.asemlab.quakes.R
 import com.asemlab.quakes.base.BaseFragment
 import com.asemlab.quakes.databinding.FragmentHomeBinding
+import com.asemlab.quakes.datastore.SettingsDatastore
 import com.asemlab.quakes.model.EarthquakesUI
 import com.asemlab.quakes.ui.models.MarkerItem
 import com.asemlab.quakes.utils.ColorClusterRenderer
+import com.asemlab.quakes.utils.ENABLE_LOCATION_REQUEST_CODE
 import com.asemlab.quakes.utils.isConnected
 import com.asemlab.quakes.utils.isNightModeOn
 import com.asemlab.quakes.utils.makeToast
 import com.asemlab.quakes.utils.toTimeString
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.CurrentLocationRequest
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMapOptions
@@ -46,6 +60,8 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var clusterManager: ClusterManager<MarkerItem>
     private val viewModel by viewModels<HomeViewModel>()
     private lateinit var binding: FragmentHomeBinding
+    private var requestLocation = true
+    private lateinit var datastore: SettingsDatastore
     private var earthquakeUIAdapter = EarthquakeUIAdapter(emptyList()) {
         findNavController().navigate(
             HomeFragmentDirections.actionHomeFragmentToEventDetailsFragment(
@@ -53,6 +69,13 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
             )
         )
     }
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            it?.let {
+                if (it)
+                    checkLocationSettings()
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +83,7 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
     ): View {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-
+        datastore = SettingsDatastore.getInstance(requireContext())
 
         val options = GoogleMapOptions().apply {
             useViewLifecycleInFragment(true)
@@ -181,7 +204,26 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
             }
         }
         with(map) {
+            lifecycleScope.launch {
+                if (ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    val hasRequested =
+                        datastore.hasLocationRequested()
+                    if (!hasRequested) {
+                        datastore.setLocationRequested(true)
+                        requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                    }
+                } else {
+                    datastore.setLocationRequested(false)
+                    checkLocationSettings()
+                }
+            }
+
             uiSettings.isMapToolbarEnabled = false
+            uiSettings.isMyLocationButtonEnabled = false
             setOnMarkerClickListener(clusterManager)
             setOnCameraIdleListener(clusterManager)
             setOnInfoWindowClickListener(clusterManager)
@@ -233,6 +275,55 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
         requireActivity().runOnUiThread {
             binding.map.removeAllViewsInLayout()
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNoInternetFragment())
+        }
+    }
+
+    private fun checkLocationSettings() {
+        val locationRequest = LocationRequest.Builder(
+            Priority.PRIORITY_LOW_POWER, 0
+        ).build()
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+        val settingsClient = LocationServices.getSettingsClient(requireContext())
+        val locationSettingsResponseTask =
+            settingsClient.checkLocationSettings(builder.build())
+
+        locationSettingsResponseTask.addOnFailureListener { exception ->
+            if (exception is ResolvableApiException && requestLocation) {
+                try {
+                    requestLocation = false
+                    exception.startResolutionForResult(
+                        requireActivity(),
+                        ENABLE_LOCATION_REQUEST_CODE
+                    )
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    Log.d(
+                        "HomeFragment",
+                        "Error getting location settings resolution: " + sendEx.message
+                    )
+                }
+            }
+        }.addOnSuccessListener { _ ->
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                LocationServices.getFusedLocationProviderClient(requireContext())
+                    .getCurrentLocation(CurrentLocationRequest.Builder().build(), null)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            currentPosition = LatLng(task.result.latitude, task.result.longitude)
+                            map.isMyLocationEnabled = true
+                            map.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    currentPosition,
+                                    currentZoom
+                                )
+                            )
+                        }
+                    }
+
+            }
         }
     }
 
