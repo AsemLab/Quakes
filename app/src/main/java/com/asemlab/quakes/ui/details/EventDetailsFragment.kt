@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -61,11 +62,6 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
             event = args.event
             backButton.setOnClickListener {
                 findNavController().navigateUp()
-            }
-            detailsBottomSheet?.let {
-                BottomSheetBehavior.from(it).apply {
-                    state = BottomSheetBehavior.STATE_EXPANDED
-                }
             }
             consentInformation = UserMessagingPlatform.getConsentInformation(requireContext())
             if (consentInformation.canRequestAds()) {
@@ -175,7 +171,19 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
                     }
 
             }
+            setupCompassButton()
         }
+    }
+
+    private fun setupCompassButton() {
+        val viewGroup = binding.map.findViewById<ViewGroup>("1".toInt()).parent as ViewGroup
+        val compassButton = viewGroup.getChildAt(4)
+        /* position compass */
+        val compRlp = compassButton.layoutParams as RelativeLayout.LayoutParams
+        compRlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
+        compRlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE)
+        compRlp.setMargins(0, 240, 240, 0)
+        compassButton.layoutParams = compRlp
     }
 
     override fun onResume() {

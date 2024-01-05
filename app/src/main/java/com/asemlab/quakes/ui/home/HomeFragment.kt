@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
@@ -227,7 +228,21 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
             setOnMarkerClickListener(clusterManager)
             setOnCameraIdleListener(clusterManager)
             setOnInfoWindowClickListener(clusterManager)
+
+            setupCompassButton()
         }
+    }
+
+    private fun setupCompassButton() {
+        val viewGroup = binding.map.findViewById<ViewGroup>("1".toInt()).parent as ViewGroup
+        val compassButton = viewGroup.getChildAt(4)
+        /* position compass */
+        val compRlp = compassButton.layoutParams as RelativeLayout.LayoutParams
+        compRlp.addRule(RelativeLayout.ALIGN_TOP, binding.searchButton.id)
+        compRlp.addRule(RelativeLayout.ALIGN_END, binding.searchButton.id)
+        compRlp.addRule(RelativeLayout.ALIGN_START, binding.appTitle.id)
+        compRlp.setMargins(0, 180, 180, 0)
+        compassButton.layoutParams = compRlp
     }
 
     private fun addMarkers(events: List<EarthquakesUI>) {
