@@ -119,14 +119,14 @@ fun TextView.formatDate(time: Long) {
 
 @BindingAdapter("formatCoordinates")
 fun TextView.formatCoordinates(point: List<Double>) {
-    val latitude = formatNumberToTwoDecimal(point[1])
-    val longitude = formatNumberToTwoDecimal(point[0])
+    val latitude = formatNumberToTwoDecimal(point[1]).toString()
+    val longitude = formatNumberToTwoDecimal(point[0]).toString()
     text = context.getString(R.string.coordinates_format, latitude, longitude)
 }
 
 @BindingAdapter("formatDepth")
 fun TextView.formatDepth(depth: Double) {
-    text = context.getString(R.string.depth_format, formatNumberToTwoDecimal(depth), "km")
+    text = context.getString(R.string.depth_format, formatNumberToTwoDecimal(depth).toString(), "km")
 }
 
 @BindingAdapter("feelingScale")

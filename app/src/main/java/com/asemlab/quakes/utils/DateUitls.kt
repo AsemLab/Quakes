@@ -1,15 +1,25 @@
 package com.asemlab.quakes.utils
 
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 const val SERVER_DATE_FORMAT = "yyyy-MM-dd"
 const val RANGE_DATE_FORMAT = "dd/MM/yyyy"
-const val DATE_TIME_FORMAT = "dd MMM,  yy \t hh:mm aa"
+const val DATE_TIME_FORMAT = "EEE dd MMM, yyyy \t hh:mm aa"
 const val TIME_FORMAT = "hh:mm aa"
 
-fun Date.toSimpleDateFormat(timeZone: TimeZone = TimeZone.getDefault()): String {
-    val format = SimpleDateFormat(SERVER_DATE_FORMAT).also {
+fun Date.toServerDateFormat(timeZone: TimeZone = TimeZone.getDefault()): String {
+    val format = SimpleDateFormat(SERVER_DATE_FORMAT, Locale.ENGLISH).also {
+        it.timeZone = timeZone
+    }
+    return format.format(this)
+}
+
+fun Date.toDisplayDateFormat(timeZone: TimeZone = TimeZone.getDefault()): String {
+    val format = SimpleDateFormat(RANGE_DATE_FORMAT, Locale.ENGLISH).also {
         it.timeZone = timeZone
     }
     return format.format(this)
@@ -39,19 +49,19 @@ fun timeAgo(time: Long): String {
             "${duration / 3_600_000L} hour${if (duration / 3_600_000L > 1) "s" else ""} ago"
         }
     } else {
-        then.toSimpleDateFormat()
+        then.toDisplayDateFormat()
     }
 }
 
 fun Date.toDetailedDateFormat(timeZone: TimeZone = TimeZone.getDefault()): String {
-    val format = SimpleDateFormat(DATE_TIME_FORMAT).also {
+    val format = SimpleDateFormat(DATE_TIME_FORMAT, Locale.ENGLISH).also {
         it.timeZone = timeZone
     }
     return format.format(this)
 }
 
 fun Date.toTimeString(timeZone: TimeZone = TimeZone.getDefault()): String {
-    val format = SimpleDateFormat(TIME_FORMAT).also {
+    val format = SimpleDateFormat(TIME_FORMAT, Locale.ENGLISH).also {
         it.timeZone = timeZone
     }
     return format.format(this)
