@@ -30,6 +30,7 @@ import com.asemlab.quakes.utils.isConnected
 import com.asemlab.quakes.utils.isNightModeOn
 import com.asemlab.quakes.utils.makeToast
 import com.asemlab.quakes.utils.toTimeString
+import com.blankj.utilcode.util.LogUtils
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.CurrentLocationRequest
 import com.google.android.gms.location.LocationRequest
@@ -327,14 +328,19 @@ class HomeFragment : BaseFragment(), OnMapReadyCallback {
                     .getCurrentLocation(CurrentLocationRequest.Builder().build(), null)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            currentPosition = LatLng(task.result.latitude, task.result.longitude)
-                            map.isMyLocationEnabled = true
-                            map.animateCamera(
-                                CameraUpdateFactory.newLatLngZoom(
-                                    currentPosition,
-                                    currentZoom
+                            try {
+                                currentPosition =
+                                    LatLng(task.result.latitude, task.result.longitude)
+                                map.isMyLocationEnabled = true
+                                map.animateCamera(
+                                    CameraUpdateFactory.newLatLngZoom(
+                                        currentPosition,
+                                        currentZoom
+                                    )
                                 )
-                            )
+                            } catch (e: NullPointerException) {
+                                LogUtils.e("HomeFragment", "${e.message}")
+                            }
                         }
                     }
 
