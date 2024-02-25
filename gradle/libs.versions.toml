@@ -20,7 +20,7 @@ lifecycle-viewmodel-ktx = "2.6.1"
 maps-utils-ktx = "3.4.0"
 navigation-android = "2.7.1"
 paging-runtime = "3.2.1"
-play-services-maps = "18.1.0"
+play-services-maps = "18.2.0"
 play-services-location = "21.0.1"
 retrofit = "2.9.0"
 room-runtime = "2.5.2"
@@ -36,6 +36,7 @@ in-app-update = "2.1.0"
 google-services-ads = "22.3.0"
 user-messaging = "2.1.0"
 datastore = "1.0.0"
+firebase-crashlytics-plugin="2.9.7"
 
 [libraries]
 android-maps-utils = { module = "com.google.maps.android:android-maps-utils", version.ref = "android-maps-utils" }
@@ -87,3 +88,4 @@ google-maps = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-p
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services-plugin" }
 navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigation-android" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
