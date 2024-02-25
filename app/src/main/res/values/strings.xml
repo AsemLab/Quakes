@@ -11,8 +11,8 @@
     <string name="feeling">Feeling</string>
     <string name="location">Location</string>
     <string name="depth">Depth</string>
-    <string name="coordinates_format">%1$3.2f, \t %2$3.2f</string>
-    <string name="depth_format">%1$3.2f \t %2$s</string>
+    <string name="coordinates_format">%1$s, \t %2$s</string>
+    <string name="depth_format">%1$s \t %2$s</string>
     <string name="search_title">Search</string>
     <string name="date_title">Date</string>
     <string name="from_title">From</string>
@@ -20,7 +20,7 @@
     <string name="start_search">Select date and click on the search button</string>
     <string name="please_select_a_date">Please select valid dates</string>
     <string name="no_results">No results for your entries</string>
-    <string name="date_format">%1$d-%2$s-%3$s</string>
+    <string name="date_format">%1$s/%2$s/%3$s</string>
     <string name="dialog_permission_title">Permission required</string>
     <string name="dialog_permission_text">Allow the app to send notification?</string>
     <string name="dialog_permission_button">Allow</string>

@@ -13,7 +13,7 @@ import com.asemlab.quakes.model.toDesc
 import com.asemlab.quakes.model.toEarthquakeUI
 import com.asemlab.quakes.remote.repositories.EarthquakeManager
 import com.asemlab.quakes.ui.models.EQStateUI
-import com.asemlab.quakes.utils.toSimpleDateFormat
+import com.asemlab.quakes.utils.toServerDateFormat
 import com.asemlab.quakes.utils.tomorrowDate
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,8 +37,8 @@ open class HomeViewModel @Inject constructor(
 
     fun getLastEarthquakes(context: Context) {
         viewModelScope.launch {
-            earthquakeManager.getEarthquakes(Date().toSimpleDateFormat(),
-                tomorrowDate().toSimpleDateFormat(),
+            earthquakeManager.getEarthquakes(Date().toServerDateFormat(),
+                tomorrowDate().toServerDateFormat(),
                 context,
                 onStart = {
                     _uiState.update { currentUiState ->

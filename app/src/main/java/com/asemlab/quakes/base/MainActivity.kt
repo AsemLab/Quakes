@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         MobileAds.initialize(this) {}
         checkUpdate()
         requestAdsConsent()
+        setOrientationLandscape()
     }
 
     private fun getFCMToken() {
@@ -151,5 +153,11 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             })
+    }
+
+    private fun setOrientationLandscape() {
+        if (!resources.getBoolean(R.bool.portrait_only))
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+
     }
 }

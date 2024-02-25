@@ -1,9 +1,13 @@
 package com.asemlab.quakes.ui.details
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,10 +16,6 @@ import com.asemlab.quakes.BuildConfig
 import com.asemlab.quakes.R
 import com.asemlab.quakes.databinding.FragmentEventDetailsBinding
 import com.asemlab.quakes.utils.isNightModeOn
-import com.asemlab.quakes.utils.slideDown
-import com.asemlab.quakes.utils.slideDownAndFadeOut
-import com.asemlab.quakes.utils.slideUp
-import com.asemlab.quakes.utils.slideUpAndFadeIn
 import com.blankj.utilcode.util.LogUtils
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -25,6 +25,8 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.location.CurrentLocationRequest
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.UserMessagingPlatform
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,18 +62,6 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
             event = args.event
             backButton.setOnClickListener {
                 findNavController().navigateUp()
-            }
-            fullscreenButton.setOnClickListener {
-                if (detailsContainer.alpha > 0) {
-                    detailsContainer.slideDownAndFadeOut(detailsContainer.height)
-                    fullscreenButton.slideDown(detailsContainer.height - fullscreenButton.height - 50)
-                    fullscreenButton.setImageResource(R.drawable.ic_fullscreen_exit)
-                } else {
-                    detailsContainer.slideUpAndFadeIn()
-                    fullscreenButton.slideUp()
-                    fullscreenButton.setImageResource(R.drawable.ic_fullscreen)
-                }
-
             }
             consentInformation = UserMessagingPlatform.getConsentInformation(requireContext())
             if (consentInformation.canRequestAds()) {
@@ -164,7 +155,35 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
                     )
                 )
             }
+            uiSettings.isMapToolbarEnabled = false
+            uiSettings.isMyLocationButtonEnabled = false
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                LocationServices.getFusedLocationProviderClient(requireContext())
+                    .getCurrentLocation(CurrentLocationRequest.Builder().build(), null)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            isMyLocationEnabled = true
+                        }
+                    }
+
+            }
+            setupCompassButton()
         }
+    }
+
+    private fun setupCompassButton() {
+        val viewGroup = binding.map.findViewById<ViewGroup>("1".toInt()).parent as ViewGroup
+        val compassButton = viewGroup.getChildAt(4)
+        /* position compass */
+        val compRlp = compassButton.layoutParams as RelativeLayout.LayoutParams
+        compRlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
+        compRlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE)
+        compRlp.setMargins(0, 240, 240, 0)
+        compassButton.layoutParams = compRlp
     }
 
     override fun onResume() {

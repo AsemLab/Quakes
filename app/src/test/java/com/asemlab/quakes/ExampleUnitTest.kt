@@ -1,6 +1,6 @@
 package com.asemlab.quakes
 
-import com.asemlab.quakes.utils.toSimpleDateFormat
+import com.asemlab.quakes.utils.toServerDateFormat
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -14,7 +14,7 @@ import java.util.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        val s = Date(1679864400000).toSimpleDateFormat()
+        val s = Date(1679864400000).toServerDateFormat()
         assertEquals("2023-03-27", s)
     }
 }

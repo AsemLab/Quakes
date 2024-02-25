@@ -47,176 +47,199 @@
             android:id="@+id/fullscreenButton"
             style="@style/round_button"
             android:src="@drawable/ic_fullscreen"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/detailsContainer"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <ScrollView
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/detailsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/adView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <FrameLayout
+                android:id="@+id/detailsBottomSheet"
+                style="@style/BottomSheetStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                app:behavior_hideable="false"
+                app:behavior_peekHeight="64dp"
+                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelineDetailsVer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.4" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+                        android:id="@+id/drag_handle"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:paddingTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/placeDetails"
-                    style="@style/details_title"
-                    android:background="@drawable/white_top_round_rectangle"
-                    app:eventTitle="@{event}"
-                    app:layout_constraintBottom_toTopOf="@+id/magTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="Turkey" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineDetailsVer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.4" />
 
-                <View
-                    style="@style/divider"
-                    app:layout_constraintBottom_toTopOf="@id/magTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <TextView
+                        android:id="@+id/placeDetails"
+                        style="@style/details_title"
+                        android:background="@drawable/white_top_round_rectangle"
+                        app:eventTitle="@{event}"
+                        app:layout_constraintBottom_toTopOf="@+id/magTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/drag_handle"
+                        tools:text="Turkey" />
 
-
-                <TextView
-                    android:id="@+id/magTitle"
-                    style="@style/details_title"
-                    android:text="@string/magnitude"
-                    app:drawableStartCompat="@drawable/ic_wave"
-                    app:layout_constraintBottom_toTopOf="@+id/fellingTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/magSubtitle"
-                    style="@style/details_subtitle"
-                    app:formatMagnitude="@{event.mag}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/guidelineDetailsVer"
-                    app:layout_constraintTop_toBottomOf="@id/placeDetails"
-                    tools:text="7.50" />
-
-                <View
-                    style="@style/divider"
-                    app:layout_constraintBottom_toTopOf="@id/fellingTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <View
+                        style="@style/divider"
+                        app:layout_constraintBottom_toTopOf="@id/magTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
 
 
-                <TextView
-                    android:id="@+id/fellingTitle"
-                    style="@style/details_title"
-                    android:text="@string/feeling"
-                    app:drawableStartCompat="@drawable/ic_feeling"
-                    app:layout_constraintBottom_toTopOf="@+id/timeTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <TextView
+                        android:id="@+id/magTitle"
+                        style="@style/details_title"
+                        android:text="@string/magnitude"
+                        app:drawableStartCompat="@drawable/ic_wave"
+                        app:layout_constraintBottom_toTopOf="@+id/fellingTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
-                    android:id="@+id/fellingSubtitle"
-                    style="@style/details_subtitle"
-                    android:lines="2"
-                    app:feelingScale="@{event.mag}"
-                    app:layout_constraintBottom_toTopOf="@+id/timeSubtitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/guidelineDetailsVer"
-                    app:layout_constraintTop_toBottomOf="@id/magTitle"
-                    tools:text="Damage to a moderate number of well-built structures in populated areas" />
+                    <TextView
+                        android:id="@+id/magSubtitle"
+                        style="@style/details_subtitle"
+                        app:formatMagnitude="@{event.mag}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guidelineDetailsVer"
+                        app:layout_constraintTop_toBottomOf="@id/placeDetails"
+                        tools:text="7.50" />
 
-                <View
-                    style="@style/divider"
-                    app:layout_constraintBottom_toTopOf="@id/timeTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <View
+                        style="@style/divider"
+                        app:layout_constraintBottom_toTopOf="@id/fellingTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
 
 
-                <TextView
-                    android:id="@+id/timeTitle"
-                    style="@style/details_title"
-                    android:text="@string/time"
-                    app:drawableStartCompat="@drawable/ic_clock"
-                    app:layout_constraintBottom_toTopOf="@+id/locationTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <TextView
+                        android:id="@+id/fellingTitle"
+                        style="@style/details_title"
+                        android:text="@string/feeling"
+                        app:drawableStartCompat="@drawable/ic_feeling"
+                        app:layout_constraintBottom_toTopOf="@+id/timeTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
-                    android:id="@+id/timeSubtitle"
-                    style="@style/details_subtitle"
-                    android:lines="1"
-                    app:formatDate="@{event.time}"
-                    app:layout_constraintBaseline_toBaselineOf="@id/timeTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/guidelineDetailsVer"
-                    tools:text="21 Dec, 23 10:30 am" />
+                    <TextView
+                        android:id="@+id/fellingSubtitle"
+                        style="@style/details_subtitle"
+                        android:lines="2"
+                        app:feelingScale="@{event.mag}"
+                        app:layout_constraintBottom_toTopOf="@+id/timeSubtitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guidelineDetailsVer"
+                        app:layout_constraintTop_toBottomOf="@id/magTitle"
+                        tools:text="Damage to a moderate number of well-built structures in populated areas" />
 
-                <View
-                    style="@style/divider"
-                    app:layout_constraintBottom_toTopOf="@id/locationTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-                <TextView
-                    android:id="@+id/locationTitle"
-                    style="@style/details_title"
-                    android:text="@string/location"
-                    app:drawableStartCompat="@drawable/ic_location"
-                    app:layout_constraintBottom_toTopOf="@+id/depthTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/locationSubtitle"
-                    style="@style/details_subtitle"
-                    app:formatCoordinates="@{event.coordinates}"
-                    app:layout_constraintBaseline_toBaselineOf="@id/locationTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/guidelineDetailsVer"
-                    tools:text="31 , 35" />
-
-                <View
-                    style="@style/divider"
-                    app:layout_constraintBottom_toTopOf="@id/depthTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <View
+                        style="@style/divider"
+                        app:layout_constraintBottom_toTopOf="@id/timeTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
 
 
-                <TextView
-                    android:id="@+id/depthTitle"
-                    style="@style/details_title"
-                    android:text="@string/depth"
-                    app:drawableStartCompat="@drawable/ic_depth"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <TextView
+                        android:id="@+id/timeTitle"
+                        style="@style/details_title"
+                        android:text="@string/time"
+                        app:drawableStartCompat="@drawable/ic_clock"
+                        app:layout_constraintBottom_toTopOf="@+id/locationTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
-                    android:id="@+id/depthSubtitle"
-                    style="@style/details_subtitle"
-                    app:formatDepth="@{event.coordinates[2]}"
-                    app:layout_constraintBaseline_toBaselineOf="@id/depthTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/guidelineDetailsVer"
-                    tools:text="1.5 km" />
+                    <TextView
+                        android:id="@+id/timeSubtitle"
+                        style="@style/details_subtitle"
+                        android:lines="1"
+                        app:formatDate="@{event.time}"
+                        app:layout_constraintBaseline_toBaselineOf="@id/timeTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guidelineDetailsVer"
+                        tools:text="21 Dec, 23 10:30 am" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+                    <View
+                        style="@style/divider"
+                        app:layout_constraintBottom_toTopOf="@id/locationTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/locationTitle"
+                        style="@style/details_title"
+                        android:text="@string/location"
+                        app:drawableStartCompat="@drawable/ic_location"
+                        app:layout_constraintBottom_toTopOf="@+id/depthTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/locationSubtitle"
+                        style="@style/details_subtitle"
+                        app:formatCoordinates="@{event.coordinates}"
+                        app:layout_constraintBaseline_toBaselineOf="@id/locationTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guidelineDetailsVer"
+                        tools:text="31 , 35" />
+
+                    <View
+                        style="@style/divider"
+                        app:layout_constraintBottom_toTopOf="@id/depthTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/depthTitle"
+                        style="@style/details_title"
+                        android:text="@string/depth"
+                        app:drawableStartCompat="@drawable/ic_depth"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/depthSubtitle"
+                        style="@style/details_subtitle"
+                        app:formatDepth="@{event.coordinates[2]}"
+                        app:layout_constraintBaseline_toBaselineOf="@id/depthTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guidelineDetailsVer"
+                        tools:text="1.5 km" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

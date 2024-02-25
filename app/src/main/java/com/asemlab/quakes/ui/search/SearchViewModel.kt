@@ -19,7 +19,7 @@ import com.asemlab.quakes.ui.models.EQSearchStateUI
 import com.asemlab.quakes.utils.RANGE_DATE_FORMAT
 import com.asemlab.quakes.utils.isConnected
 import com.asemlab.quakes.utils.makeToast
-import com.asemlab.quakes.utils.toSimpleDateFormat
+import com.asemlab.quakes.utils.toServerDateFormat
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
@@ -32,6 +32,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 import java.util.TimeZone
 import javax.inject.Inject
 
@@ -95,8 +96,8 @@ class SearchViewModel @Inject constructor(
         }
 
         searchEvents(
-            fromDate.time.toSimpleDateFormat(),
-            toDate.time.toSimpleDateFormat(),
+            fromDate.time.toServerDateFormat(),
+            toDate.time.toServerDateFormat(),
             values[0].toDouble(),
             values[1].toDouble(),
             onError
@@ -125,8 +126,8 @@ class SearchViewModel @Inject constructor(
         showStartSearch.postValue(false)
 
         searchEvents(
-            fromDate.time.toSimpleDateFormat(),
-            toDate.time.toSimpleDateFormat(),
+            fromDate.time.toServerDateFormat(),
+            toDate.time.toServerDateFormat(),
             values[0].toDouble(),
             values[1].toDouble()
         ) { makeToast(view.context, it) }
@@ -147,7 +148,7 @@ class SearchViewModel @Inject constructor(
     fun initializeDateRangePicker(context: Context) {
         val validation = DateRangeValidator(14)
         rangePicker = MaterialDatePicker.Builder.dateRangePicker()
-            .setTextInputFormat(SimpleDateFormat(RANGE_DATE_FORMAT).also {
+            .setTextInputFormat(SimpleDateFormat(RANGE_DATE_FORMAT, Locale.ENGLISH).also {
                 it.timeZone = TimeZone.getDefault()
             })
             .setPositiveButtonText(context.getString(R.string.confirm))
@@ -171,9 +172,9 @@ class SearchViewModel @Inject constructor(
                 fromDateText.postValue(
                     context.getString(
                         R.string.date_format,
-                        fromDate.get(Calendar.YEAR),
+                        fromDate.get(Calendar.DAY_OF_MONTH).toString().padStart(2, '0'),
                         (fromDate.get(Calendar.MONTH) + 1).toString().padStart(2, '0'),
-                        fromDate.get(Calendar.DAY_OF_MONTH).toString().padStart(2, '0')
+                        fromDate.get(Calendar.YEAR).toString()
                     )
                 )
 
@@ -181,9 +182,9 @@ class SearchViewModel @Inject constructor(
                 toDateText.postValue(
                     context.getString(
                         R.string.date_format,
-                        toDate.get(Calendar.YEAR),
+                        toDate.get(Calendar.DAY_OF_MONTH).toString().padStart(2, '0'),
                         (toDate.get(Calendar.MONTH) + 1).toString().padStart(2, '0'),
-                        toDate.get(Calendar.DAY_OF_MONTH).toString().padStart(2, '0')
+                        toDate.get(Calendar.YEAR).toString()
                     )
                 )
 
@@ -267,8 +268,8 @@ class SearchViewModel @Inject constructor(
             return
         }
         searchEvents(
-            fromDate.time.toSimpleDateFormat(),
-            toDate.time.toSimpleDateFormat(),
+            fromDate.time.toServerDateFormat(),
+            toDate.time.toServerDateFormat(),
             values[0].toDouble(),
             values[1].toDouble(),
             onError
