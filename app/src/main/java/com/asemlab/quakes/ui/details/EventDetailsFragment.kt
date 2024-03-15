@@ -1,8 +1,10 @@
 package com.asemlab.quakes.ui.details
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +36,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.UserMessagingPlatform
 import dagger.hilt.android.AndroidEntryPoint
@@ -101,7 +102,16 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
                     LogUtils.d("Ad was loaded.")
                     this@EventDetailsFragment.interstitialAd = interstitialAd
-                    this@EventDetailsFragment.interstitialAd!!.show(requireActivity())
+
+                    val dialog = ProgressDialog(requireContext()).apply {
+                        setMessage(getString(R.string.loading_ad))
+                        setCancelable(false)
+                        show()
+                    }
+                    Handler().postDelayed({
+                        dialog.dismiss()
+                        this@EventDetailsFragment.interstitialAd!!.show(requireActivity())
+                    }, 2000)
                 }
             })
 

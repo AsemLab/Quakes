@@ -44,6 +44,7 @@
     <string name="region_asia">Asia</string>
     <string name="region_europe">Europe</string>
     <string name="region_oceania">Oceania</string>
+    <string name="loading_ad">Loading Ad</string>
 
     <string-array name="feeling_scale">
         <item>Not felt</item>
