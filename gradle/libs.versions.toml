@@ -36,7 +36,11 @@ in-app-update = "2.1.0"
 google-services-ads = "22.3.0"
 user-messaging = "2.1.0"
 datastore = "1.0.0"
-firebase-crashlytics-plugin="2.9.7"
+firebase-crashlytics-plugin = "2.9.7"
+okhttp-bom = "4.11.0"
+firebase-bom = "32.8.0"
+firebase-performance-plugin = "1.4.2"
+
 
 [libraries]
 android-maps-utils = { module = "com.google.maps.android:android-maps-utils", version.ref = "android-maps-utils" }
@@ -75,6 +79,15 @@ play-services-update = { module = "com.google.android.play:app-update-ktx", vers
 play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "google-services-ads" }
 play-services-user-messaging = { module = "com.google.android.ump:user-messaging-platform", version.ref = "user-messaging" }
 datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+okhttp-bom = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "okhttp-bom" }
+okhttp = { module = "com.squareup.okhttp3:okhttp"}
+okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor"}
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-database = { module = "com.google.firebase:firebase-database-ktx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
+firebase-perf = { module = "com.google.firebase:firebase-perf" }
 
 [plugins]
 
@@ -89,3 +102,5 @@ google-services = { id = "com.google.gms.google-services", version.ref = "google
 navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigation-android" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
+firebase-performance = { id = "com.google.firebase.firebase-perf", version.ref = "firebase-performance-plugin" }
+

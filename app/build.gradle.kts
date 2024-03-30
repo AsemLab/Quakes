@@ -14,6 +14,7 @@ plugins {
     alias(libs.plugins.google.maps)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.firebase.performance)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -122,10 +123,11 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-messaging-ktx")
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.perf)
 
     // Pagination
     implementation(libs.androidx.paging.runtime)

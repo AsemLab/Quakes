@@ -60,8 +60,8 @@ dependencies {
     kapt(libs.androidx.room.compiler)
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
-    implementation("com.google.firebase:firebase-database-ktx")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.database)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
@@ -74,9 +74,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.gson)
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
 
     // Pagination
     implementation(libs.androidx.paging.runtime)
