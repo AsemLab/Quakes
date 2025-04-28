@@ -1,5 +1,5 @@
 # <p align="center">Quakes<p>
-✨**Quakes** demonstrates modern Android development with Google Maps SDK, Firebase, Hilt, Coroutines, Flow, Navigation component, Jetpack (Room, ViewModel, Paging3) based on MVVM architecture.
+✨**Quakes** demonstrates modern Android development with Google Maps SDK, Firebase, Hilt, Coroutines, Flows, Jetpack libraries (Navigation component, Room, ViewModel, Paging3) based on MVVM architecture.
 
 ## Screenshots
 <img src="./figures/screens.png"/>
