@@ -67,7 +67,7 @@ class EventDetailsFragment : Fragment(), OnMapReadyCallback {
             consentInformation = UserMessagingPlatform.getConsentInformation(requireContext())
             if (consentInformation.canRequestAds()) {
                 loadBannerAd()
-                loadInterstitialAd()
+//                loadInterstitialAd()
             }
         }
 
