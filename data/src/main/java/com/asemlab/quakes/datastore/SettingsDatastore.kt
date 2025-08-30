@@ -3,6 +3,7 @@ package com.asemlab.quakes.datastore
 import android.content.Context
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStoreFile
 import kotlinx.coroutines.flow.first
@@ -14,6 +15,8 @@ class SettingsDatastore private constructor(private var context: Context) {
         context.preferencesDataStoreFile("settings")
     }
     private val HAS_LOCATION_REQUESTED = booleanPreferencesKey("has_location_requested")
+    private val USERNAME = stringPreferencesKey("username")
+
     suspend fun hasLocationRequested() =
         dataStore.data
             .map { preferences ->
@@ -24,6 +27,18 @@ class SettingsDatastore private constructor(private var context: Context) {
     suspend fun setLocationRequested(hasLocationRequested: Boolean) {
         dataStore.edit {
             it[HAS_LOCATION_REQUESTED] = hasLocationRequested
+        }
+    }
+
+    suspend fun getUsername(): String =
+        dataStore.data
+            .map { preferences ->
+                preferences[USERNAME] ?: ""
+            }.first()
+
+    suspend fun setUsername(username: String) {
+        dataStore.edit {
+            it[USERNAME] = username
         }
     }
 
@@ -39,6 +54,4 @@ class SettingsDatastore private constructor(private var context: Context) {
             }
         }
     }
-
-
 }
